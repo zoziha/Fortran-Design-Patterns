@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Fortran-Design-Patterns</title>
-                <meta name="robots" content="noindex" />
+        <title>抽象工厂模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -83,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html" class="active"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -121,7 +120,10 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/abstract-factory.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                        
                     </div>
                 </div>
 
@@ -147,136 +149,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="fortran的23种设计模式"><a class="header" href="#fortran的23种设计模式">Fortran的23种设计模式</a></h1>
-<p>视频链接：https://www.bilibili.com/video/BV1wU4y1E7xG?spm_id_from=333.999.0.0</p>
-<p>设计模式：https://refactoringguru.cn/design-patterns/go</p>
-<p>在线编译器：https://godbolt.org/</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="迭代器模式"><a class="header" href="#迭代器模式">迭代器模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
-<pre><code class="language-fortran">module iterator_module
-    
-    use, intrinsic :: iso_fortran_env, only: int8
-    implicit none
-    private
-    
-    public :: user_t, user_collection_t, user_iterator_t, iterator_t
-    
-    !&gt; Abstract types
-    
-    !&gt; Collection
-    type, abstract :: collection_t
-    contains
-        procedure(collection_t_create_iterator), deferred :: create_iterator
-    end type collection_t
-    
-    !&gt; Iterator
-    type, abstract :: iterator_t
-    contains
-        procedure(iterator_t_has_next), deferred :: has_next
-        procedure(iterator_t_get_next), deferred :: get_next
-    end type iterator_t
-    
-    !&gt; User
-    type user_t
-        character(:), allocatable :: name
-        integer(int8) :: age
-    end type user_t
-    
-    abstract interface
-    
-        function collection_t_create_iterator(self) result(iterator)
-            import iterator_t, collection_t
-            !&gt; TODO:
-            class(collection_t), intent(in) :: self
-            class(iterator_t), allocatable :: iterator
-        end function collection_t_create_iterator
-        
-        logical function iterator_t_has_next(self)
-            import iterator_t
-            class(iterator_t), intent(in) :: self
-        end function iterator_t_has_next
-        
-        type(user_t) function iterator_t_get_next(self)
-            import user_t, iterator_t
-            class(iterator_t), intent(inout) :: self
-        end function iterator_t_get_next
-        
-    end interface
-    
-    !&gt; Specific types
-    
-    !&gt; User collection
-    type, extends(collection_t) :: user_collection_t
-        type(user_t), allocatable :: users(:)
-    contains
-        procedure :: create_iterator =&gt; user_collection_t_create_iterator
-    end type user_collection_t
-    
-    !&gt; User iterator
-    type, extends(iterator_t) :: user_iterator_t
-        integer :: index
-        type(user_t), allocatable :: users(:)
-    contains
-        procedure :: has_next =&gt; user_iterator_t_has_next
-        procedure :: get_next =&gt; user_iterator_t_get_next
-    end type user_iterator_t
-
-contains
-
-    function user_collection_t_create_iterator(self) result(iterator)
-        class(user_collection_t), intent(in) :: self
-        class(iterator_t), allocatable :: iterator
-        ! TODO:
-        iterator = user_iterator_t(index=0, users=self%users)
-    end function user_collection_t_create_iterator
-    
-    logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(in) :: self
-        
-        has = merge(.true., .false., self%index &lt; size(self%users))
-        
-    end function user_iterator_t_has_next
-    
-    type(user_t) function user_iterator_t_get_next(self) result(user)
-        class(user_iterator_t), intent(inout) :: self
-        
-        self%index = self%index + 1
-        user = self%users(self%index)
-    
-    end function user_iterator_t_get_next
-    
-end module iterator_module
-</code></pre>
-<pre><code class="language-fortran">program iterator_main
-
-    use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
-    
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
-    ! TODO:
-    class(iterator_t), allocatable :: iterator
-    
-    user1 = user_t(name=&quot;A&quot;, age=30_int8)
-    user2 = user_t(name=&quot;B&quot;, age=20_int8)
-    
-    user_collection = user_collection_t(users=[user1, user2])
-    
-    !&gt; Specific iterator
-    allocate(user_iterator_t :: iterator)
-    iterator = user_collection%create_iterator()
-    
-    do while (iterator%has_next())
-        user = iterator%get_next()
-        print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
-    end do
-    
-    deallocate(iterator)
-
-end program iterator_main
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="抽象工厂模式"><a class="header" href="#抽象工厂模式">抽象工厂模式</a></h1>
+                        <h1 id="抽象工厂模式"><a class="header" href="#抽象工厂模式">抽象工厂模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/abstract-factory</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/abstract-factory/go/example</p>
 <pre><code class="language-fortran">module abstract_factory_module
@@ -586,202 +459,18 @@ contains
     
 end program abstract_factory_main
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/observer</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/observer/go/example</p>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/observer/go/example
-module observer_pattern
-
-    implicit none
-    private
-
-    public :: item, customer, new_item
-
-    !&gt; Abstract classes
-    type, abstract :: subject
-    contains
-        procedure(register_procedure), deferred :: register
-        procedure(deregister_procedure), deferred :: deregister
-        procedure(notify_all_procedure), deferred :: notify_all
-    end type subject
-
-    type, abstract :: observer
-    contains
-        procedure(update_procedure), deferred :: update
-        procedure(get_ID_procedure), deferred :: get_ID
-    end type observer
-    
-    !&gt; We cannot directly use `class(observer), allocatable :: o_list(:)` 
-    !&gt;  instead of `type(node), allocatable :: o_list(:)`.
-    type node
-        class(observer), allocatable :: o
-    end type node
-
-    abstract interface
-        subroutine register_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
-        end subroutine register_procedure
-        subroutine deregister_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
-        end subroutine deregister_procedure
-        subroutine notify_all_procedure(self)
-            import subject
-            class(subject), intent(inout) :: self
-        end subroutine notify_all_procedure
-        subroutine update_procedure(self, s)
-            import observer
-            class(observer), intent(inout) :: self
-            character(len=*), intent(inout) :: s 
-        end subroutine update_procedure
-        function get_ID_procedure(self) result(result)
-            import observer
-            class(observer), intent(inout) :: self
-            character(len=:), allocatable :: result
-        end function get_ID_procedure
-    end interface
-
-    !&gt; Specific objects
-
-    type, extends(subject) :: item
-        type(node), allocatable :: o_list(:)
-        character(len=:), allocatable :: name
-        logical :: in_stock
-    contains
-        procedure :: update_availability
-        procedure :: register
-        procedure :: deregister
-        procedure :: notify_all
-    end type item
-
-    type, extends(observer) :: customer
-        character(len=:), allocatable :: ID
-    contains
-        procedure :: update
-        procedure :: get_ID
-    end type customer
-
-contains
-
-    !&gt; Constructor of `item`.
-    function new_item(name) result(i)
-        character(*), intent(in) :: name
-        type(item) :: i
-        i%name = name
-    end function new_item
-
-    !&gt; Remove a object from the subscription array.
-    function remove_from_slice(o_list, o_to_remove) result(result)
-        type(node), intent(inout) :: o_list(:)
-        class(observer), intent(inout) :: o_to_remove
-        type(node), allocatable :: result(:)
-        character(len=:), allocatable :: id
-        integer :: i, j
-        i = size(o_list)
-        id = o_to_remove%get_ID()
-        do j = 1, i
-            if (o_list(j)%o%get_ID() == id) then
-                allocate(result(i-1), source=[o_list(:j-1), o_list(j+1:)])
-                return
-            end if
-        end do
-        result = o_list
-    end function remove_from_slice
-
-    !&gt; Append a object to the subscription array.
-    function append_slice(o_list, o_to_append) result(result)
-        type(node), intent(inout), allocatable :: o_list(:)
-        class(observer), intent(inout) :: o_to_append
-        type(node), allocatable :: result(:)
-        integer :: i
-        if (.not.allocated(o_list)) then
-            allocate(result(1))
-            allocate(result(1)%o, source=o_to_append)
-        else
-            i = size(o_list)
-            allocate(result(i+1))
-            result(1:i) = o_list
-            allocate(result(i+1)%o, source=o_to_append)
-        end if
-    end function append_slice
-
-    subroutine update_availability(self)
-        class(item), intent(inout) :: self
-        print *, &quot;&gt; Item &quot;//self%name//&quot; 👔 is now in stock.&quot;
-        self%in_stock = .true.
-        call self%notify_all()
-    end subroutine update_availability
-
-    subroutine register(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
-        self%o_list = append_slice(self%o_list,o)
-    end subroutine register
-
-    subroutine deregister(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
-        self%o_list = remove_from_slice(self%o_list, o)
-    end subroutine deregister
-
-    subroutine notify_all(self)
-        class(item), intent(inout) :: self
-        integer :: i
-        do i = 1, size(self%o_list)
-            call self%o_list(i)%o%update(self%name)
-        end do
-    end subroutine notify_all
-
-    subroutine update(self, s)
-        class(customer), intent(inout) :: self
-        character(len=*), intent(inout) :: s
-        print *, &quot;Sending email to customer &quot;//self%ID//&quot; 📨 for item &quot;//s//&quot;.&quot;
-    end subroutine update
-
-    function get_ID(self) result(result)
-        class(customer), intent(inout) :: self
-        character(len=:), allocatable :: result
-        result = self%ID
-    end function get_ID
-
-end module observer_pattern
-</code></pre>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/observer/go/example
-program test_observer
-
-    use observer_pattern, only: item, customer, new_item
-    type(item) :: shirt_item
-    type(customer) :: observer_first, observer_second, observer_third
-
-    !&gt; A shirt item
-    shirt_item = new_item(&quot;A Shirt&quot;)
-
-    !&gt; Some customers
-    observer_first = customer(ID=&quot;abc@gmail.com&quot;)
-    observer_second = customer(ID=&quot;def@gmail.com&quot;)
-    observer_third = customer(ID=&quot;xyz@foxmail.com&quot;)
-
-    !&gt; Scene 1
-    call shirt_item%register(observer_first)
-    call shirt_item%register(observer_second)
-    call shirt_item%update_availability()
-
-    !&gt; Scene 2
-    call shirt_item%deregister(observer_first)
-    call shirt_item%register(observer_third)
-    call shirt_item%update_availability()
-
-end program test_observer
-</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="iterator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
                         
+                                                    <a rel="next" href="observer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -789,7 +478,13 @@ end program test_observer
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="iterator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                 
+                                    <a rel="next" href="observer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                             </nav>
 
         </div>
@@ -812,11 +507,6 @@ end program test_observer
 
         <!-- Custom JS scripts -->
         
-                        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
-                
+        
     </body>
 </html>
