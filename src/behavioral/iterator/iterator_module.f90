@@ -29,16 +29,16 @@ module iterator_module
     
     abstract interface
     
-        subroutine collection_t_create_iterator(self, iterator)
+        function collection_t_create_iterator(self) result(iterator)
             import iterator_t, collection_t
             !> TODO:
-            class(collection_t), intent(inout) :: self
-            class(iterator_t), intent(inout), allocatable :: iterator
-        end subroutine collection_t_create_iterator
+            class(collection_t), intent(in) :: self
+            class(iterator_t), allocatable :: iterator
+        end function collection_t_create_iterator
         
         logical function iterator_t_has_next(self)
             import iterator_t
-            class(iterator_t), intent(inout) :: self
+            class(iterator_t), intent(in) :: self
         end function iterator_t_has_next
         
         type(user_t) function iterator_t_get_next(self)
@@ -68,38 +68,25 @@ module iterator_module
 
 contains
 
-    ! subroutine alloc(iterator, user_iterator)
-    !     class(iterator_t), intent(inout) :: iterator, user_iterator
-    !     call move_alloc(user_iterator, iterator)
-    ! end subroutine alloc
-
-    subroutine user_collection_t_create_iterator(self, iterator)
-        class(user_collection_t), intent(inout) :: self
-        class(iterator_t), intent(inout), allocatable :: iterator
-        type(user_iterator_t) :: user_iterator
-        user_iterator = user_iterator_t(index=1, users=self%users)
+    function user_collection_t_create_iterator(self) result(iterator)
+        class(user_collection_t), intent(in) :: self
+        class(iterator_t), allocatable :: iterator
         ! TODO:
-        allocate(iterator, source=user_iterator)
-        ! call alloc(iterator, user_iterator)
-    end subroutine user_collection_t_create_iterator
+        iterator = user_iterator_t(index=0, users=self%users)
+    end function user_collection_t_create_iterator
     
     logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(inout) :: self
+        class(user_iterator_t), intent(in) :: self
         
-        has = merge(.true., .false., self%index <= size(self%users))
+        has = merge(.true., .false., self%index < size(self%users))
         
     end function user_iterator_t_has_next
     
     type(user_t) function user_iterator_t_get_next(self) result(user)
         class(user_iterator_t), intent(inout) :: self
         
-        if (self%has_next()) then
-            user = self%users(self%index)
-            self%index = self%index + 1
-            return
-        end if
-        
-        error stop "*<ERROR>* An error occurred in `user_iterator_t_get_next`."
+        self%index = self%index + 1
+        user = self%users(self%index)
     
     end function user_iterator_t_get_next
     

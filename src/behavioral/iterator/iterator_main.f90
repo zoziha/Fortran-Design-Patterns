@@ -13,11 +13,15 @@ program iterator_main
     
     user_collection = user_collection_t(users=[user1, user2])
     
-    call user_collection%create_iterator(iterator)
+    !> Specific iterator
+    allocate(user_iterator_t :: iterator)
+    iterator = user_collection%create_iterator()
     
     do while (iterator%has_next())
         user = iterator%get_next()
-        print *, "User is ", user%name, user%age
+        print "(3A,I3)", "User is ", user%name, ", age is ", user%age
     end do
+    
+    deallocate(iterator)
 
 end program iterator_main

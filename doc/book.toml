@@ -1,0 +1,10 @@
+[book]
+authors = ["zoziha"]
+language = "zh"
+multilingual = false
+src = "src"
+title = "Fortran-Design-Patterns"
+
+[output.html]
+git-repository-url = "https://github.com/zoziha/Fortran-Design-Patterns/tree/main/"
+edit-url-template = "https://github.com/zoziha/Fortran-Design-Patterns/edit/main/{path}"
