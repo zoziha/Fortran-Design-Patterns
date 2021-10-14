@@ -15,3 +15,8 @@ main = "iterator_main.f90"
 name = "observer"
 source-dir = "src/behavioral/observer"
 main = "observer_main.f90"
+
+[[test]]
+name = "abstract_factory"
+source-dir = "src/creational/abstract-factory"
+main = "abstract_factory_main.f90"
