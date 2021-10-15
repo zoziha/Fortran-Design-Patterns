@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>观察者模式 - Fortran-Design-Patterns</title>
+        <title>命令模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">4.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">5.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html" class="active"><strong aria-hidden="true">6.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">7.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="command.html" class="active"><strong aria-hidden="true">4.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">5.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">6.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">7.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/observer.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/command.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,215 +149,148 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/observer</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/observer/go/example</p>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/observer/go/example
-module observer_pattern
-
+                        <h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/command</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
+module command_pattern
+    
     implicit none
     private
 
-    public :: item, customer, new_item
+    public :: tv, on_command, off_command, button
 
     !&gt; Abstract classes
-    type, abstract :: subject
-    contains
-        procedure(register_procedure), deferred :: register
-        procedure(deregister_procedure), deferred :: deregister
-        procedure(notify_all_procedure), deferred :: notify_all
-    end type subject
 
-    type, abstract :: observer
+    type, abstract :: command
     contains
-        procedure(update_procedure), deferred :: update
-        procedure(get_ID_procedure), deferred :: get_ID
-    end type observer
-    
-    !&gt; We cannot directly use `class(observer), allocatable :: o_list(:)` 
-    !&gt;  instead of `type(node), allocatable :: o_list(:)`.
-    type node
-        class(observer), allocatable :: o
-    end type node
+        procedure(execute_procedure), deferred :: execute
+    end type command
+
+    type, abstract :: device
+    contains
+        procedure(on_procedure), deferred :: on
+        procedure(off_procedure), deferred :: off
+    end type device
 
     abstract interface
-        subroutine register_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
-        end subroutine register_procedure
-        subroutine deregister_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
-        end subroutine deregister_procedure
-        subroutine notify_all_procedure(self)
-            import subject
-            class(subject), intent(inout) :: self
-        end subroutine notify_all_procedure
-        subroutine update_procedure(self, s)
-            import observer
-            class(observer), intent(inout) :: self
-            character(len=*), intent(inout) :: s 
-        end subroutine update_procedure
-        function get_ID_procedure(self) result(result)
-            import observer
-            class(observer), intent(inout) :: self
-            character(len=:), allocatable :: result
-        end function get_ID_procedure
+        subroutine execute_procedure(self)
+            import command
+            class(command), intent(inout) :: self
+        end subroutine execute_procedure
+        subroutine on_procedure(self)
+            import device
+            class(device), intent(inout) :: self
+        end subroutine on_procedure
+        subroutine off_procedure(self)
+            import device
+            class(device), intent(inout) :: self
+        end subroutine off_procedure
     end interface
 
-    !&gt; Specific objects
+    !&gt; Specific Objects
 
-    type, extends(subject) :: item
-        type(node), allocatable :: o_list(:)
-        character(len=:), allocatable :: name
-        logical :: in_stock
+    type, extends(command) :: on_command
+        class(device), pointer :: d
     contains
-        procedure :: update_availability
-        procedure :: register
-        procedure :: deregister
-        procedure :: notify_all
-    end type item
+        procedure :: execute =&gt; on_command_execute
+    end type on_command 
 
-    type, extends(observer) :: customer
-        character(len=:), allocatable :: ID
+    type, extends(command) :: off_command
+        class(device), pointer :: d
     contains
-        procedure :: update
-        procedure :: get_ID
-    end type customer
+        procedure :: execute =&gt; off_command_execute
+    end type off_command
+
+    type, extends(device) :: tv
+        logical :: is_running
+    contains
+        procedure :: on =&gt; tv_on
+        procedure :: off =&gt; tv_off
+    end type tv
+
+    type :: button
+        class(command), pointer :: c
+    contains
+        procedure :: press
+    end type button
 
 contains
 
-    !&gt; Constructor of `item`.
-    function new_item(name) result(i)
-        character(*), intent(in) :: name
-        type(item) :: i
-        i%name = name
-    end function new_item
+    subroutine press(self)
+        class(button), intent(inout) :: self
+        call self%c%execute()
+    end subroutine press
 
-    !&gt; Remove a object from the subscription array.
-    function remove_from_slice(o_list, o_to_remove) result(result)
-        type(node), intent(inout) :: o_list(:)
-        class(observer), intent(inout) :: o_to_remove
-        type(node), allocatable :: result(:)
-        character(len=:), allocatable :: id
-        integer :: i, j
-        i = size(o_list)
-        id = o_to_remove%get_ID()
-        do j = 1, i
-            if (o_list(j)%o%get_ID() == id) then
-                allocate(result(i-1), source=[o_list(:j-1), o_list(j+1:)])
-                return
-            end if
-        end do
-        result = o_list
-    end function remove_from_slice
+    subroutine on_command_execute(self)
+        class(on_command), intent(inout) :: self
+        call self%d%on()
+    end subroutine on_command_execute
 
-    !&gt; Append a object to the subscription array.
-    function append_slice(o_list, o_to_append) result(result)
-        type(node), intent(inout), allocatable :: o_list(:)
-        class(observer), intent(inout) :: o_to_append
-        type(node), allocatable :: result(:)
-        integer :: i
-        if (.not.allocated(o_list)) then
-            allocate(result(1))
-            allocate(result(1)%o, source=o_to_append)
-        else
-            i = size(o_list)
-            allocate(result(i+1))
-            result(1:i) = o_list
-            allocate(result(i+1)%o, source=o_to_append)
-        end if
-    end function append_slice
+    subroutine off_command_execute(self)
+        class(off_command), intent(inout) :: self
+        call self%d%off()
+    end subroutine off_command_execute
 
-    subroutine update_availability(self)
-        class(item), intent(inout) :: self
-        print *, &quot;&gt; Item &quot;//self%name//&quot; 👔 is now in stock.&quot;
-        self%in_stock = .true.
-        call self%notify_all()
-    end subroutine update_availability
+    subroutine tv_on(self)
+        class(tv), intent(inout) :: self
+        self%is_running = .true.
+        print *, &quot;Turning tv on. ✔️&quot;
+    end subroutine tv_on
 
-    subroutine register(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
-        self%o_list = append_slice(self%o_list,o)
-    end subroutine register
+    subroutine tv_off(self)
+        class(tv), intent(inout) :: self
+        self%is_running = .false.
+        print *, &quot;Turning tv off. ❌&quot;
+    end subroutine tv_off
 
-    subroutine deregister(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
-        self%o_list = remove_from_slice(self%o_list, o)
-    end subroutine deregister
-
-    subroutine notify_all(self)
-        class(item), intent(inout) :: self
-        integer :: i
-        do i = 1, size(self%o_list)
-            call self%o_list(i)%o%update(self%name)
-        end do
-    end subroutine notify_all
-
-    subroutine update(self, s)
-        class(customer), intent(inout) :: self
-        character(len=*), intent(inout) :: s
-        print *, &quot;Sending email to customer &quot;//self%ID//&quot; 📨 for item &quot;//s//&quot;.&quot;
-    end subroutine update
-
-    function get_ID(self) result(result)
-        class(customer), intent(inout) :: self
-        character(len=:), allocatable :: result
-        result = self%ID
-    end function get_ID
-
-end module observer_pattern
+end module command_pattern
 </code></pre>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/observer/go/example
-program test_observer
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
+program test_command
 
-    use observer_pattern, only: item, customer, new_item
-    type(item) :: shirt_item
-    type(customer) :: observer_first, observer_second, observer_third
+    use command_pattern, only: tv, on_command, off_command, button
+    type(tv) :: t
+    type(on_command) :: on_c
+    type(off_command) :: off_c
 
-    !&gt; A shirt item
-    shirt_item = new_item(&quot;A Shirt&quot;)
+    type(button) :: on_b
+    type(button) :: off_b
 
-    !&gt; Some customers
-    observer_first = customer(ID=&quot;abc@gmail.com&quot;)
-    observer_second = customer(ID=&quot;def@gmail.com&quot;)
-    observer_third = customer(ID=&quot;xyz@foxmail.com&quot;)
+    !&gt; Linking
+    allocate(on_c%d, source=t)
+    allocate(off_c%d, source=t)
 
-    !&gt; Scene 1
-    call shirt_item%register(observer_first)
-    call shirt_item%register(observer_second)
-    call shirt_item%update_availability()
+    allocate(on_b%c, source=on_c)
+    allocate(off_b%c, source=off_c)
 
-    !&gt; Scene 2
-    call shirt_item%deregister(observer_first)
-    call shirt_item%register(observer_third)
-    call shirt_item%update_availability()
+    !&gt; Operating
+    call on_b%press()
+    call off_b%press()
 
-end program test_observer
+    !&gt; Free memory.
+    deallocate(on_c%d)
+    deallocate(off_c%d)
+    deallocate(on_b%c)
+    deallocate(off_b%c)
+
+end program test_command
 
 !&gt; Results shall be:
 
-! &gt; Item A Shirt 👔 is now in stock.
-! Sending email to customer abc@gmail.com 📨 for item A Shirt.
-! Sending email to customer def@gmail.com 📨 for item A Shirt.
-! &gt; Item A Shirt 👔 is now in stock.
-! Sending email to customer def@gmail.com 📨 for item A Shirt.
-! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
+!  Turning tv on. ✔️
+!  Turning tv off. ❌
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="iterator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="proxy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="visitor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="iterator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -367,11 +300,11 @@ end program test_observer
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="iterator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="proxy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="visitor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="iterator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>

@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">6.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">4.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">5.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">6.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">7.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -153,136 +153,7 @@
 <p>Fortran三种编程范式：https://zhuanlan.zhihu.com/p/412243161</p>
 <p>在线编译器：https://godbolt.org/</p>
 <p>面向对象：面向对象的<strong>内核是传递信息</strong>，以对象（结构体）为载体，它是建模直观的。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="迭代器模式"><a class="header" href="#迭代器模式">迭代器模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
-<pre><code class="language-fortran">module iterator_module
-    
-    use, intrinsic :: iso_fortran_env, only: int8
-    implicit none
-    private
-    
-    public :: user_t, user_collection_t, user_iterator_t, iterator_t
-    
-    !&gt; Abstract types
-    
-    !&gt; Collection
-    type, abstract :: collection_t
-    contains
-        procedure(collection_t_create_iterator), deferred :: create_iterator
-    end type collection_t
-    
-    !&gt; Iterator
-    type, abstract :: iterator_t
-    contains
-        procedure(iterator_t_has_next), deferred :: has_next
-        procedure(iterator_t_get_next), deferred :: get_next
-    end type iterator_t
-    
-    !&gt; User
-    type user_t
-        character(:), allocatable :: name
-        integer(int8) :: age
-    end type user_t
-    
-    abstract interface
-    
-        function collection_t_create_iterator(self) result(iterator)
-            import iterator_t, collection_t
-            !&gt; TODO:
-            class(collection_t), intent(in) :: self
-            class(iterator_t), allocatable :: iterator
-        end function collection_t_create_iterator
-        
-        logical function iterator_t_has_next(self)
-            import iterator_t
-            class(iterator_t), intent(in) :: self
-        end function iterator_t_has_next
-        
-        type(user_t) function iterator_t_get_next(self)
-            import user_t, iterator_t
-            class(iterator_t), intent(inout) :: self
-        end function iterator_t_get_next
-        
-    end interface
-    
-    !&gt; Specific types
-    
-    !&gt; User collection
-    type, extends(collection_t) :: user_collection_t
-        type(user_t), allocatable :: users(:)
-    contains
-        procedure :: create_iterator =&gt; user_collection_t_create_iterator
-    end type user_collection_t
-    
-    !&gt; User iterator
-    type, extends(iterator_t) :: user_iterator_t
-        integer :: index
-        type(user_t), allocatable :: users(:)
-    contains
-        procedure :: has_next =&gt; user_iterator_t_has_next
-        procedure :: get_next =&gt; user_iterator_t_get_next
-    end type user_iterator_t
-
-contains
-
-    function user_collection_t_create_iterator(self) result(iterator)
-        class(user_collection_t), intent(in) :: self
-        class(iterator_t), allocatable :: iterator
-        ! TODO:
-        iterator = user_iterator_t(index=0, users=self%users)
-    end function user_collection_t_create_iterator
-    
-    logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(in) :: self
-        
-        has = merge(.true., .false., self%index &lt; size(self%users))
-        
-    end function user_iterator_t_has_next
-    
-    type(user_t) function user_iterator_t_get_next(self) result(user)
-        class(user_iterator_t), intent(inout) :: self
-        
-        self%index = self%index + 1
-        user = self%users(self%index)
-    
-    end function user_iterator_t_get_next
-    
-end module iterator_module
-</code></pre>
-<pre><code class="language-fortran">program iterator_main
-
-    use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
-    
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
-    ! TODO:
-    class(iterator_t), allocatable :: iterator
-    
-    user1 = user_t(name=&quot;A&quot;, age=30_int8)
-    user2 = user_t(name=&quot;B&quot;, age=20_int8)
-    
-    user_collection = user_collection_t(users=[user1, user2])
-    
-    !&gt; Specific iterator
-    allocate(user_iterator_t :: iterator)
-    iterator = user_collection%create_iterator()
-    
-    do while (iterator%has_next())
-        user = iterator%get_next()
-        print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
-    end do
-    
-    deallocate(iterator)
-
-end program iterator_main
-
-!&gt; Results shall be:
-
-! User is A, age is  30
-! User is B, age is  20
-</code></pre>
+<p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="抽象工厂模式"><a class="header" href="#抽象工厂模式">抽象工厂模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/abstract-factory</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/abstract-factory/go/example</p>
@@ -609,6 +480,452 @@ end program abstract_factory_main
 ! Logo: lining
 ! Size:    14
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/proxy/go/example</p>
+<pre><code class="language-fortran">module proxy_module
+
+    use, intrinsic :: iso_fortran_env, only: int16
+    implicit none
+    private
+    
+    public :: nginx_t, new_nginx_server
+    
+    type, abstract :: server_t
+    contains
+        procedure(server_t_handle_request), deferred :: handle_request
+    end type server_t
+    
+    abstract interface
+        subroutine server_t_handle_request(self, url, method, code, msg)
+            import server_t, int16
+            class(server_t), intent(inout) :: self
+            character(*), intent(in) :: url, method
+            integer(int16), intent(out) :: code
+            character(:), intent(out), allocatable :: msg 
+        end subroutine server_t_handle_request
+    end interface
+    
+    type map_t
+        character(:), allocatable :: url
+        integer(int16) :: rate_limiter
+    end type map_t
+    
+    type, extends(server_t) :: nginx_t
+        type(application_t), allocatable :: application
+        integer(int16) :: max_allowed_request
+        type(map_t), allocatable :: map(:)
+        ! TODO:
+    contains
+        procedure :: handle_request      =&gt; nginx_t_handle_request
+        procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
+    end type nginx_t
+    
+    type, extends(server_t) :: application_t
+    contains
+        procedure :: handle_request =&gt; application_t_handle_request
+    end type application_t
+    
+contains
+
+    type(nginx_t) function new_nginx_server() result(nginx)
+        type(map_t), allocatable :: map_(:)
+        ! TODO:
+        allocate(map_(2))
+        map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
+        map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
+        
+        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
+    end function new_nginx_server
+    
+    subroutine nginx_t_handle_request(self, url, method, code, msg)
+        class(nginx_t), intent(inout) :: self
+        character(*), intent(in) :: url, method
+        integer(int16), intent(out) :: code
+        character(:), intent(out), allocatable :: msg
+        
+        logical :: allowed
+        
+        allowed = self%check_rate_limiting(url)
+        
+        if (.not.allowed) then
+            code = 403_int16
+            msg = &quot;Not Allowed&quot;
+        end if
+        
+        call self%application%handle_request(url, method, code, msg)
+        
+    end subroutine nginx_t_handle_request
+    
+    logical function nginx_t_check_rate_limiting(self, url) result(allowed)
+        class(nginx_t), intent(inout) :: self
+        character(*), intent(in) :: url
+        
+        integer(int16) :: i
+        
+        do i = 1_int16, size(self%map, kind=int16)
+            if (self%map(i)%url == url) exit
+        end do
+        
+        ! i = i - 1_int16
+        
+        if (self%map(i)%rate_limiter == 0_int16) then
+            self%map(i)%rate_limiter = 1_int16
+        end if
+        
+        if (self%map(i)%rate_limiter &gt; self%max_allowed_request) then
+            allowed = .false.
+            return
+        end if
+        
+        self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
+        
+    end function nginx_t_check_rate_limiting
+
+    subroutine application_t_handle_request(self, url, method, code, msg)
+        class(application_t), intent(inout) :: self
+        character(*), intent(in) :: url, method
+        integer(int16), intent(out) :: code
+        character(:), intent(out), allocatable :: msg
+        
+        if (url==&quot;/app/status&quot; .and. method==&quot;GET&quot;) then
+            code = 200_int16
+            msg = &quot;Ok&quot;
+            return
+        end if
+        
+        if (url==&quot;/create/user&quot; .and. method==&quot;POST&quot;) then
+            code = 201_int16
+            msg = &quot;User Created&quot;
+            return
+        end if
+        
+        code = 404_int16
+        msg = &quot;Not Ok&quot;
+        
+    end subroutine application_t_handle_request
+
+end module proxy_module
+</code></pre>
+<pre><code class="language-fortran">program proxy_main
+
+    use, intrinsic :: iso_fortran_env, only: int16
+    use proxy_module, only: nginx_t, new_nginx_server
+    
+    type(nginx_t) :: nginx_server
+    character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
+    integer(int16) :: code
+    character(:), allocatable :: body
+    
+    nginx_server = new_nginx_server()
+    
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+    
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+    
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+    
+    call nginx_server%handle_request(create_user_url, &quot;POST&quot;, code, body)
+    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+    
+    call nginx_server%handle_request(create_user_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+    
+end program proxy_main
+
+!&gt; Results shall be:
+
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /create/user
+! Http code:     201
+! Body: User Created
+! Url: /create/user
+! Http code:     404
+! Body: Not Ok
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/command</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
+module command_pattern
+    
+    implicit none
+    private
+
+    public :: tv, on_command, off_command, button
+
+    !&gt; Abstract classes
+
+    type, abstract :: command
+    contains
+        procedure(execute_procedure), deferred :: execute
+    end type command
+
+    type, abstract :: device
+    contains
+        procedure(on_procedure), deferred :: on
+        procedure(off_procedure), deferred :: off
+    end type device
+
+    abstract interface
+        subroutine execute_procedure(self)
+            import command
+            class(command), intent(inout) :: self
+        end subroutine execute_procedure
+        subroutine on_procedure(self)
+            import device
+            class(device), intent(inout) :: self
+        end subroutine on_procedure
+        subroutine off_procedure(self)
+            import device
+            class(device), intent(inout) :: self
+        end subroutine off_procedure
+    end interface
+
+    !&gt; Specific Objects
+
+    type, extends(command) :: on_command
+        class(device), pointer :: d
+    contains
+        procedure :: execute =&gt; on_command_execute
+    end type on_command 
+
+    type, extends(command) :: off_command
+        class(device), pointer :: d
+    contains
+        procedure :: execute =&gt; off_command_execute
+    end type off_command
+
+    type, extends(device) :: tv
+        logical :: is_running
+    contains
+        procedure :: on =&gt; tv_on
+        procedure :: off =&gt; tv_off
+    end type tv
+
+    type :: button
+        class(command), pointer :: c
+    contains
+        procedure :: press
+    end type button
+
+contains
+
+    subroutine press(self)
+        class(button), intent(inout) :: self
+        call self%c%execute()
+    end subroutine press
+
+    subroutine on_command_execute(self)
+        class(on_command), intent(inout) :: self
+        call self%d%on()
+    end subroutine on_command_execute
+
+    subroutine off_command_execute(self)
+        class(off_command), intent(inout) :: self
+        call self%d%off()
+    end subroutine off_command_execute
+
+    subroutine tv_on(self)
+        class(tv), intent(inout) :: self
+        self%is_running = .true.
+        print *, &quot;Turning tv on. ✔️&quot;
+    end subroutine tv_on
+
+    subroutine tv_off(self)
+        class(tv), intent(inout) :: self
+        self%is_running = .false.
+        print *, &quot;Turning tv off. ❌&quot;
+    end subroutine tv_off
+
+end module command_pattern
+</code></pre>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
+program test_command
+
+    use command_pattern, only: tv, on_command, off_command, button
+    type(tv) :: t
+    type(on_command) :: on_c
+    type(off_command) :: off_c
+
+    type(button) :: on_b
+    type(button) :: off_b
+
+    !&gt; Linking
+    allocate(on_c%d, source=t)
+    allocate(off_c%d, source=t)
+
+    allocate(on_b%c, source=on_c)
+    allocate(off_b%c, source=off_c)
+
+    !&gt; Operating
+    call on_b%press()
+    call off_b%press()
+
+    !&gt; Free memory.
+    deallocate(on_c%d)
+    deallocate(off_c%d)
+    deallocate(on_b%c)
+    deallocate(off_b%c)
+
+end program test_command
+
+!&gt; Results shall be:
+
+!  Turning tv on. ✔️
+!  Turning tv off. ❌
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="迭代器模式"><a class="header" href="#迭代器模式">迭代器模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
+<pre><code class="language-fortran">module iterator_module
+    
+    use, intrinsic :: iso_fortran_env, only: int8
+    implicit none
+    private
+    
+    public :: user_t, user_collection_t, user_iterator_t, iterator_t
+    
+    !&gt; Abstract types
+    
+    !&gt; Collection
+    type, abstract :: collection_t
+    contains
+        procedure(collection_t_create_iterator), deferred :: create_iterator
+    end type collection_t
+    
+    !&gt; Iterator
+    type, abstract :: iterator_t
+    contains
+        procedure(iterator_t_has_next), deferred :: has_next
+        procedure(iterator_t_get_next), deferred :: get_next
+    end type iterator_t
+    
+    !&gt; User
+    type user_t
+        character(:), allocatable :: name
+        integer(int8) :: age
+    end type user_t
+    
+    abstract interface
+    
+        function collection_t_create_iterator(self) result(iterator)
+            import iterator_t, collection_t
+            !&gt; TODO:
+            class(collection_t), intent(in) :: self
+            class(iterator_t), allocatable :: iterator
+        end function collection_t_create_iterator
+        
+        logical function iterator_t_has_next(self)
+            import iterator_t
+            class(iterator_t), intent(in) :: self
+        end function iterator_t_has_next
+        
+        type(user_t) function iterator_t_get_next(self)
+            import user_t, iterator_t
+            class(iterator_t), intent(inout) :: self
+        end function iterator_t_get_next
+        
+    end interface
+    
+    !&gt; Specific types
+    
+    !&gt; User collection
+    type, extends(collection_t) :: user_collection_t
+        type(user_t), allocatable :: users(:)
+    contains
+        procedure :: create_iterator =&gt; user_collection_t_create_iterator
+    end type user_collection_t
+    
+    !&gt; User iterator
+    type, extends(iterator_t) :: user_iterator_t
+        integer :: index
+        type(user_t), allocatable :: users(:)
+    contains
+        procedure :: has_next =&gt; user_iterator_t_has_next
+        procedure :: get_next =&gt; user_iterator_t_get_next
+    end type user_iterator_t
+
+contains
+
+    function user_collection_t_create_iterator(self) result(iterator)
+        class(user_collection_t), intent(in) :: self
+        class(iterator_t), allocatable :: iterator
+        ! TODO:
+        iterator = user_iterator_t(index=0, users=self%users)
+    end function user_collection_t_create_iterator
+    
+    logical function user_iterator_t_has_next(self) result(has)
+        class(user_iterator_t), intent(in) :: self
+        
+        has = merge(.true., .false., self%index &lt; size(self%users))
+        
+    end function user_iterator_t_has_next
+    
+    type(user_t) function user_iterator_t_get_next(self) result(user)
+        class(user_iterator_t), intent(inout) :: self
+        
+        self%index = self%index + 1
+        user = self%users(self%index)
+    
+    end function user_iterator_t_get_next
+    
+end module iterator_module
+</code></pre>
+<pre><code class="language-fortran">program iterator_main
+
+    use, intrinsic :: iso_fortran_env, only: int8
+    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
+    
+    type(user_t) :: user1, user2, user
+    type(user_collection_t) :: user_collection
+    ! TODO:
+    class(iterator_t), allocatable :: iterator
+    
+    user1 = user_t(name=&quot;A&quot;, age=30_int8)
+    user2 = user_t(name=&quot;B&quot;, age=20_int8)
+    
+    user_collection = user_collection_t(users=[user1, user2])
+    
+    !&gt; Specific iterator
+    allocate(user_iterator_t :: iterator)
+    iterator = user_collection%create_iterator()
+    
+    do while (iterator%has_next())
+        user = iterator%get_next()
+        print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
+    end do
+    
+    deallocate(iterator)
+
+end program iterator_main
+
+!&gt; Results shall be:
+
+! User is A, age is  30
+! User is B, age is  20
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/observer</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/observer/go/example</p>
@@ -808,187 +1125,6 @@ end program test_observer
 ! Sending email to customer def@gmail.com 📨 for item A Shirt.
 ! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/proxy/go/example</p>
-<pre><code class="language-fortran">module proxy_module
-
-    use, intrinsic :: iso_fortran_env, only: int16
-    implicit none
-    
-    type, abstract :: server_t
-    contains
-        procedure(server_t_handle_request), deferred :: handle_request
-    end type server_t
-    
-    abstract interface
-        subroutine server_t_handle_request(self, url, method, code, msg)
-            import server_t, int16
-            class(server_t), intent(inout) :: self
-            character(*), intent(in) :: url, method
-            integer(int16), intent(out) :: code
-            character(:), intent(out), allocatable :: msg 
-        end subroutine server_t_handle_request
-    end interface
-    
-    type map_t
-        character(:), allocatable :: url
-        integer(int16) :: rate_limiter
-    end type map_t
-    
-    type, extends(server_t) :: nginx_t
-        type(application_t), allocatable :: application
-        integer(int16) :: max_allowed_request
-        type(map_t), allocatable :: map(:)
-        ! TODO:
-    contains
-        procedure :: handle_request      =&gt; nginx_t_handle_request
-        procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
-    end type nginx_t
-    
-    type, extends(server_t) :: application_t
-    contains
-        procedure :: handle_request =&gt; application_t_handle_request
-    end type application_t
-    
-contains
-
-    type(nginx_t) function new_nginx_server() result(nginx)
-        type(map_t), allocatable :: map_(:)
-        ! TODO:
-        allocate(map_(2))
-        map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
-        map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
-        
-        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
-    end function new_nginx_server
-    
-    subroutine nginx_t_handle_request(self, url, method, code, msg)
-        class(nginx_t), intent(inout) :: self
-        character(*), intent(in) :: url, method
-        integer(int16), intent(out) :: code
-        character(:), intent(out), allocatable :: msg
-        
-        logical :: allowed
-        
-        allowed = self%check_rate_limiting(url)
-        
-        if (.not.allowed) then
-            code = 403_int16
-            msg = &quot;Not Allowed&quot;
-        end if
-        
-        call self%application%handle_request(url, method, code, msg)
-        
-    end subroutine nginx_t_handle_request
-    
-    logical function nginx_t_check_rate_limiting(self, url) result(allowed)
-        class(nginx_t), intent(inout) :: self
-        character(*), intent(in) :: url
-        
-        integer(int16) :: i
-        
-        do i = 1_int16, size(self%map, kind=int16)
-            if (self%map(i)%url == url) exit
-        end do
-        
-        ! i = i - 1_int16
-        
-        if (self%map(i)%rate_limiter == 0_int16) then
-            self%map(i)%rate_limiter = 1_int16
-        end if
-        
-        if (self%map(i)%rate_limiter &gt; self%max_allowed_request) then
-            allowed = .false.
-            return
-        end if
-        
-        self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
-        
-    end function nginx_t_check_rate_limiting
-
-    subroutine application_t_handle_request(self, url, method, code, msg)
-        class(application_t), intent(inout) :: self
-        character(*), intent(in) :: url, method
-        integer(int16), intent(out) :: code
-        character(:), intent(out), allocatable :: msg
-        
-        if (url==&quot;/app/status&quot; .and. method==&quot;GET&quot;) then
-            code = 200_int16
-            msg = &quot;Ok&quot;
-            return
-        end if
-        
-        if (url==&quot;/create/user&quot; .and. method==&quot;POST&quot;) then
-            code = 201_int16
-            msg = &quot;User Created&quot;
-            return
-        end if
-        
-        code = 404_int16
-        msg = &quot;Not Ok&quot;
-        
-    end subroutine application_t_handle_request
-
-end module proxy_module
-</code></pre>
-<pre><code class="language-fortran">program proxy_main
-
-    use, intrinsic :: iso_fortran_env, only: int16
-    use proxy_module
-    
-    type(nginx_t) :: nginx_server
-    character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
-    integer(int16) :: code
-    character(:), allocatable :: body
-    
-    nginx_server = new_nginx_server()
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(create_user_url, &quot;POST&quot;, code, body)
-    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(create_user_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-end program proxy_main
-
-!&gt; Results shall be:
-
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /create/user
-! Http code:     201
-! Body: User Created
-! Url: /create/user
-! Http code:     404
-! Body: Not Ok
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="访问者模式"><a class="header" href="#访问者模式">访问者模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/visitor</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/visitor/go/example</p>
@@ -1138,7 +1274,8 @@ end module visitor_pattern
 <pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
 program test_visitor
 
-    use visitor_pattern
+    use visitor_pattern, only: square, circle, rectangle, area_calculator, middle_coordinates
+    
     type(square) :: s = square(side=2)
     type(circle) :: c = circle(radius=3)
     type(rectangle) :: r = rectangle(l=2, b=3)
