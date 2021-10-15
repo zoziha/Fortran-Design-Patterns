@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>代理模式 - Fortran-Design-Patterns</title>
+        <title>访问者模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html" class="active"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">6.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="chapter-item expanded "><a href="visitor.html" class="active"><strong aria-hidden="true">6.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/proxy.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/visitor.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,199 +149,201 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/proxy/go/example</p>
-<pre><code class="language-fortran">module proxy_module
+                        <h1 id="访问者模式"><a class="header" href="#访问者模式">访问者模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/visitor</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/visitor/go/example</p>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
+module visitor_pattern
 
-    use, intrinsic :: iso_fortran_env, only: int16
     implicit none
-    
-    type, abstract :: server_t
+    private
+
+    public :: square, circle, rectangle, area_calculator, middle_coordinates
+
+    !&gt; Two abstract classes
+
+    type, abstract :: shape
     contains
-        procedure(server_t_handle_request), deferred :: handle_request
-    end type server_t
-    
+        procedure(get_type_procedure), deferred :: get_type
+        procedure(accept_procedure), deferred :: accept
+    end type shape
+
+    type, abstract :: visitor
+    contains
+        procedure(visit_procedure), deferred :: visit
+    end type visitor
+
     abstract interface
-        subroutine server_t_handle_request(self, url, method, code, msg)
-            import server_t, int16
-            class(server_t), intent(inout) :: self
-            character(*), intent(in) :: url, method
-            integer(int16), intent(out) :: code
-            character(:), intent(out), allocatable :: msg 
-        end subroutine server_t_handle_request
+        function get_type_procedure(self) result(result)
+            import shape
+            class(shape), intent(inout) :: self
+            character(:), allocatable :: result
+        end function get_type_procedure
+        subroutine accept_procedure(self, v)
+            import shape, visitor
+            class(shape), intent(inout) :: self
+            class(visitor), intent(inout) :: v
+        end subroutine accept_procedure
+        subroutine visit_procedure(self, s)
+            import visitor, shape
+            class(visitor), intent(inout) :: self
+            class(shape), intent(inout) :: s
+        end subroutine visit_procedure
     end interface
-    
-    type map_t
-        character(:), allocatable :: url
-        integer(int16) :: rate_limiter
-    end type map_t
-    
-    type, extends(server_t) :: nginx_t
-        type(application_t), allocatable :: application
-        integer(int16) :: max_allowed_request
-        type(map_t), allocatable :: map(:)
-        ! TODO:
+
+    !&gt; Specific shapes
+
+    type, extends(shape) :: square
+        integer :: side
     contains
-        procedure :: handle_request      =&gt; nginx_t_handle_request
-        procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
-    end type nginx_t
-    
-    type, extends(server_t) :: application_t
+        procedure :: get_type =&gt; square_get_type
+        procedure :: accept =&gt; square_accept
+    end type square
+
+    type, extends(shape) :: circle
+        integer :: radius
     contains
-        procedure :: handle_request =&gt; application_t_handle_request
-    end type application_t
-    
+        procedure :: get_type =&gt; circle_get_type
+        procedure :: accept =&gt; circle_accept
+    end type circle
+
+    type, extends(shape) :: rectangle
+        integer :: l
+        integer :: b
+    contains
+        procedure :: get_type =&gt; rectangle_get_type
+        procedure :: accept =&gt; rectangle_accept
+    end type rectangle
+
+    !&gt; Specific visitors
+
+    type, extends(visitor) :: area_calculator
+        integer :: area
+    contains
+        procedure :: visit =&gt; area_calculator_visit
+    end type area_calculator
+
+    type, extends(visitor) :: middle_coordinates
+        integer :: x, y
+    contains
+        procedure :: visit =&gt; middle_coordinates_visit
+    end type middle_coordinates
+
 contains
 
-    type(nginx_t) function new_nginx_server() result(nginx)
-        type(map_t), allocatable :: map_(:)
-        ! TODO:
-        allocate(map_(2))
-        map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
-        map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
-        
-        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
-    end function new_nginx_server
-    
-    subroutine nginx_t_handle_request(self, url, method, code, msg)
-        class(nginx_t), intent(inout) :: self
-        character(*), intent(in) :: url, method
-        integer(int16), intent(out) :: code
-        character(:), intent(out), allocatable :: msg
-        
-        logical :: allowed
-        
-        allowed = self%check_rate_limiting(url)
-        
-        if (.not.allowed) then
-            code = 403_int16
-            msg = &quot;Not Allowed&quot;
-        end if
-        
-        call self%application%handle_request(url, method, code, msg)
-        
-    end subroutine nginx_t_handle_request
-    
-    logical function nginx_t_check_rate_limiting(self, url) result(allowed)
-        class(nginx_t), intent(inout) :: self
-        character(*), intent(in) :: url
-        
-        integer(int16) :: i
-        
-        do i = 1_int16, size(self%map, kind=int16)
-            if (self%map(i)%url == url) exit
-        end do
-        
-        ! i = i - 1_int16
-        
-        if (self%map(i)%rate_limiter == 0_int16) then
-            self%map(i)%rate_limiter = 1_int16
-        end if
-        
-        if (self%map(i)%rate_limiter &gt; self%max_allowed_request) then
-            allowed = .false.
-            return
-        end if
-        
-        self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
-        
-    end function nginx_t_check_rate_limiting
+    function square_get_type(self) result(result)
+        class(square), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Square&quot;
+    end function square_get_type
 
-    subroutine application_t_handle_request(self, url, method, code, msg)
-        class(application_t), intent(inout) :: self
-        character(*), intent(in) :: url, method
-        integer(int16), intent(out) :: code
-        character(:), intent(out), allocatable :: msg
-        
-        if (url==&quot;/app/status&quot; .and. method==&quot;GET&quot;) then
-            code = 200_int16
-            msg = &quot;Ok&quot;
-            return
-        end if
-        
-        if (url==&quot;/create/user&quot; .and. method==&quot;POST&quot;) then
-            code = 201_int16
-            msg = &quot;User Created&quot;
-            return
-        end if
-        
-        code = 404_int16
-        msg = &quot;Not Ok&quot;
-        
-    end subroutine application_t_handle_request
+    function circle_get_type(self) result(result)
+        class(circle), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Circle&quot;
+    end function circle_get_type
 
-end module proxy_module
+    function rectangle_get_type(self) result(result)
+        class(rectangle), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Rectangle&quot;
+    end function rectangle_get_type
+
+    subroutine square_accept(self, v)
+        class(square), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine square_accept
+
+    subroutine circle_accept(self, v)
+        class(circle), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine circle_accept
+
+    subroutine rectangle_accept(self, v)
+        class(rectangle), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine rectangle_accept
+
+    subroutine area_calculator_visit(self, s)
+        class(area_calculator), intent(inout) :: self
+        class(shape), intent(inout) :: s
+        select type (s)
+        type is (square)
+            print *, &quot;Calculating area for square.🔥&quot;
+        type is (circle)
+            print *, &quot;Calculating area for circle.🔥&quot;
+        type is (rectangle)
+            print *, &quot;Calculating area for rectangle.🔥&quot;
+        end select
+    end subroutine area_calculator_visit
+
+    subroutine middle_coordinates_visit(self, s)
+        class(middle_coordinates), intent(inout) :: self
+        class(shape), intent(inout) :: s
+        select type (s)
+        type is (square)
+            print *, &quot;Calculating middle point coordinates for square.💠&quot;
+        type is (circle)
+            print *, &quot;Calculating middle point coordinates for circle.💠&quot;
+        type is (rectangle)
+            print *, &quot;Calculating middle point coordinates for rectangle.💠&quot;
+        end select
+    end subroutine middle_coordinates_visit
+
+end module visitor_pattern
 </code></pre>
-<pre><code class="language-fortran">program proxy_main
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
+program test_visitor
 
-    use, intrinsic :: iso_fortran_env, only: int16
-    use proxy_module
-    
-    type(nginx_t) :: nginx_server
-    character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
-    integer(int16) :: code
-    character(:), allocatable :: body
-    
-    nginx_server = new_nginx_server()
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(create_user_url, &quot;POST&quot;, code, body)
-    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-    call nginx_server%handle_request(create_user_url, &quot;GET&quot;, code, body)
-    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
-        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
-        &quot;Body: &quot;, body
-    
-end program proxy_main
+    use visitor_pattern
+    type(square) :: s = square(side=2)
+    type(circle) :: c = circle(radius=3)
+    type(rectangle) :: r = rectangle(l=2, b=3)
+
+    type(area_calculator) :: a
+    type(middle_coordinates) :: m
+
+    !&gt; area_calculator visiting shapes
+    call s%accept(a)
+    call c%accept(a)
+    call r%accept(a)
+
+    !&gt; middle_coordinates visiting shapes
+    call s%accept(m)
+    call c%accept(m)
+    call r%accept(m)
+
+    !&gt; Getting type of shape
+    print *, s%get_type()
+    print *, c%get_type()
+    print *, r%get_type()
+
+end program test_visitor
 
 !&gt; Results shall be:
 
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /create/user
-! Http code:     201
-! Body: User Created
-! Url: /create/user
-! Http code:     404
-! Body: Not Ok
+!  Calculating area for square.🔥
+!  Calculating area for circle.🔥
+!  Calculating area for rectangle.🔥
+!  Calculating middle point coordinates for square.💠
+!  Calculating middle point coordinates for circle.💠
+!  Calculating middle point coordinates for rectangle.💠
+!  Square
+!  Circle
+!  Rectangle
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="observer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="proxy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="visitor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -349,13 +351,10 @@ end program proxy_main
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="observer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="proxy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="visitor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                             </nav>
 
         </div>

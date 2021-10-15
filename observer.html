@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html" class="active"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html" class="active"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">6.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -336,17 +336,17 @@ program test_observer
     call shirt_item%deregister(observer_first)
     call shirt_item%register(observer_third)
     call shirt_item%update_availability()
-    
-    !&gt; Results shall be:
-    !
-    ! &gt; Item A Shirt 👔 is now in stock.
-    ! Sending email to customer abc@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! &gt; Item A Shirt 👔 is now in stock.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 
 end program test_observer
+
+!&gt; Results shall be:
+
+! &gt; Item A Shirt 👔 is now in stock.
+! Sending email to customer abc@gmail.com 📨 for item A Shirt.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! &gt; Item A Shirt 👔 is now in stock.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 </code></pre>
 
                     </main>

@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">6.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -275,13 +275,13 @@ end module iterator_module
     end do
     
     deallocate(iterator)
-    
-    !&gt; Results shall be:
-    !
-    ! User is A, age is  30
-    ! User is B, age is  20
 
 end program iterator_main
+
+!&gt; Results shall be:
+
+! User is A, age is  30
+! User is B, age is  20
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="抽象工厂模式"><a class="header" href="#抽象工厂模式">抽象工厂模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/abstract-factory</p>
@@ -572,21 +572,6 @@ end module abstract_factory_module
     call print_shoe_details(lining_shoe)
     call print_shirt_details(lining_shirt)
     
-    !&gt; Results shall be:
-    !
-    ! This is a pair of shoes👟.
-    ! Logo: erke
-    ! Size:    14
-    ! This is a T-shirt👕.
-    ! Logo: erke
-    ! Size:    14
-    ! This is a pair of shoes👟.
-    ! Logo: lining
-    ! Size:    14
-    ! This is a T-shirt👕.
-    ! Logo: lining
-    ! Size:    14
-    
 contains
 
     subroutine print_shoe_details(ishoe)
@@ -608,6 +593,21 @@ contains
     end subroutine print_shirt_details
     
 end program abstract_factory_main
+
+!&gt; Results shall be:
+
+! This is a pair of shoes👟.
+! Logo: erke
+! Size:    14
+! This is a T-shirt👕.
+! Logo: erke
+! Size:    14
+! This is a pair of shoes👟.
+! Logo: lining
+! Size:    14
+! This is a T-shirt👕.
+! Logo: lining
+! Size:    14
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/observer</p>
@@ -796,17 +796,17 @@ program test_observer
     call shirt_item%deregister(observer_first)
     call shirt_item%register(observer_third)
     call shirt_item%update_availability()
-    
-    !&gt; Results shall be:
-    !
-    ! &gt; Item A Shirt 👔 is now in stock.
-    ! Sending email to customer abc@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! &gt; Item A Shirt 👔 is now in stock.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 
 end program test_observer
+
+!&gt; Results shall be:
+
+! &gt; Item A Shirt 👔 is now in stock.
+! Sending email to customer abc@gmail.com 📨 for item A Shirt.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! &gt; Item A Shirt 👔 is now in stock.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
@@ -968,26 +968,212 @@ end module proxy_module
     print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-        
-    !&gt; Results shall be:
-    !
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /create/user
-    ! Http code:     201
-    ! Body: User Created
-    ! Url: /create/user
-    ! Http code:     404
-    ! Body: Not Ok
     
 end program proxy_main
+
+!&gt; Results shall be:
+
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /create/user
+! Http code:     201
+! Body: User Created
+! Url: /create/user
+! Http code:     404
+! Body: Not Ok
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="访问者模式"><a class="header" href="#访问者模式">访问者模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/visitor</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/visitor/go/example</p>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
+module visitor_pattern
+
+    implicit none
+    private
+
+    public :: square, circle, rectangle, area_calculator, middle_coordinates
+
+    !&gt; Two abstract classes
+
+    type, abstract :: shape
+    contains
+        procedure(get_type_procedure), deferred :: get_type
+        procedure(accept_procedure), deferred :: accept
+    end type shape
+
+    type, abstract :: visitor
+    contains
+        procedure(visit_procedure), deferred :: visit
+    end type visitor
+
+    abstract interface
+        function get_type_procedure(self) result(result)
+            import shape
+            class(shape), intent(inout) :: self
+            character(:), allocatable :: result
+        end function get_type_procedure
+        subroutine accept_procedure(self, v)
+            import shape, visitor
+            class(shape), intent(inout) :: self
+            class(visitor), intent(inout) :: v
+        end subroutine accept_procedure
+        subroutine visit_procedure(self, s)
+            import visitor, shape
+            class(visitor), intent(inout) :: self
+            class(shape), intent(inout) :: s
+        end subroutine visit_procedure
+    end interface
+
+    !&gt; Specific shapes
+
+    type, extends(shape) :: square
+        integer :: side
+    contains
+        procedure :: get_type =&gt; square_get_type
+        procedure :: accept =&gt; square_accept
+    end type square
+
+    type, extends(shape) :: circle
+        integer :: radius
+    contains
+        procedure :: get_type =&gt; circle_get_type
+        procedure :: accept =&gt; circle_accept
+    end type circle
+
+    type, extends(shape) :: rectangle
+        integer :: l
+        integer :: b
+    contains
+        procedure :: get_type =&gt; rectangle_get_type
+        procedure :: accept =&gt; rectangle_accept
+    end type rectangle
+
+    !&gt; Specific visitors
+
+    type, extends(visitor) :: area_calculator
+        integer :: area
+    contains
+        procedure :: visit =&gt; area_calculator_visit
+    end type area_calculator
+
+    type, extends(visitor) :: middle_coordinates
+        integer :: x, y
+    contains
+        procedure :: visit =&gt; middle_coordinates_visit
+    end type middle_coordinates
+
+contains
+
+    function square_get_type(self) result(result)
+        class(square), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Square&quot;
+    end function square_get_type
+
+    function circle_get_type(self) result(result)
+        class(circle), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Circle&quot;
+    end function circle_get_type
+
+    function rectangle_get_type(self) result(result)
+        class(rectangle), intent(inout) :: self
+        character(:), allocatable :: result
+        result = &quot;Rectangle&quot;
+    end function rectangle_get_type
+
+    subroutine square_accept(self, v)
+        class(square), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine square_accept
+
+    subroutine circle_accept(self, v)
+        class(circle), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine circle_accept
+
+    subroutine rectangle_accept(self, v)
+        class(rectangle), intent(inout) :: self
+        class(visitor), intent(inout) :: v
+        call v%visit(self)
+    end subroutine rectangle_accept
+
+    subroutine area_calculator_visit(self, s)
+        class(area_calculator), intent(inout) :: self
+        class(shape), intent(inout) :: s
+        select type (s)
+        type is (square)
+            print *, &quot;Calculating area for square.🔥&quot;
+        type is (circle)
+            print *, &quot;Calculating area for circle.🔥&quot;
+        type is (rectangle)
+            print *, &quot;Calculating area for rectangle.🔥&quot;
+        end select
+    end subroutine area_calculator_visit
+
+    subroutine middle_coordinates_visit(self, s)
+        class(middle_coordinates), intent(inout) :: self
+        class(shape), intent(inout) :: s
+        select type (s)
+        type is (square)
+            print *, &quot;Calculating middle point coordinates for square.💠&quot;
+        type is (circle)
+            print *, &quot;Calculating middle point coordinates for circle.💠&quot;
+        type is (rectangle)
+            print *, &quot;Calculating middle point coordinates for rectangle.💠&quot;
+        end select
+    end subroutine middle_coordinates_visit
+
+end module visitor_pattern
+</code></pre>
+<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
+program test_visitor
+
+    use visitor_pattern
+    type(square) :: s = square(side=2)
+    type(circle) :: c = circle(radius=3)
+    type(rectangle) :: r = rectangle(l=2, b=3)
+
+    type(area_calculator) :: a
+    type(middle_coordinates) :: m
+
+    !&gt; area_calculator visiting shapes
+    call s%accept(a)
+    call c%accept(a)
+    call r%accept(a)
+
+    !&gt; middle_coordinates visiting shapes
+    call s%accept(m)
+    call c%accept(m)
+    call r%accept(m)
+
+    !&gt; Getting type of shape
+    print *, s%get_type()
+    print *, c%get_type()
+    print *, r%get_type()
+
+end program test_visitor
+
+!&gt; Results shall be:
+
+!  Calculating area for square.🔥
+!  Calculating area for circle.🔥
+!  Calculating area for rectangle.🔥
+!  Calculating middle point coordinates for square.💠
+!  Calculating middle point coordinates for circle.💠
+!  Calculating middle point coordinates for rectangle.💠
+!  Square
+!  Circle
+!  Rectangle
 </code></pre>
 
                     </main>
