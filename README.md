@@ -28,15 +28,26 @@ git clone https://github.com/zoziha/Fortran-Design-Patterns.git
 cd Fortran-Design-Patterns
 ```
 
+### 使用[fortran-lang/fpm](https://github.com/fortran-lang/fpm)构建代码
+
+Fortran包管理器（fpm）是Fortran-lang社区驱动、为Fortran生态设计的包管理器和代码构建器。<br>
+你可以通过提供的`fpm.toml`构建代码：
+
+```sh
+fpm test --list  # 获取已提供的设计模式示例
+fpm test <pattern_name, see `fpm.toml` or test list>
+```
+
 ### 使用[mdbook](https://github.com/rust-lang/mdBook)构建文档
 
 mdBook是一个从Markdown文件创建现代在线书籍的实用程序。<br>
 你可以通过提供的`book.toml`文件来构建《Fortran的23种设计模式》。
 
-```
+```sh
 cd doc && mdbook build
 ```
 
 ### 链接
 
+- [设计模式](https://refactoringguru.cn/design-patterns)
 - [farhanjk/FortranPatterns](https://github.com/farhanjk/FortranPatterns)
