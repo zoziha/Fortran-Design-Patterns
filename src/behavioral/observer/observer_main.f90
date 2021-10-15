@@ -22,14 +22,14 @@ program test_observer
     call shirt_item%deregister(observer_first)
     call shirt_item%register(observer_third)
     call shirt_item%update_availability()
-    
-    !> Results shall be:
-    !
-    ! > Item A Shirt 👔 is now in stock.
-    ! Sending email to customer abc@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! > Item A Shirt 👔 is now in stock.
-    ! Sending email to customer def@gmail.com 📨 for item A Shirt.
-    ! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 
 end program test_observer
+
+!> Results shall be:
+
+! > Item A Shirt 👔 is now in stock.
+! Sending email to customer abc@gmail.com 📨 for item A Shirt.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! > Item A Shirt 👔 is now in stock.
+! Sending email to customer def@gmail.com 📨 for item A Shirt.
+! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.

@@ -17,6 +17,11 @@ source-dir = "src/behavioral/observer"
 main = "observer_main.f90"
 
 [[test]]
+name = "visitor"
+source-dir = "src/behavioral/visitor"
+main = "visitor_main.f90"
+
+[[test]]
 name = "abstract_factory"
 source-dir = "src/creational/abstract-factory"
 main = "abstract_factory_main.f90"

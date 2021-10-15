@@ -34,23 +34,23 @@ program proxy_main
     print *, "Url: ", create_user_url, new_line(""), &
         "Http code: ", code, new_line(""), &
         "Body: ", body
-        
-    !> Results shall be:
-    !
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /app/status
-    ! Http code:     200
-    ! Body: Ok
-    ! Url: /create/user
-    ! Http code:     201
-    ! Body: User Created
-    ! Url: /create/user
-    ! Http code:     404
-    ! Body: Not Ok
     
 end program proxy_main
+
+!> Results shall be:
+
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /app/status
+! Http code:     200
+! Body: Ok
+! Url: /create/user
+! Http code:     201
+! Body: User Created
+! Url: /create/user
+! Http code:     404
+! Body: Not Ok

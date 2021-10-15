@@ -33,21 +33,6 @@ program abstract_factory_main
     call print_shoe_details(lining_shoe)
     call print_shirt_details(lining_shirt)
     
-    !> Results shall be:
-    !
-    ! This is a pair of shoes👟.
-    ! Logo: erke
-    ! Size:    14
-    ! This is a T-shirt👕.
-    ! Logo: erke
-    ! Size:    14
-    ! This is a pair of shoes👟.
-    ! Logo: lining
-    ! Size:    14
-    ! This is a T-shirt👕.
-    ! Logo: lining
-    ! Size:    14
-    
 contains
 
     subroutine print_shoe_details(ishoe)
@@ -69,3 +54,18 @@ contains
     end subroutine print_shirt_details
     
 end program abstract_factory_main
+
+!> Results shall be:
+
+! This is a pair of shoes👟.
+! Logo: erke
+! Size:    14
+! This is a T-shirt👕.
+! Logo: erke
+! Size:    14
+! This is a pair of shoes👟.
+! Logo: lining
+! Size:    14
+! This is a T-shirt👕.
+! Logo: lining
+! Size:    14
