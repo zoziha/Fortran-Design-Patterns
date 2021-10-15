@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">4.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">5.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">6.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">7.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">4.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">5.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">6.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">7.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">8.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -467,18 +467,18 @@ end program abstract_factory_main
 
 !&gt; Results shall be:
 
-! This is a pair of shoes👟.
-! Logo: erke
-! Size:    14
-! This is a T-shirt👕.
-! Logo: erke
-! Size:    14
-! This is a pair of shoes👟.
-! Logo: lining
-! Size:    14
-! This is a T-shirt👕.
-! Logo: lining
-! Size:    14
+!  This is a pair of shoes👟.
+!  Logo: erke
+!  Size:    14
+!  This is a T-shirt👕.
+!  Logo: erke
+!  Size:    14
+!  This is a pair of shoes👟.
+!  Logo: lining
+!  Size:    14
+!  This is a T-shirt👕.
+!  Logo: lining
+!  Size:    14
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
@@ -648,21 +648,233 @@ end program proxy_main
 
 !&gt; Results shall be:
 
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /create/user
-! Http code:     201
-! Body: User Created
-! Url: /create/user
-! Http code:     404
-! Body: Not Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /create/user
+!  Http code:     201
+!  Body: User Created
+!  Url: /create/user
+!  Http code:     404
+!  Body: Not Ok
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="责任链模式"><a class="header" href="#责任链模式">责任链模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/chain-of-responsibility</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/chain-of-responsibility/go/example</p>
+<pre><code class="language-fortran">!&gt; CoR: Hospital departments
+module hospital_CoR
+
+    implicit none
+    private
+
+    public :: patient, department, reception, doctor, medical, cashier
+
+    type patient
+        character(:), allocatable :: name
+        logical :: registration_done
+        logical :: doctor_check_up_done
+        logical :: medicine_done
+        logical :: payment_done
+    end type patient
+
+    type, abstract :: department
+    contains
+        procedure(execute_procedure), deferred :: execute
+        procedure(set_next_procedure), deferred :: set_next
+    end type department
+
+    abstract interface
+        subroutine execute_procedure(self, p)
+            import department, patient
+            class(department), intent(inout) :: self
+            type(patient), intent(inout) :: p
+        end subroutine execute_procedure
+        subroutine set_next_procedure(self, next)
+            import department
+            class(department), intent(inout) :: self
+            class(department), intent(inout) :: next
+        end subroutine set_next_procedure
+    end interface
+
+    type, extends(department) :: reception
+        class(department), pointer :: next
+    contains
+        procedure :: execute =&gt; reception_execute
+        procedure :: set_next =&gt; reception_set_next
+    end type reception
+
+    type, extends(department) :: doctor
+        class(department), pointer :: next
+    contains
+        procedure :: execute =&gt; doctor_execute
+        procedure :: set_next =&gt; doctor_set_next
+    end type doctor
+
+    type, extends(department) :: medical
+        class(department), pointer :: next
+    contains
+        procedure :: execute =&gt; medicine_execute
+        procedure :: set_next =&gt; medicine_set_next
+    end type medical
+
+    type, extends(department) :: cashier
+        class(department), pointer :: next
+    contains
+        procedure :: execute =&gt; cashier_execute
+        procedure :: set_next =&gt; cashier_set_next
+    end type cashier
+
+contains
+
+    subroutine reception_execute(self, p)
+        class(reception), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%registration_done) then
+            print *, &quot;Patient registration already done.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
+
+        print *, &quot;Reception registering patient.&quot;
+        p%registration_done = .true.
+        call self%next%execute(p)
+
+    end subroutine reception_execute
+
+    subroutine reception_set_next(self, next)
+        class(reception), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine reception_set_next   
+
+    subroutine doctor_execute(self, p)
+        class(doctor), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%doctor_check_up_done) then
+            print *, &quot;Doctor checkup already done.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
+
+        print *, &quot;Doctor checking patient.&quot;
+        p%doctor_check_up_done = .true.
+        call self%next%execute(p)
+
+    end subroutine doctor_execute
+
+    subroutine doctor_set_next(self, next)
+        class(doctor), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine doctor_set_next   
+
+    subroutine medicine_execute(self, p)
+        class(medical), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%medicine_done) then
+            print *, &quot;Medicine already given to patient.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
+
+        print *, &quot;Medical giving medicine to patient.&quot;
+        p%medicine_done = .true.
+        call self%next%execute(p)
+
+    end subroutine medicine_execute
+
+    subroutine medicine_set_next(self, next)
+        class(medical), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine medicine_set_next   
+
+    subroutine cashier_execute(self, p)
+        class(cashier), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%payment_done) then
+            print *, &quot;Payment Done.✔️&quot;
+            return
+        end if
+
+        print *, &quot;Cashier getting money from patient.&quot;
+        p%payment_done = .true.
+
+    end subroutine cashier_execute
+
+    subroutine cashier_set_next(self, next)
+        class(cashier), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine cashier_set_next   
+
+end module hospital_CoR
+</code></pre>
+<pre><code class="language-fortran">
+!&gt; CoR: Patient visiting hospital
+program test_CoR
+
+    use hospital_CoR
+
+    type(cashier) :: c
+    type(medical) :: m
+    type(doctor) :: d
+    type(reception) :: r
+
+    type(patient) :: p1, p2
+
+    !&gt; Set next for departments
+    call m%set_next(c)
+    call d%set_next(m)
+    call r%set_next(d)
+
+    p1 = patient(&quot;abc&quot;,.true.,.true.,.true.,.true.)
+    !&gt; Patient visiting
+    print *, &quot;&gt; Patient `&quot;//p1%name//&quot;` : &quot;
+    call r%execute(p1)
+
+    p2 = patient(&quot;def&quot;,.true.,.false.,.false.,.false.)
+    !&gt; Patient visiting
+    print *, &quot;&gt; Patient `&quot;//p2%name//&quot;` : &quot;
+    call r%execute(p2)
+
+    !&gt; Optional statements
+    deallocate(m%next)
+    deallocate(d%next)
+    deallocate(r%next)
+
+end program test_CoR
+
+!&gt; Results shall be:
+
+!  &gt; Patient `abc` : 
+!  Patient registration already done.✔️
+!  Doctor checkup already done.✔️
+!  Medicine already given to patient.✔️
+!  Payment Done.✔️
+!  &gt; Patient `def` :
+!  Patient registration already done.✔️
+!  Doctor checking patient.
+!  Medical giving medicine to patient.
+!  Cashier getting money from patient.
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/command</p>
@@ -923,8 +1135,8 @@ end program iterator_main
 
 !&gt; Results shall be:
 
-! User is A, age is  30
-! User is B, age is  20
+!  User is A, age is  30
+!  User is B, age is  20
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/observer</p>
@@ -1118,12 +1330,12 @@ end program test_observer
 
 !&gt; Results shall be:
 
-! &gt; Item A Shirt 👔 is now in stock.
-! Sending email to customer abc@gmail.com 📨 for item A Shirt.
-! Sending email to customer def@gmail.com 📨 for item A Shirt.
-! &gt; Item A Shirt 👔 is now in stock.
-! Sending email to customer def@gmail.com 📨 for item A Shirt.
-! Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
+!  &gt; Item A Shirt 👔 is now in stock.
+!  Sending email to customer abc@gmail.com 📨 for item A Shirt.
+!  Sending email to customer def@gmail.com 📨 for item A Shirt.
+!  &gt; Item A Shirt 👔 is now in stock.
+!  Sending email to customer def@gmail.com 📨 for item A Shirt.
+!  Sending email to customer xyz@foxmail.com 📨 for item A Shirt.
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="访问者模式"><a class="header" href="#访问者模式">访问者模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/visitor</p>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>命令模式 - Fortran-Design-Patterns</title>
+        <title>责任链模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">4.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html" class="active"><strong aria-hidden="true">5.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">6.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">7.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">8.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html" class="active"><strong aria-hidden="true">4.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">5.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">6.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">7.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">8.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/command.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/chain-of-responsibility.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,148 +149,228 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/command</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-module command_pattern
-    
+                        <h1 id="责任链模式"><a class="header" href="#责任链模式">责任链模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/chain-of-responsibility</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/chain-of-responsibility/go/example</p>
+<pre><code class="language-fortran">!&gt; CoR: Hospital departments
+module hospital_CoR
+
     implicit none
     private
 
-    public :: tv, on_command, off_command, button
+    public :: patient, department, reception, doctor, medical, cashier
 
-    !&gt; Abstract classes
+    type patient
+        character(:), allocatable :: name
+        logical :: registration_done
+        logical :: doctor_check_up_done
+        logical :: medicine_done
+        logical :: payment_done
+    end type patient
 
-    type, abstract :: command
+    type, abstract :: department
     contains
         procedure(execute_procedure), deferred :: execute
-    end type command
-
-    type, abstract :: device
-    contains
-        procedure(on_procedure), deferred :: on
-        procedure(off_procedure), deferred :: off
-    end type device
+        procedure(set_next_procedure), deferred :: set_next
+    end type department
 
     abstract interface
-        subroutine execute_procedure(self)
-            import command
-            class(command), intent(inout) :: self
+        subroutine execute_procedure(self, p)
+            import department, patient
+            class(department), intent(inout) :: self
+            type(patient), intent(inout) :: p
         end subroutine execute_procedure
-        subroutine on_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine on_procedure
-        subroutine off_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine off_procedure
+        subroutine set_next_procedure(self, next)
+            import department
+            class(department), intent(inout) :: self
+            class(department), intent(inout) :: next
+        end subroutine set_next_procedure
     end interface
 
-    !&gt; Specific Objects
-
-    type, extends(command) :: on_command
-        class(device), pointer :: d
+    type, extends(department) :: reception
+        class(department), pointer :: next
     contains
-        procedure :: execute =&gt; on_command_execute
-    end type on_command 
+        procedure :: execute =&gt; reception_execute
+        procedure :: set_next =&gt; reception_set_next
+    end type reception
 
-    type, extends(command) :: off_command
-        class(device), pointer :: d
+    type, extends(department) :: doctor
+        class(department), pointer :: next
     contains
-        procedure :: execute =&gt; off_command_execute
-    end type off_command
+        procedure :: execute =&gt; doctor_execute
+        procedure :: set_next =&gt; doctor_set_next
+    end type doctor
 
-    type, extends(device) :: tv
-        logical :: is_running
+    type, extends(department) :: medical
+        class(department), pointer :: next
     contains
-        procedure :: on =&gt; tv_on
-        procedure :: off =&gt; tv_off
-    end type tv
+        procedure :: execute =&gt; medicine_execute
+        procedure :: set_next =&gt; medicine_set_next
+    end type medical
 
-    type :: button
-        class(command), pointer :: c
+    type, extends(department) :: cashier
+        class(department), pointer :: next
     contains
-        procedure :: press
-    end type button
+        procedure :: execute =&gt; cashier_execute
+        procedure :: set_next =&gt; cashier_set_next
+    end type cashier
 
 contains
 
-    subroutine press(self)
-        class(button), intent(inout) :: self
-        call self%c%execute()
-    end subroutine press
+    subroutine reception_execute(self, p)
+        class(reception), intent(inout) :: self
+        type(patient), intent(inout) :: p
 
-    subroutine on_command_execute(self)
-        class(on_command), intent(inout) :: self
-        call self%d%on()
-    end subroutine on_command_execute
+        if (p%registration_done) then
+            print *, &quot;Patient registration already done.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
 
-    subroutine off_command_execute(self)
-        class(off_command), intent(inout) :: self
-        call self%d%off()
-    end subroutine off_command_execute
+        print *, &quot;Reception registering patient.&quot;
+        p%registration_done = .true.
+        call self%next%execute(p)
 
-    subroutine tv_on(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .true.
-        print *, &quot;Turning tv on. ✔️&quot;
-    end subroutine tv_on
+    end subroutine reception_execute
 
-    subroutine tv_off(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .false.
-        print *, &quot;Turning tv off. ❌&quot;
-    end subroutine tv_off
+    subroutine reception_set_next(self, next)
+        class(reception), intent(inout) :: self
+        class(department), intent(inout) :: next
 
-end module command_pattern
+        allocate(self%next, source=next)
+
+    end subroutine reception_set_next   
+
+    subroutine doctor_execute(self, p)
+        class(doctor), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%doctor_check_up_done) then
+            print *, &quot;Doctor checkup already done.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
+
+        print *, &quot;Doctor checking patient.&quot;
+        p%doctor_check_up_done = .true.
+        call self%next%execute(p)
+
+    end subroutine doctor_execute
+
+    subroutine doctor_set_next(self, next)
+        class(doctor), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine doctor_set_next   
+
+    subroutine medicine_execute(self, p)
+        class(medical), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%medicine_done) then
+            print *, &quot;Medicine already given to patient.✔️&quot;
+            call self%next%execute(p)
+            return
+        end if
+
+        print *, &quot;Medical giving medicine to patient.&quot;
+        p%medicine_done = .true.
+        call self%next%execute(p)
+
+    end subroutine medicine_execute
+
+    subroutine medicine_set_next(self, next)
+        class(medical), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine medicine_set_next   
+
+    subroutine cashier_execute(self, p)
+        class(cashier), intent(inout) :: self
+        type(patient), intent(inout) :: p
+
+        if (p%payment_done) then
+            print *, &quot;Payment Done.✔️&quot;
+            return
+        end if
+
+        print *, &quot;Cashier getting money from patient.&quot;
+        p%payment_done = .true.
+
+    end subroutine cashier_execute
+
+    subroutine cashier_set_next(self, next)
+        class(cashier), intent(inout) :: self
+        class(department), intent(inout) :: next
+
+        allocate(self%next, source=next)
+
+    end subroutine cashier_set_next   
+
+end module hospital_CoR
 </code></pre>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-program test_command
+<pre><code class="language-fortran">
+!&gt; CoR: Patient visiting hospital
+program test_CoR
 
-    use command_pattern, only: tv, on_command, off_command, button
-    type(tv) :: t
-    type(on_command) :: on_c
-    type(off_command) :: off_c
+    use hospital_CoR
 
-    type(button) :: on_b
-    type(button) :: off_b
+    type(cashier) :: c
+    type(medical) :: m
+    type(doctor) :: d
+    type(reception) :: r
 
-    !&gt; Linking
-    allocate(on_c%d, source=t)
-    allocate(off_c%d, source=t)
+    type(patient) :: p1, p2
 
-    allocate(on_b%c, source=on_c)
-    allocate(off_b%c, source=off_c)
+    !&gt; Set next for departments
+    call m%set_next(c)
+    call d%set_next(m)
+    call r%set_next(d)
 
-    !&gt; Operating
-    call on_b%press()
-    call off_b%press()
+    p1 = patient(&quot;abc&quot;,.true.,.true.,.true.,.true.)
+    !&gt; Patient visiting
+    print *, &quot;&gt; Patient `&quot;//p1%name//&quot;` : &quot;
+    call r%execute(p1)
 
-    !&gt; Free memory.
-    deallocate(on_c%d)
-    deallocate(off_c%d)
-    deallocate(on_b%c)
-    deallocate(off_b%c)
+    p2 = patient(&quot;def&quot;,.true.,.false.,.false.,.false.)
+    !&gt; Patient visiting
+    print *, &quot;&gt; Patient `&quot;//p2%name//&quot;` : &quot;
+    call r%execute(p2)
 
-end program test_command
+    !&gt; Optional statements
+    deallocate(m%next)
+    deallocate(d%next)
+    deallocate(r%next)
+
+end program test_CoR
 
 !&gt; Results shall be:
 
-!  Turning tv on. ✔️
-!  Turning tv off. ❌
+!  &gt; Patient `abc` : 
+!  Patient registration already done.✔️
+!  Doctor checkup already done.✔️
+!  Medicine already given to patient.✔️
+!  Payment Done.✔️
+!  &gt; Patient `def` :
+!  Patient registration already done.✔️
+!  Doctor checking patient.
+!  Medical giving medicine to patient.
+!  Cashier getting money from patient.
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="chain-of-responsibility.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="proxy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="iterator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="command.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -300,11 +380,11 @@ end program test_command
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="chain-of-responsibility.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="proxy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="iterator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="command.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
