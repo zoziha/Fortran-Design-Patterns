@@ -39,18 +39,18 @@ end program proxy_main
 
 !> Results shall be:
 
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /app/status
-! Http code:     200
-! Body: Ok
-! Url: /create/user
-! Http code:     201
-! Body: User Created
-! Url: /create/user
-! Http code:     404
-! Body: Not Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /app/status
+!  Http code:     200
+!  Body: Ok
+!  Url: /create/user
+!  Http code:     201
+!  Body: User Created
+!  Url: /create/user
+!  Http code:     404
+!  Body: Not Ok

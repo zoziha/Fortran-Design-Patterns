@@ -7,6 +7,11 @@ source-dir = "src"
 auto-tests = false
 
 [[test]]
+name = "CoR"
+source-dir = "src/behavioral/chain-of-responsibility"
+main = "CoR_main.f90"
+
+[[test]]
 name = "command"
 source-dir = "src/behavioral/command"
 main = "command_main.f90"

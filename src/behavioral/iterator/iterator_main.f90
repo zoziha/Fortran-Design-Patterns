@@ -28,5 +28,5 @@ end program iterator_main
 
 !> Results shall be:
 
-! User is A, age is  30
-! User is B, age is  20
+!  User is A, age is  30
+!  User is B, age is  20

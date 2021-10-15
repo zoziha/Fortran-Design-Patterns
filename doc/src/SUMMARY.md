@@ -12,6 +12,7 @@
 
 ---
 
+  - [责任链模式](chain-of-responsibility.md)
   - [命令模式](command.md)
   - [迭代器模式](iterator.md)
   - [观察者模式](observer.md)

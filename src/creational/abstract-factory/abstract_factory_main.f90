@@ -57,15 +57,15 @@ end program abstract_factory_main
 
 !> Results shall be:
 
-! This is a pair of shoes👟.
-! Logo: erke
-! Size:    14
-! This is a T-shirt👕.
-! Logo: erke
-! Size:    14
-! This is a pair of shoes👟.
-! Logo: lining
-! Size:    14
-! This is a T-shirt👕.
-! Logo: lining
-! Size:    14
+!  This is a pair of shoes👟.
+!  Logo: erke
+!  Size:    14
+!  This is a T-shirt👕.
+!  Logo: erke
+!  Size:    14
+!  This is a pair of shoes👟.
+!  Logo: lining
+!  Size:    14
+!  This is a T-shirt👕.
+!  Logo: lining
+!  Size:    14
