@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>迭代器模式 - Fortran-Design-Patterns</title>
+        <title>代理模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html" class="active"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html" class="active"><strong aria-hidden="true">5.</strong> 代理模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/iterator.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/proxy.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,148 +149,196 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="迭代器模式"><a class="header" href="#迭代器模式">迭代器模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
-<pre><code class="language-fortran">module iterator_module
-    
-    use, intrinsic :: iso_fortran_env, only: int8
+                        <h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/proxy</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/proxy/go/example</p>
+<pre><code class="language-fortran">module proxy_module
+
+    use, intrinsic :: iso_fortran_env, only: int16
     implicit none
-    private
     
-    public :: user_t, user_collection_t, user_iterator_t, iterator_t
-    
-    !&gt; Abstract types
-    
-    !&gt; Collection
-    type, abstract :: collection_t
+    type, abstract :: server_t
     contains
-        procedure(collection_t_create_iterator), deferred :: create_iterator
-    end type collection_t
-    
-    !&gt; Iterator
-    type, abstract :: iterator_t
-    contains
-        procedure(iterator_t_has_next), deferred :: has_next
-        procedure(iterator_t_get_next), deferred :: get_next
-    end type iterator_t
-    
-    !&gt; User
-    type user_t
-        character(:), allocatable :: name
-        integer(int8) :: age
-    end type user_t
+        procedure(server_t_handle_request), deferred :: handle_request
+    end type server_t
     
     abstract interface
-    
-        function collection_t_create_iterator(self) result(iterator)
-            import iterator_t, collection_t
-            !&gt; TODO:
-            class(collection_t), intent(in) :: self
-            class(iterator_t), allocatable :: iterator
-        end function collection_t_create_iterator
-        
-        logical function iterator_t_has_next(self)
-            import iterator_t
-            class(iterator_t), intent(in) :: self
-        end function iterator_t_has_next
-        
-        type(user_t) function iterator_t_get_next(self)
-            import user_t, iterator_t
-            class(iterator_t), intent(inout) :: self
-        end function iterator_t_get_next
-        
+        subroutine server_t_handle_request(self, url, method, code, msg)
+            import server_t, int16
+            class(server_t), intent(inout) :: self
+            character(*), intent(in) :: url, method
+            integer(int16), intent(out) :: code
+            character(:), intent(out), allocatable :: msg 
+        end subroutine server_t_handle_request
     end interface
     
-    !&gt; Specific types
+    type map_t
+        character(:), allocatable :: url
+        integer(int16) :: rate_limiter
+    end type map_t
     
-    !&gt; User collection
-    type, extends(collection_t) :: user_collection_t
-        type(user_t), allocatable :: users(:)
+    type, extends(server_t) :: nginx_t
+        type(application_t), allocatable :: application
+        integer(int16) :: max_allowed_request
+        type(map_t), allocatable :: map(:)
+        ! TODO:
     contains
-        procedure :: create_iterator =&gt; user_collection_t_create_iterator
-    end type user_collection_t
+        procedure :: handle_request      =&gt; nginx_t_handle_request
+        procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
+    end type nginx_t
     
-    !&gt; User iterator
-    type, extends(iterator_t) :: user_iterator_t
-        integer :: index
-        type(user_t), allocatable :: users(:)
+    type, extends(server_t) :: application_t
     contains
-        procedure :: has_next =&gt; user_iterator_t_has_next
-        procedure :: get_next =&gt; user_iterator_t_get_next
-    end type user_iterator_t
-
+        procedure :: handle_request =&gt; application_t_handle_request
+    end type application_t
+    
 contains
 
-    function user_collection_t_create_iterator(self) result(iterator)
-        class(user_collection_t), intent(in) :: self
-        class(iterator_t), allocatable :: iterator
+    type(nginx_t) function new_nginx_server() result(nginx)
+        type(map_t), allocatable :: map_(:)
         ! TODO:
-        iterator = user_iterator_t(index=0, users=self%users)
-    end function user_collection_t_create_iterator
-    
-    logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(in) :: self
+        allocate(map_(2))
+        map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
+        map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
         
-        has = merge(.true., .false., self%index &lt; size(self%users))
+        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
+    end function new_nginx_server
+    
+    subroutine nginx_t_handle_request(self, url, method, code, msg)
+        class(nginx_t), intent(inout) :: self
+        character(*), intent(in) :: url, method
+        integer(int16), intent(out) :: code
+        character(:), intent(out), allocatable :: msg
         
-    end function user_iterator_t_has_next
-    
-    type(user_t) function user_iterator_t_get_next(self) result(user)
-        class(user_iterator_t), intent(inout) :: self
+        logical :: allowed
         
-        self%index = self%index + 1
-        user = self%users(self%index)
+        allowed = self%check_rate_limiting(url)
+        
+        if (.not.allowed) then
+            code = 403_int16
+            msg = &quot;Not Allowed&quot;
+        end if
+        
+        call self%application%handle_request(url, method, code, msg)
+        
+    end subroutine nginx_t_handle_request
     
-    end function user_iterator_t_get_next
-    
-end module iterator_module
-</code></pre>
-<pre><code class="language-fortran">program iterator_main
+    logical function nginx_t_check_rate_limiting(self, url) result(allowed)
+        class(nginx_t), intent(inout) :: self
+        character(*), intent(in) :: url
+        
+        integer(int16) :: i
+        
+        do i = 1_int16, size(self%map, kind=int16)
+            if (self%map(i)%url == url) exit
+        end do
+        
+        ! i = i - 1_int16
+        
+        if (self%map(i)%rate_limiter == 0_int16) then
+            self%map(i)%rate_limiter = 1_int16
+        end if
+        
+        if (self%map(i)%rate_limiter &gt; self%max_allowed_request) then
+            allowed = .false.
+            return
+        end if
+        
+        self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
+        
+    end function nginx_t_check_rate_limiting
 
-    use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
+    subroutine application_t_handle_request(self, url, method, code, msg)
+        class(application_t), intent(inout) :: self
+        character(*), intent(in) :: url, method
+        integer(int16), intent(out) :: code
+        character(:), intent(out), allocatable :: msg
+        
+        if (url==&quot;/app/status&quot; .and. method==&quot;GET&quot;) then
+            code = 200_int16
+            msg = &quot;Ok&quot;
+            return
+        end if
+        
+        if (url==&quot;/create/user&quot; .and. method==&quot;POST&quot;) then
+            code = 201_int16
+            msg = &quot;User Created&quot;
+            return
+        end if
+        
+        code = 404_int16
+        msg = &quot;Not Ok&quot;
+        
+    end subroutine application_t_handle_request
+
+end module proxy_module
+</code></pre>
+<pre><code class="language-fortran">program proxy_main
+
+    use, intrinsic :: iso_fortran_env, only: int16
+    use proxy_module
     
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
-    ! TODO:
-    class(iterator_t), allocatable :: iterator
+    type(nginx_t) :: nginx_server
+    character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
+    integer(int16) :: code
+    character(:), allocatable :: body
     
-    user1 = user_t(name=&quot;A&quot;, age=30_int8)
-    user2 = user_t(name=&quot;B&quot;, age=20_int8)
+    nginx_server = new_nginx_server()
     
-    user_collection = user_collection_t(users=[user1, user2])
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
     
-    !&gt; Specific iterator
-    allocate(user_iterator_t :: iterator)
-    iterator = user_collection%create_iterator()
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
     
-    do while (iterator%has_next())
-        user = iterator%get_next()
-        print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
-    end do
+    call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
     
-    deallocate(iterator)
+    call nginx_server%handle_request(create_user_url, &quot;POST&quot;, code, body)
+    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
     
+    call nginx_server%handle_request(create_user_url, &quot;GET&quot;, code, body)
+    print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
+        &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
+        &quot;Body: &quot;, body
+        
     !&gt; Results shall be:
     !
-    ! User is A, age is  30
-    ! User is B, age is  20
-
-end program iterator_main
+    ! Url: /app/status
+    ! Http code:     200
+    ! Body: Ok
+    ! Url: /app/status
+    ! Http code:     200
+    ! Body: Ok
+    ! Url: /app/status
+    ! Http code:     200
+    ! Body: Ok
+    ! Url: /create/user
+    ! Http code:     201
+    ! Body: User Created
+    ! Url: /create/user
+    ! Http code:     404
+    ! Body: Not Ok
+    
+end program proxy_main
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="observer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="abstract-factory.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -298,13 +346,10 @@ end program iterator_main
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="observer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="abstract-factory.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                             </nav>
 
         </div>

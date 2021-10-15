@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html" class="active"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">2.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="abstract-factory.html" class="active"><strong aria-hidden="true">3.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">4.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -152,6 +152,7 @@
                         <h1 id="抽象工厂模式"><a class="header" href="#抽象工厂模式">抽象工厂模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/abstract-factory</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/abstract-factory/go/example</p>
+<p>点评：显然易见，抽象工厂设计模式缺点之一是，向应用中引入众多的接口和类，代码可能会因此变得更加复杂。</p>
 <pre><code class="language-fortran">module abstract_factory_module
 
     use, intrinsic :: iso_fortran_env, only: int8
@@ -289,15 +290,15 @@
     
 contains
 
-    function get_sports_factory(brand) result(i_sports_factory)
+    function get_sports_factory(brand) result(isports_factory)
         character(*), intent(in) :: brand
-        class(isports_factory_t), allocatable :: i_sports_factory
+        class(isports_factory_t), allocatable :: isports_factory
         
         select case (brand)
         case (&quot;erke&quot;)
-            i_sports_factory = erke_t()
+            isports_factory = erke_t()
         case (&quot;lining&quot;)
-            i_sports_factory = lining_t()
+            isports_factory = lining_t()
         case default
             error stop &quot;*&lt;ERROR&gt;* Brand not supported.&quot;
         end select
@@ -437,12 +438,27 @@ end module abstract_factory_module
     call print_shoe_details(lining_shoe)
     call print_shirt_details(lining_shirt)
     
+    !&gt; Results shall be:
+    !
+    ! This is a pair of shoes👟.
+    ! Logo: erke
+    ! Size:    14
+    ! This is a T-shirt👕.
+    ! Logo: erke
+    ! Size:    14
+    ! This is a pair of shoes👟.
+    ! Logo: lining
+    ! Size:    14
+    ! This is a T-shirt👕.
+    ! Logo: lining
+    ! Size:    14
+    
 contains
 
     subroutine print_shoe_details(ishoe)
         class(ishoe_t), intent(inout) :: ishoe
         
-        print *, new_line(&quot;&quot;) // &quot;This is a pair of shoes👟.&quot;
+        print *, &quot;This is a pair of shoes👟.&quot;
         print *, &quot;Logo: &quot;, ishoe%get_logo()
         print *, &quot;Size: &quot;, ishoe%get_size()
         
@@ -451,7 +467,7 @@ contains
     subroutine print_shirt_details(ishirt)
         class(ishirt_t), intent(inout) :: ishirt
         
-        print *, new_line(&quot;&quot;) // &quot;This is a T-shirt👕.&quot;
+        print *, &quot;This is a T-shirt👕.&quot;
         print *, &quot;Logo: &quot;, ishirt%get_logo()
         print *, &quot;Size: &quot;, ishirt%get_size()
         
