@@ -1,7 +1,8 @@
 !> Reference: https://refactoring.guru/design-patterns/visitor/go/example
 program test_visitor
 
-    use visitor_pattern
+    use visitor_pattern, only: square, circle, rectangle, area_calculator, middle_coordinates
+    
     type(square) :: s = square(side=2)
     type(circle) :: c = circle(radius=3)
     type(rectangle) :: r = rectangle(l=2, b=3)

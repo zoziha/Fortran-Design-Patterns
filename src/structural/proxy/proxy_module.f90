@@ -2,6 +2,9 @@ module proxy_module
 
     use, intrinsic :: iso_fortran_env, only: int16
     implicit none
+    private
+    
+    public :: nginx_t, new_nginx_server
     
     type, abstract :: server_t
     contains

@@ -36,3 +36,7 @@ mdBook是一个从Markdown文件创建现代在线书籍的实用程序。<br>
 ```
 cd doc && mdbook build
 ```
+
+### 链接
+
+- [farhanjk/FortranPatterns](https://github.com/farhanjk/FortranPatterns)

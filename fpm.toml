@@ -7,6 +7,11 @@ source-dir = "src"
 auto-tests = false
 
 [[test]]
+name = "command"
+source-dir = "src/behavioral/command"
+main = "command_main.f90"
+
+[[test]]
 name = "iterator"
 source-dir = "src/behavioral/iterator"
 main = "iterator_main.f90"
