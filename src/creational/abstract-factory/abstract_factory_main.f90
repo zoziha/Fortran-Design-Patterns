@@ -33,12 +33,27 @@ program abstract_factory_main
     call print_shoe_details(lining_shoe)
     call print_shirt_details(lining_shirt)
     
+    !> Results shall be:
+    !
+    ! This is a pair of shoes👟.
+    ! Logo: erke
+    ! Size:    14
+    ! This is a T-shirt👕.
+    ! Logo: erke
+    ! Size:    14
+    ! This is a pair of shoes👟.
+    ! Logo: lining
+    ! Size:    14
+    ! This is a T-shirt👕.
+    ! Logo: lining
+    ! Size:    14
+    
 contains
 
     subroutine print_shoe_details(ishoe)
         class(ishoe_t), intent(inout) :: ishoe
         
-        print *, new_line("") // "This is a pair of shoes👟."
+        print *, "This is a pair of shoes👟."
         print *, "Logo: ", ishoe%get_logo()
         print *, "Size: ", ishoe%get_size()
         
@@ -47,7 +62,7 @@ contains
     subroutine print_shirt_details(ishirt)
         class(ishirt_t), intent(inout) :: ishirt
         
-        print *, new_line("") // "This is a T-shirt👕."
+        print *, "This is a T-shirt👕."
         print *, "Logo: ", ishirt%get_logo()
         print *, "Size: ", ishirt%get_size()
         

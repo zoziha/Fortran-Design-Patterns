@@ -135,15 +135,15 @@ module abstract_factory_module
     
 contains
 
-    function get_sports_factory(brand) result(i_sports_factory)
+    function get_sports_factory(brand) result(isports_factory)
         character(*), intent(in) :: brand
-        class(isports_factory_t), allocatable :: i_sports_factory
+        class(isports_factory_t), allocatable :: isports_factory
         
         select case (brand)
         case ("erke")
-            i_sports_factory = erke_t()
+            isports_factory = erke_t()
         case ("lining")
-            i_sports_factory = lining_t()
+            isports_factory = lining_t()
         case default
             error stop "*<ERROR>* Brand not supported."
         end select

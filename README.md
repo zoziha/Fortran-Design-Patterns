@@ -33,5 +33,5 @@ mdBook是一个从Markdown文件创建现代在线书籍的实用程序。<br>
 你可以通过提供的`book.toml`文件来构建《Fortran的23种设计模式》。
 
 ```
-mdbook build
+cd doc && mdbook build
 ```

@@ -23,5 +23,10 @@ program iterator_main
     end do
     
     deallocate(iterator)
+    
+    !> Results shall be:
+    !
+    ! User is A, age is  30
+    ! User is B, age is  20
 
 end program iterator_main

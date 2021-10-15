@@ -20,3 +20,8 @@ main = "observer_main.f90"
 name = "abstract_factory"
 source-dir = "src/creational/abstract-factory"
 main = "abstract_factory_main.f90"
+
+[[test]]
+name = "proxy"
+source-dir = "src/structural/proxy"
+main = "proxy_main.f90"
