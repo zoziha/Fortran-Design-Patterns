@@ -16,4 +16,5 @@
   - [命令模式](command.md)
   - [迭代器模式](iterator.md)
   - [观察者模式](observer.md)
+  - [模板方法模式](template-method.md)
   - [访问者模式](visitor.md)
