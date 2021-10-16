@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>命令模式 - Fortran-Design-Patterns</title>
+        <title>模板方法模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">4.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html" class="active"><strong aria-hidden="true">5.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">6.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">7.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">8.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">9.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">3.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">4.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">5.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">6.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">7.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html" class="active"><strong aria-hidden="true">8.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">9.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/command.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/template-method.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,148 +149,235 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/command</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-module command_pattern
-    
+                        <h1 id="观察者模式"><a class="header" href="#观察者模式">观察者模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/template-method</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/template-method/go/example</p>
+<pre><code class="language-fortran">module template_method_module
+
     implicit none
     private
-
-    public :: tv, on_command, off_command, button
-
-    !&gt; Abstract classes
-
-    type, abstract :: command
+    
+    public :: otp_t, sms_t, email_t
+    
+    type, abstract :: iopt_t
     contains
-        procedure(execute_procedure), deferred :: execute
-    end type command
-
-    type, abstract :: device
-    contains
-        procedure(on_procedure), deferred :: on
-        procedure(off_procedure), deferred :: off
-    end type device
-
+    procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
+    procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
+    procedure(iopt_t_get_message)   , deferred :: get_message
+    procedure(iopt_t_send_notification), deferred :: send_notification
+    procedure(iopt_t_publish_metric), deferred :: publish_metric
+    end type iopt_t
+    
     abstract interface
-        subroutine execute_procedure(self)
-            import command
-            class(command), intent(inout) :: self
-        end subroutine execute_procedure
-        subroutine on_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine on_procedure
-        subroutine off_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine off_procedure
+    
+        function iopt_t_gen_random_opt(self, len) result(random_opt)
+        import iopt_t
+        class(iopt_t), intent(inout) :: self
+        integer, intent(in) :: len
+        character(:), allocatable :: random_opt 
+        end function iopt_t_gen_random_opt
+        
+        subroutine iopt_t_save_opt_cache(self, otp)
+        import iopt_t
+        class(iopt_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        end subroutine iopt_t_save_opt_cache
+        
+        function iopt_t_get_message(self, otp) result(msg)
+        import iopt_t
+        class(iopt_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        character(:), allocatable :: msg
+        end function iopt_t_get_message
+        
+        subroutine iopt_t_send_notification(self, msg)
+        import iopt_t
+        class(iopt_t), intent(inout) :: self
+        character(*), intent(inout) :: msg
+        end subroutine iopt_t_send_notification
+        
+        subroutine iopt_t_publish_metric(self)
+        import iopt_t
+        class(iopt_t), intent(inout) :: self
+        end subroutine iopt_t_publish_metric
+        
     end interface
-
-    !&gt; Specific Objects
-
-    type, extends(command) :: on_command
-        class(device), pointer :: d
+    
+    ! - - - - - - - - - - - - -
+    
+    type otp_t
+    class(iopt_t), pointer :: iopt
     contains
-        procedure :: execute =&gt; on_command_execute
-    end type on_command 
-
-    type, extends(command) :: off_command
-        class(device), pointer :: d
+    procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
+    end type otp_t
+    
+    type, extends(iopt_t) :: sms_t
     contains
-        procedure :: execute =&gt; off_command_execute
-    end type off_command
-
-    type, extends(device) :: tv
-        logical :: is_running
+    procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
+    procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
+    procedure :: get_message    =&gt; sms_t_get_message
+    procedure :: send_notification =&gt; sms_t_send_notification
+    procedure :: publish_metric =&gt; sms_t_publish_metric
+    end type sms_t
+    
+    type, extends(iopt_t) :: email_t
     contains
-        procedure :: on =&gt; tv_on
-        procedure :: off =&gt; tv_off
-    end type tv
-
-    type :: button
-        class(command), pointer :: c
-    contains
-        procedure :: press
-    end type button
-
+    procedure :: gen_random_opt =&gt; email_t_gen_random_opt
+    procedure :: save_opt_cache =&gt; email_t_save_opt_cache
+    procedure :: get_message    =&gt; email_t_get_message
+    procedure :: send_notification =&gt; email_t_send_notification
+    procedure :: publish_metric =&gt; email_t_publish_metric
+    end type email_t
+    
 contains
 
-    subroutine press(self)
-        class(button), intent(inout) :: self
-        call self%c%execute()
-    end subroutine press
+    subroutine otp_t_gen_and_send_otp(self, otp_length)
+    class(otp_t), intent(inout) :: self
+    integer, intent(in) :: otp_length
+    
+    character(:), allocatable :: otp
+    character(:), allocatable :: msg
+    
+    otp = self%iopt%gen_random_opt(otp_length)
+    call self%iopt%save_opt_cache(otp)
+    msg = self%iopt%get_message(otp)
+    call self%iopt%send_notification(msg)
+    call self%iopt%publish_metric()
+        
+    end subroutine otp_t_gen_and_send_otp
+    
+    ! - - - - - - - - - -
+    
+    function sms_t_gen_random_opt(self, len) result(random_opt)
+    class(sms_t), intent(inout) :: self
+    integer, intent(in) :: len
+    character(:), allocatable :: random_opt
+    
+    random_opt = &quot;1234&quot;
+    print *, &quot;SMS: generating random otp &quot;, random_opt
+        
+    end function sms_t_gen_random_opt
+    
+    subroutine sms_t_save_opt_cache(self, otp)
+    class(sms_t), intent(inout) :: self
+    character(*), intent(inout) :: otp
+    
+    print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
+        
+    end subroutine sms_t_save_opt_cache
+    
+    function sms_t_get_message(self, otp) result(msg)
+    class(sms_t), intent(inout) :: self
+    character(*), intent(inout) :: otp
+    character(:), allocatable :: msg
+    
+    msg = &quot;SMS OTP for login is &quot; // otp
+        
+    end function sms_t_get_message
+    
+    subroutine sms_t_send_notification(self, msg)
+    class(sms_t), intent(inout) :: self
+    character(*), intent(inout) :: msg
+    
+    print *, &quot;SMS: sending sms: &quot; // msg
+        
+    end subroutine sms_t_send_notification
+    
+    subroutine sms_t_publish_metric(self)
+    class(sms_t), intent(inout) :: self
+    
+    print *, &quot;SMS: publishing metric&quot;
+        
+    end subroutine sms_t_publish_metric
+    
+    ! - - - - - - - - - -
+    
+    function email_t_gen_random_opt(self, len) result(random_opt)
+    class(email_t), intent(inout) :: self
+    integer, intent(in) :: len
+    character(:), allocatable :: random_opt
+    
+    random_opt = &quot;1234&quot;
+    print *, &quot;EMAIL: generating random otp &quot;, random_opt
+        
+    end function email_t_gen_random_opt
+    
+    subroutine email_t_save_opt_cache(self, otp)
+    class(email_t), intent(inout) :: self
+    character(*), intent(inout) :: otp
+    
+    print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
+        
+    end subroutine email_t_save_opt_cache
+    
+    function email_t_get_message(self, otp) result(msg)
+    class(email_t), intent(inout) :: self
+    character(*), intent(inout) :: otp
+    character(:), allocatable :: msg
+    
+    msg = &quot;EMAIL OTP for login is &quot; // otp
+        
+    end function email_t_get_message
+    
+    subroutine email_t_send_notification(self, msg)
+    class(email_t), intent(inout) :: self
+    character(*), intent(inout) :: msg
+    
+    print *, &quot;EMAIL: sending email: &quot; // msg
+        
+    end subroutine email_t_send_notification
+    
+    subroutine email_t_publish_metric(self)
+    class(email_t), intent(inout) :: self
+    
+    print *, &quot;EMAIL: publishing metric&quot;
+        
+    end subroutine email_t_publish_metric
 
-    subroutine on_command_execute(self)
-        class(on_command), intent(inout) :: self
-        call self%d%on()
-    end subroutine on_command_execute
-
-    subroutine off_command_execute(self)
-        class(off_command), intent(inout) :: self
-        call self%d%off()
-    end subroutine off_command_execute
-
-    subroutine tv_on(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .true.
-        print *, &quot;Turning tv on. ✔️&quot;
-    end subroutine tv_on
-
-    subroutine tv_off(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .false.
-        print *, &quot;Turning tv off. ❌&quot;
-    end subroutine tv_off
-
-end module command_pattern
+end module template_method_module
 </code></pre>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-program test_command
+<pre><code class="language-fortran">program template_method_main
 
-    use command_pattern, only: tv, on_command, off_command, button
-    type(tv) :: t
-    type(on_command) :: on_c
-    type(off_command) :: off_c
+use template_method_module, only: otp_t, sms_t, email_t
 
-    type(button) :: on_b
-    type(button) :: off_b
+type(otp_t) :: otp
+type(sms_t), target :: sms_otp
+type(email_t), target :: email_otp
+    
+    sms_otp = sms_t()
+    otp%iopt =&gt; sms_otp
+    call otp%gen_and_send_otp(4)
+    
+    write(*,*)
+    
+    email_otp = email_t()
+    otp%iopt =&gt; email_otp
+    call otp%gen_and_send_otp(4)
 
-    !&gt; Linking
-    allocate(on_c%d, source=t)
-    allocate(off_c%d, source=t)
-
-    allocate(on_b%c, source=on_c)
-    allocate(off_b%c, source=off_c)
-
-    !&gt; Operating
-    call on_b%press()
-    call off_b%press()
-
-    !&gt; Free memory.
-    deallocate(on_c%d)
-    deallocate(off_c%d)
-    deallocate(on_b%c)
-    deallocate(off_b%c)
-
-end program test_command
+end program template_method_main
 
 !&gt; Results shall be:
 
-!  Turning tv on. ✔️
-!  Turning tv off. ❌
+!  SMS: generating random otp 1234
+!  SMS: saving otp: 1234 to cache
+!  SMS: sending sms: SMS OTP for login is 1234
+!  SMS: publishing metric
+! 
+!  EMAIL: generating random otp 1234
+!  EMAIL: saving otp: 1234 to cache
+!  EMAIL: sending email: EMAIL OTP for login is 1234
+!  EMAIL: publishing metric
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="chain-of-responsibility.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="observer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="iterator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="visitor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -300,11 +387,11 @@ end program test_command
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="chain-of-responsibility.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="observer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="iterator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="visitor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
