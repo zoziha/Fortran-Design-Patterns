@@ -4,6 +4,7 @@ on:
     paths:
     - "doc/src/**.md"
     - "doc/book.toml"
+    - "src/**.f90"
   
   pull_request:
     braches:
@@ -11,6 +12,7 @@ on:
     paths:
     - "doc/src/**.md"
     - "doc/book.toml"
+    - "src/**.f90"
     
 jobs:
   pages:

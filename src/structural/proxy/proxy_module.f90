@@ -65,7 +65,8 @@ contains
         
         if (.not.allowed) then
             code = 403_int16
-            msg = "Not Allowed"
+            msg  = "Not Allowed"
+            return
         end if
         
         call self%application%handle_request(url, method, code, msg)
@@ -93,6 +94,7 @@ contains
             return
         end if
         
+        allowed = .true.
         self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
         
     end function nginx_t_check_rate_limiting
