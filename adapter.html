@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>命令模式 - Fortran-Design-Patterns</title>
+        <title>适配器模式 - Fortran-Design-Patterns</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">3.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">4.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">5.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html" class="active"><strong aria-hidden="true">6.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">7.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">8.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">9.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">10.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html" class="active"><strong aria-hidden="true">3.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">4.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">5.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">6.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">7.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">8.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">9.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">10.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -120,7 +120,7 @@
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/command.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/adapter.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -149,148 +149,108 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
-<p>正文：https://refactoringguru.cn/design-patterns/command</p>
-<p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-module command_pattern
-    
+                        <h1 id="适配器模式"><a class="header" href="#适配器模式">适配器模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/adapter</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/adapter/go/example</p>
+<pre><code class="language-fortran">module adapter_module
+
     implicit none
     private
-
-    public :: tv, on_command, off_command, button
-
-    !&gt; Abstract classes
-
-    type, abstract :: command
+    
+    public :: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+    
+    type client_t
     contains
-        procedure(execute_procedure), deferred :: execute
-    end type command
-
-    type, abstract :: device
+    procedure :: insert_lightning_connector_into_computer =&gt; client_t_insert_lightning_connector_into_computer
+    end type client_t
+    
+    type, abstract :: computer_t
     contains
-        procedure(on_procedure), deferred :: on
-        procedure(off_procedure), deferred :: off
-    end type device
-
+    procedure(computer_t_insert_into_lightning_port), deferred :: insert_into_lightning_port
+    end type computer_t
+    
+    type, extends(computer_t) :: mac_t
+    contains
+    procedure :: insert_into_lightning_port =&gt; mac_t_insert_into_lightning_port
+    end type mac_t
+    
+    type, extends(computer_t) :: windows_t
+    contains
+    procedure :: insert_into_lightning_port =&gt; windows_t_insert_into_lightning_port
+    end type windows_t
+    
+    type, extends(computer_t) :: windows_adapter_t
+    type(windows_t), pointer :: windows_machine
+    contains
+    procedure :: insert_into_lightning_port =&gt; windows_adapter_t_insert_into_lightning_port
+    end type windows_adapter_t
+    
     abstract interface
-        subroutine execute_procedure(self)
-            import command
-            class(command), intent(inout) :: self
-        end subroutine execute_procedure
-        subroutine on_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine on_procedure
-        subroutine off_procedure(self)
-            import device
-            class(device), intent(inout) :: self
-        end subroutine off_procedure
+        subroutine computer_t_insert_into_lightning_port(self)
+        import computer_t
+        class(computer_t), intent(inout) :: self
+        end subroutine computer_t_insert_into_lightning_port
     end interface
-
-    !&gt; Specific Objects
-
-    type, extends(command) :: on_command
-        class(device), pointer :: d
-    contains
-        procedure :: execute =&gt; on_command_execute
-    end type on_command 
-
-    type, extends(command) :: off_command
-        class(device), pointer :: d
-    contains
-        procedure :: execute =&gt; off_command_execute
-    end type off_command
-
-    type, extends(device) :: tv
-        logical :: is_running
-    contains
-        procedure :: on =&gt; tv_on
-        procedure :: off =&gt; tv_off
-    end type tv
-
-    type :: button
-        class(command), pointer :: c
-    contains
-        procedure :: press
-    end type button
-
+    
 contains
 
-    subroutine press(self)
-        class(button), intent(inout) :: self
-        call self%c%execute()
-    end subroutine press
-
-    subroutine on_command_execute(self)
-        class(on_command), intent(inout) :: self
-        call self%d%on()
-    end subroutine on_command_execute
-
-    subroutine off_command_execute(self)
-        class(off_command), intent(inout) :: self
-        call self%d%off()
-    end subroutine off_command_execute
-
-    subroutine tv_on(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .true.
-        print *, &quot;Turning tv on. ✔️&quot;
-    end subroutine tv_on
-
-    subroutine tv_off(self)
-        class(tv), intent(inout) :: self
-        self%is_running = .false.
-        print *, &quot;Turning tv off. ❌&quot;
-    end subroutine tv_off
-
-end module command_pattern
+    subroutine client_t_insert_lightning_connector_into_computer(self, com)
+    class(client_t), intent(inout) :: self
+    class(computer_t), intent(inout) :: com
+        print *, &quot;Client inserts Lightning connector into computer.&quot;
+        call com%insert_into_lightning_port()
+    end subroutine client_t_insert_lightning_connector_into_computer
+    
+    subroutine mac_t_insert_into_lightning_port(self)
+    class(mac_t), intent(inout) :: self
+        print *, &quot;Lightning connector is plugged into mac machine.&quot;
+    end subroutine mac_t_insert_into_lightning_port
+    
+    subroutine windows_t_insert_into_lightning_port(self)
+    class(windows_t), intent(inout) :: self
+        print *, &quot;USB connector is plugged into windows machine.&quot;
+    end subroutine windows_t_insert_into_lightning_port
+    
+    subroutine windows_adapter_t_insert_into_lightning_port(self)
+    class(windows_adapter_t), intent(inout) :: self
+        print *, &quot;Adapter converts Lightning signal to USB.&quot;
+        call self%windows_machine%insert_into_lightning_port()
+    end subroutine windows_adapter_t_insert_into_lightning_port
+    
+end module adapter_module
 </code></pre>
-<pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
-program test_command
+<pre><code class="language-fortran">program adapter_main
+use adapter_module, only: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+implicit none
+type(client_t) :: client
+type(mac_t) :: mac
+type(windows_t), target :: windows
+type(windows_adapter_t) :: windows_adapter
 
-    use command_pattern, only: tv, on_command, off_command, button
-    type(tv) :: t
-    type(on_command) :: on_c
-    type(off_command) :: off_c
+    call client%insert_lightning_connector_into_computer(mac)
+    windows_adapter%windows_machine =&gt; windows
+    call client%insert_lightning_connector_into_computer(windows_adapter)
 
-    type(button) :: on_b
-    type(button) :: off_b
-
-    !&gt; Linking
-    allocate(on_c%d, source=t)
-    allocate(off_c%d, source=t)
-
-    allocate(on_b%c, source=on_c)
-    allocate(off_b%c, source=off_c)
-
-    !&gt; Operating
-    call on_b%press()
-    call off_b%press()
-
-    !&gt; Free memory.
-    deallocate(on_c%d)
-    deallocate(off_c%d)
-    deallocate(on_b%c)
-    deallocate(off_b%c)
-
-end program test_command
+end program adapter_main
 
 !&gt; Results shall be:
 
-!  Turning tv on. ✔️
-!  Turning tv off. ❌
+!  Client inserts Lightning connector into computer.
+!  Lightning connector is plugged into mac machine.
+!  Client inserts Lightning connector into computer.
+!  Adapter converts Lightning signal to USB.
+!  USB connector is plugged into windows machine.
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="chain-of-responsibility.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="abstract-factory.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="iterator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="proxy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -300,11 +260,11 @@ end program test_command
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="chain-of-responsibility.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="abstract-factory.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="iterator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="proxy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
