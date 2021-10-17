@@ -41,6 +41,13 @@ name = "abstract_factory"
 source-dir = "src/creational/abstract-factory"
 main = "abstract_factory_main.f90"
 
+# - - - - - - - - - -
+
+[[test]]
+name = "adapter"
+source-dir = "src/structural/adapter"
+main = "adapter_main.f90"
+
 [[test]]
 name = "proxy"
 source-dir = "src/structural/proxy"
