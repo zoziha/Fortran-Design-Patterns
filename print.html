@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="chapter-item expanded "><a href="creational/prototype.html"><strong aria-hidden="true">4.</strong> 原型模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">5.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">6.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">7.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">8.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">9.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">10.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">11.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">12.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">13.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">14.</strong> 模型与算法</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="chapter-item expanded "><a href="creational/prototype.html"><strong aria-hidden="true">4.</strong> 原型模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">5.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/composite.html"><strong aria-hidden="true">6.</strong> 组合模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">7.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">8.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">9.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">10.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">11.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">12.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">13.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">14.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">15.</strong> 模型与算法</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -156,8 +156,8 @@
 <p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <h2 id="设计模式列表"><a class="header" href="#设计模式列表">设计模式列表</a></h2>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
-<tr><td align="center">完成</td><td align="center">抽象工厂、生成器\原型。</td><td align="center">适配器、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
-<tr><td align="center">未完成</td><td align="center">工厂方法、单例。</td><td align="center">桥接、组合、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
+<tr><td align="center">完成</td><td align="center">抽象工厂、生成器\原型。</td><td align="center">适配器、组合、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
+<tr><td align="center">未完成</td><td align="center">工厂方法、单例。</td><td align="center">桥接、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
 </tbody></table>
 <h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
 <ul>
@@ -178,7 +178,7 @@
 适配器</li>
 <li><input disabled="" type="checkbox"/>
 桥接</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 组合</li>
 <li><input disabled="" type="checkbox"/>
 装饰</li>
@@ -991,6 +991,110 @@ end program adapter_main
 !  Client inserts Lightning connector into computer.
 !  Adapter converts Lightning signal to USB.
 !  USB connector is plugged into windows machine.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="组合模式"><a class="header" href="#组合模式">组合模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/composite</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/composite/go/example</p>
+<pre><code class="language-fortran">module composite_module
+
+    implicit none
+    private
+
+    public :: file_t, folder_t
+    
+    type, abstract :: component_t
+    contains
+    procedure(component_t_search), deferred :: search
+    end type component_t
+    
+    type, extends(component_t) :: file_t
+    character(:), allocatable :: name
+    contains
+    procedure :: search =&gt; file_t_search
+    procedure :: get_name =&gt; file_t_get_name
+    end type file_t
+    
+    type node_t
+    class(component_t), pointer :: node
+    end type node_t
+    
+    type, extends(component_t) :: folder_t
+    type(node_t), allocatable :: components(:)
+    character(:), allocatable :: name
+    contains
+    procedure :: search =&gt; folder_t_search
+    end type folder_t
+    
+    abstract interface
+        subroutine component_t_search(self, keyward)
+        import component_t
+        class(component_t), intent(inout) :: self
+        character(*), intent(in) :: keyward
+        end subroutine component_t_search
+    end interface
+    
+contains
+
+    subroutine file_t_search(self, keyward)
+    class(file_t), intent(inout) :: self
+    character(*), intent(in) :: keyward
+        print *, &quot;Searching for keyword &quot;, keyward, &quot; in file &quot;, self%name
+    end subroutine file_t_search
+    
+    function file_t_get_name(self) result(name)
+    class(file_t), intent(inout) :: self
+    character(:), allocatable :: name
+        name = self%name
+    end function file_t_get_name
+    
+    ! - - - - - - - - - -
+    
+    subroutine folder_t_search(self, keyward)
+    class(folder_t), intent(inout) :: self
+    character(*), intent(in) :: keyward
+    integer :: i
+        print *, &quot;Searching recursively for keyword &quot;, keyward, &quot; in folder &quot;, self%name
+        if (size(self%components) == 0) return
+        do i = 1, size(self%components)
+        call self%components(i)%node%search(keyward)
+        end do
+    end subroutine folder_t_search
+    
+end module composite_module
+</code></pre>
+<pre><code class="language-fortran">program composite_main
+use composite_module, only: file_t, folder_t
+implicit none
+type(file_t), target :: file1, file2, file3
+type(folder_t), target :: folder1
+type(folder_t) :: folder2
+
+    file1%name = &quot;File1&quot;
+    file2%name = &quot;File2&quot;
+    file3%name = &quot;File3&quot;
+
+    folder1%name = &quot;Folder1&quot;
+    folder2%name = &quot;Folder2&quot;
+    
+    allocate(folder1%components(1))
+    folder1%components(1)%node =&gt; file1
+    
+    allocate(folder2%components(3))
+    folder2%components(1)%node =&gt; file2
+    folder2%components(2)%node =&gt; file3
+    folder2%components(3)%node =&gt; folder1
+    
+    call folder2%search(&quot;rose&quot;)
+    
+end program composite_main
+
+!&gt; Results shall be:
+
+!  Searching recursively for keyword rose in folder Folder2
+!  Searching for keyword rose in file File2
+!  Searching for keyword rose in file File3
+!  Searching recursively for keyword rose in folder Folder1
+!  Searching for keyword rose in file File1
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="外观模式"><a class="header" href="#外观模式">外观模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/facade</p>
