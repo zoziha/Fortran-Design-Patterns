@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">6.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">7.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">8.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">9.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">10.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">11.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">5.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">6.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">7.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">8.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">9.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">10.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">11.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">12.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -156,8 +156,8 @@
 <p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <h2 id="设计模式列表"><a class="header" href="#设计模式列表">设计模式列表</a></h2>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
-<tr><td align="center">完成</td><td align="center">抽象工厂、生成器。</td><td align="center">适配器、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
-<tr><td align="center">未完成</td><td align="center">工厂方法、原型、单例。</td><td align="center">桥接、组合、装饰、外观、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
+<tr><td align="center">完成</td><td align="center">抽象工厂、生成器。</td><td align="center">适配器、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
+<tr><td align="center">未完成</td><td align="center">工厂方法、原型、单例。</td><td align="center">桥接、组合、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
 </tbody></table>
 <h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
 <ul>
@@ -182,7 +182,7 @@
 组合</li>
 <li><input disabled="" type="checkbox"/>
 装饰</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 外观</li>
 <li><input disabled="" type="checkbox"/>
 享元</li>
@@ -709,8 +709,7 @@ end module builder_module
 <pre><code class="language-fortran">program builder_main
 use builder_module, only: ibuilder_t, director_t, house_t, get_builder
 implicit none
-! type(normal_builder_t) :: normal_builder
-! type(igloo_builder_t) :: igloo_builder
+
 class(ibuilder_t), allocatable :: normal_builder, igloo_builder
 type(director_t) :: director
 type(house_t) :: normal_house, igloo_house
@@ -845,6 +844,190 @@ end program adapter_main
 !  Client inserts Lightning connector into computer.
 !  Adapter converts Lightning signal to USB.
 !  USB connector is plugged into windows machine.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="外观模式"><a class="header" href="#外观模式">外观模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/facade</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/facade/go/example</p>
+<pre><code class="language-fortran">module facade_module
+
+    implicit none
+    private
+    
+    public :: new_wallet_facade, wallet_facade_t
+    
+    type account_t
+    character(:), allocatable :: name
+    contains
+    procedure :: check_account =&gt; account_t_check_account
+    end type account_t
+    
+    type security_code_t
+    integer :: code
+    contains
+    procedure :: check_code =&gt; security_code_t_check_code
+    end type security_code_t
+    
+    type wallet_t
+    integer :: balance
+    contains
+    procedure :: credit_balance =&gt; wallet_t_credit_balance
+    procedure :: debit_balance  =&gt; wallet_t_debit_balance
+    end type wallet_t
+    
+    type ledger_t
+    contains
+    procedure :: make_entry =&gt; ledger_t_make_entry
+    end type ledger_t
+    
+    type notification_t
+    contains
+    procedure :: send_wallet_credit_notification =&gt; notification_t_send_wallet_credit_notification
+    procedure :: send_wallet_debit_notification  =&gt; notification_t_send_wallet_debit_notification
+    end type notification_t
+    
+    type wallet_facade_t
+    type(account_t) :: account
+    type(wallet_t) :: wallet
+    type(security_code_t) :: security_code
+    type(notification_t) :: notification
+    type(ledger_t) :: ledger
+    contains
+    procedure :: add_money_to_wallet =&gt; wallet_facade_t_add_money_to_wallet
+    procedure :: deduct_money_from_wallet =&gt; wallet_facade_t_deduct_money_from_wallet
+    end type wallet_facade_t
+    
+contains
+
+    function new_wallet_facade(account_id, code) result(wallet_facade)
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: code
+    type(wallet_facade_t) :: wallet_facade
+        print *, &quot;Starting create account&quot;
+        wallet_facade = wallet_facade_t(account=account_t(account_id), &amp;
+                                        security_code=security_code_t(code), &amp;
+                                        wallet=wallet_t(balance=0), &amp;
+                                        notification=notification_t(), &amp;
+                                        ledger=ledger_t())
+        print *, &quot;Account created&quot;
+    end function new_wallet_facade
+    
+    subroutine wallet_facade_t_add_money_to_wallet(self, account_id, security_code, amount)
+    class(wallet_facade_t), intent(inout) :: self
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: security_code, amount
+        print *, &quot;Starting add money to wallet&quot;
+        call self%account%check_account(account_id)
+        call self%security_code%check_code(security_code)
+        call self%wallet%credit_balance(amount)
+        call self%notification%send_wallet_credit_notification()
+        call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
+    end subroutine wallet_facade_t_add_money_to_wallet
+    
+    subroutine wallet_facade_t_deduct_money_from_wallet(self, account_id, security_code, amount)
+    class(wallet_facade_t), intent(inout) :: self
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: security_code, amount
+        print *, &quot;Starting debit money from wallet&quot;
+        call self%account%check_account(account_id)
+        call self%security_code%check_code(security_code)
+        call self%wallet%credit_balance(amount)
+        call self%notification%send_wallet_credit_notification()
+        call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
+    end subroutine wallet_facade_t_deduct_money_from_wallet
+    
+    ! - - - - - - - - -
+    
+    subroutine account_t_check_account(self, account_name)
+    class(account_t), intent(inout) :: self
+    character(*), intent(in) :: account_name
+        if (self%name /= account_name) then
+        error stop &quot;Account Name is incorrect&quot;
+        end if
+        print *, &quot;Account Verified&quot;
+    end subroutine account_t_check_account
+    
+    ! - - - - - - - - -
+    
+    subroutine security_code_t_check_code(self, incomming_code)
+    class(security_code_t), intent(inout) :: self
+    integer, intent(in) :: incomming_code
+        if (self%code /= incomming_code) then
+        error stop &quot;Security Code is incorrect&quot;
+        end if
+        print *, &quot;SecurityCode Verified&quot;
+    end subroutine security_code_t_check_code
+    
+    ! - - - - - - - - -
+    
+    subroutine wallet_t_credit_balance(self, amount)
+    class(wallet_t), intent(inout) :: self
+    integer, intent(in) :: amount
+        self%balance = self%balance + amount
+        print *, &quot;Wallet balance added successfully&quot;
+    end subroutine wallet_t_credit_balance
+    
+    subroutine wallet_t_debit_balance(self, amount)
+    class(wallet_t), intent(inout) :: self
+    integer, intent(in) :: amount
+        if (self%balance &lt; amount) then
+        error stop &quot;Balance is not sufficient&quot;
+        end if
+        print *, &quot;Wallet balance is Sufficient&quot;
+        self%balance = self%balance - amount
+    end subroutine wallet_t_debit_balance
+    
+    ! - - - - - - - - -
+    
+    subroutine ledger_t_make_entry(self, account_id, txn_type, amount)
+    class(ledger_t), intent(inout) :: self
+    character(*), intent(in) :: account_id, txn_type
+    integer, intent(in) :: amount
+        print *, &quot;Make ledger entry for accountId &quot;, account_id, &amp;
+            &quot; with txnType &quot;, txn_type, &amp;
+            &quot; for amount &quot;, amount
+    end subroutine ledger_t_make_entry
+    
+    ! - - - - - - - - -
+    
+    subroutine notification_t_send_wallet_credit_notification(self)
+    class(notification_t), intent(inout) :: self
+        print *, &quot;Sending wallet credit notification&quot;
+    end subroutine notification_t_send_wallet_credit_notification
+    
+    subroutine notification_t_send_wallet_debit_notification(self)
+    class(notification_t), intent(inout) :: self
+        print *, &quot;Sending wallet debit notification&quot;
+    end subroutine notification_t_send_wallet_debit_notification
+    
+end module facade_module
+</code></pre>
+<pre><code class="language-fortran">program facade_main
+use facade_module, only: wallet_facade_t, new_wallet_facade
+implicit none
+type(wallet_facade_t) :: wallet_facade
+
+    wallet_facade = new_wallet_facade(account_id=&quot;abc&quot;, code=1234)
+    call wallet_facade%add_money_to_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=10)
+    call wallet_facade%deduct_money_from_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=5)
+
+end program facade_main
+
+!&gt; Results shall be:
+
+!  Starting create account
+!  Account created
+!  Starting add money to wallet
+!  Account Verified
+!  SecurityCode Verified
+!  Wallet balance added successfully
+!  Sending wallet credit notification
+!  Make ledger entry for accountId abc with txnType credit for amount           10
+!  Starting debit money from wallet
+!  Account Verified
+!  SecurityCode Verified
+!  Wallet balance added successfully
+!  Sending wallet credit notification
+!  Make ledger entry for accountId abc with txnType credit for amount            5
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="代理模式"><a class="header" href="#代理模式">代理模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/proxy</p>

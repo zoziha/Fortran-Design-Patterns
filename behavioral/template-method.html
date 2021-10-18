@@ -14,21 +14,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-                <link rel="icon" href="favicon.svg">
-                        <link rel="shortcut icon" href="favicon.png">
-                <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-                <link rel="stylesheet" href="css/print.css" media="print">
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
         
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-                <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
         
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -36,7 +36,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">6.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">7.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">8.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">9.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html" class="active"><strong aria-hidden="true">10.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">11.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="../creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../structural/adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="../structural/facade.html"><strong aria-hidden="true">5.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="../structural/proxy.html"><strong aria-hidden="true">6.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../behavioral/chain-of-responsibility.html"><strong aria-hidden="true">7.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="../behavioral/command.html"><strong aria-hidden="true">8.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="../behavioral/iterator.html"><strong aria-hidden="true">9.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="../behavioral/observer.html"><strong aria-hidden="true">10.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="../behavioral/template-method.html" class="active"><strong aria-hidden="true">11.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="../behavioral/visitor.html"><strong aria-hidden="true">12.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -114,13 +114,13 @@
                     <h1 class="menu-title">Fortran-Design-Patterns</h1>
 
                     <div class="right-buttons">
-                                                <a href="print.html" title="Print this book" aria-label="Print this book">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                                                                         <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/template-method.md" title="Suggest an edit" aria-label="Suggest an edit">
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/behavioral/template-method.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         
@@ -373,11 +373,11 @@ end program template_method_main
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="observer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../behavioral/observer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="visitor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="../behavioral/visitor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -387,11 +387,11 @@ end program template_method_main
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="observer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../behavioral/observer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="visitor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="../behavioral/visitor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
@@ -406,13 +406,13 @@ end program template_method_main
         </script>
         
         
-                <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         

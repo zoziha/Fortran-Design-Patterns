@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>外观模式 - Fortran-Design-Patterns</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="../creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../structural/adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="../structural/facade.html" class="active"><strong aria-hidden="true">5.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="../structural/proxy.html"><strong aria-hidden="true">6.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../behavioral/chain-of-responsibility.html"><strong aria-hidden="true">7.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="../behavioral/command.html"><strong aria-hidden="true">8.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="../behavioral/iterator.html"><strong aria-hidden="true">9.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="../behavioral/observer.html"><strong aria-hidden="true">10.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="../behavioral/template-method.html"><strong aria-hidden="true">11.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="../behavioral/visitor.html"><strong aria-hidden="true">12.</strong> 访问者模式</a></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Fortran-Design-Patterns</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/structural/facade.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="外观模式"><a class="header" href="#外观模式">外观模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/facade</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/facade/go/example</p>
+<pre><code class="language-fortran">module facade_module
+
+    implicit none
+    private
+    
+    public :: new_wallet_facade, wallet_facade_t
+    
+    type account_t
+    character(:), allocatable :: name
+    contains
+    procedure :: check_account =&gt; account_t_check_account
+    end type account_t
+    
+    type security_code_t
+    integer :: code
+    contains
+    procedure :: check_code =&gt; security_code_t_check_code
+    end type security_code_t
+    
+    type wallet_t
+    integer :: balance
+    contains
+    procedure :: credit_balance =&gt; wallet_t_credit_balance
+    procedure :: debit_balance  =&gt; wallet_t_debit_balance
+    end type wallet_t
+    
+    type ledger_t
+    contains
+    procedure :: make_entry =&gt; ledger_t_make_entry
+    end type ledger_t
+    
+    type notification_t
+    contains
+    procedure :: send_wallet_credit_notification =&gt; notification_t_send_wallet_credit_notification
+    procedure :: send_wallet_debit_notification  =&gt; notification_t_send_wallet_debit_notification
+    end type notification_t
+    
+    type wallet_facade_t
+    type(account_t) :: account
+    type(wallet_t) :: wallet
+    type(security_code_t) :: security_code
+    type(notification_t) :: notification
+    type(ledger_t) :: ledger
+    contains
+    procedure :: add_money_to_wallet =&gt; wallet_facade_t_add_money_to_wallet
+    procedure :: deduct_money_from_wallet =&gt; wallet_facade_t_deduct_money_from_wallet
+    end type wallet_facade_t
+    
+contains
+
+    function new_wallet_facade(account_id, code) result(wallet_facade)
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: code
+    type(wallet_facade_t) :: wallet_facade
+        print *, &quot;Starting create account&quot;
+        wallet_facade = wallet_facade_t(account=account_t(account_id), &amp;
+                                        security_code=security_code_t(code), &amp;
+                                        wallet=wallet_t(balance=0), &amp;
+                                        notification=notification_t(), &amp;
+                                        ledger=ledger_t())
+        print *, &quot;Account created&quot;
+    end function new_wallet_facade
+    
+    subroutine wallet_facade_t_add_money_to_wallet(self, account_id, security_code, amount)
+    class(wallet_facade_t), intent(inout) :: self
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: security_code, amount
+        print *, &quot;Starting add money to wallet&quot;
+        call self%account%check_account(account_id)
+        call self%security_code%check_code(security_code)
+        call self%wallet%credit_balance(amount)
+        call self%notification%send_wallet_credit_notification()
+        call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
+    end subroutine wallet_facade_t_add_money_to_wallet
+    
+    subroutine wallet_facade_t_deduct_money_from_wallet(self, account_id, security_code, amount)
+    class(wallet_facade_t), intent(inout) :: self
+    character(*), intent(in) :: account_id
+    integer, intent(in) :: security_code, amount
+        print *, &quot;Starting debit money from wallet&quot;
+        call self%account%check_account(account_id)
+        call self%security_code%check_code(security_code)
+        call self%wallet%credit_balance(amount)
+        call self%notification%send_wallet_credit_notification()
+        call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
+    end subroutine wallet_facade_t_deduct_money_from_wallet
+    
+    ! - - - - - - - - -
+    
+    subroutine account_t_check_account(self, account_name)
+    class(account_t), intent(inout) :: self
+    character(*), intent(in) :: account_name
+        if (self%name /= account_name) then
+        error stop &quot;Account Name is incorrect&quot;
+        end if
+        print *, &quot;Account Verified&quot;
+    end subroutine account_t_check_account
+    
+    ! - - - - - - - - -
+    
+    subroutine security_code_t_check_code(self, incomming_code)
+    class(security_code_t), intent(inout) :: self
+    integer, intent(in) :: incomming_code
+        if (self%code /= incomming_code) then
+        error stop &quot;Security Code is incorrect&quot;
+        end if
+        print *, &quot;SecurityCode Verified&quot;
+    end subroutine security_code_t_check_code
+    
+    ! - - - - - - - - -
+    
+    subroutine wallet_t_credit_balance(self, amount)
+    class(wallet_t), intent(inout) :: self
+    integer, intent(in) :: amount
+        self%balance = self%balance + amount
+        print *, &quot;Wallet balance added successfully&quot;
+    end subroutine wallet_t_credit_balance
+    
+    subroutine wallet_t_debit_balance(self, amount)
+    class(wallet_t), intent(inout) :: self
+    integer, intent(in) :: amount
+        if (self%balance &lt; amount) then
+        error stop &quot;Balance is not sufficient&quot;
+        end if
+        print *, &quot;Wallet balance is Sufficient&quot;
+        self%balance = self%balance - amount
+    end subroutine wallet_t_debit_balance
+    
+    ! - - - - - - - - -
+    
+    subroutine ledger_t_make_entry(self, account_id, txn_type, amount)
+    class(ledger_t), intent(inout) :: self
+    character(*), intent(in) :: account_id, txn_type
+    integer, intent(in) :: amount
+        print *, &quot;Make ledger entry for accountId &quot;, account_id, &amp;
+            &quot; with txnType &quot;, txn_type, &amp;
+            &quot; for amount &quot;, amount
+    end subroutine ledger_t_make_entry
+    
+    ! - - - - - - - - -
+    
+    subroutine notification_t_send_wallet_credit_notification(self)
+    class(notification_t), intent(inout) :: self
+        print *, &quot;Sending wallet credit notification&quot;
+    end subroutine notification_t_send_wallet_credit_notification
+    
+    subroutine notification_t_send_wallet_debit_notification(self)
+    class(notification_t), intent(inout) :: self
+        print *, &quot;Sending wallet debit notification&quot;
+    end subroutine notification_t_send_wallet_debit_notification
+    
+end module facade_module
+</code></pre>
+<pre><code class="language-fortran">program facade_main
+use facade_module, only: wallet_facade_t, new_wallet_facade
+implicit none
+type(wallet_facade_t) :: wallet_facade
+
+    wallet_facade = new_wallet_facade(account_id=&quot;abc&quot;, code=1234)
+    call wallet_facade%add_money_to_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=10)
+    call wallet_facade%deduct_money_from_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=5)
+
+end program facade_main
+
+!&gt; Results shall be:
+
+!  Starting create account
+!  Account created
+!  Starting add money to wallet
+!  Account Verified
+!  SecurityCode Verified
+!  Wallet balance added successfully
+!  Sending wallet credit notification
+!  Make ledger entry for accountId abc with txnType credit for amount           10
+!  Starting debit money from wallet
+!  Account Verified
+!  SecurityCode Verified
+!  Wallet balance added successfully
+!  Sending wallet credit notification
+!  Make ledger entry for accountId abc with txnType credit for amount            5
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../structural/adapter.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../structural/proxy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../structural/adapter.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../structural/proxy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>
