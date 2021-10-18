@@ -884,6 +884,21 @@ class(inode_t), allocatable :: clone_folder
     call clone_folder%print(&quot;   &quot;)
 
 end program prototype_main
+
+!&gt; Results shall be:
+
+!  Printing hierarchy for Folder2
+!     folder2
+!        folder1
+!              file1
+!        file2
+!        file3
+!  Printing hierarchy for clone Folder
+!     folder2_clone
+!        folder1_clone
+!              file1_clone
+!        file2_clone
+!        file3_clone
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="适配器模式"><a class="header" href="#适配器模式">适配器模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/adapter</p>
