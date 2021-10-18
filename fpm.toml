@@ -36,10 +36,17 @@ name = "visitor"
 source-dir = "src/behavioral/visitor"
 main = "visitor_main.f90"
 
+# - - - - - - - - - -
+
 [[test]]
 name = "abstract_factory"
 source-dir = "src/creational/abstract-factory"
 main = "abstract_factory_main.f90"
+
+[[test]]
+name = "builder"
+source-dir = "src/creational/builder"
+main = "builder_main.f90"
 
 # - - - - - - - - - -
 

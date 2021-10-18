@@ -5,6 +5,7 @@
 ---
 
   - [抽象工厂模式](abstract-factory.md)
+  - [生成器模式](builder.md)
 
 ---
 
