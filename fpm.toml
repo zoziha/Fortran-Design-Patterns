@@ -48,6 +48,11 @@ name = "builder"
 source-dir = "src/creational/builder"
 main = "builder_main.f90"
 
+[[test]]
+name = "prototype"
+source-dir = "src/creational/prototype"
+main = "prototype_main.f90"
+
 # - - - - - - - - - -
 
 [[test]]

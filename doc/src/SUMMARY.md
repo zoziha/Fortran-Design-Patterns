@@ -6,6 +6,7 @@
 
   - [抽象工厂模式](creational/abstract-factory.md)
   - [生成器模式](creational/builder.md)
+  - [原型模式](creational/prototype.md)
 
 ---
 
