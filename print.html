@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">5.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">6.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">7.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">8.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">9.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">10.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">11.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">12.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">13.</strong> 模型与算法</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="chapter-item expanded "><a href="creational/prototype.html"><strong aria-hidden="true">4.</strong> 原型模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">5.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">6.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">7.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">8.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">9.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">10.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">11.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">12.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">13.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">14.</strong> 模型与算法</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -156,8 +156,8 @@
 <p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <h2 id="设计模式列表"><a class="header" href="#设计模式列表">设计模式列表</a></h2>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
-<tr><td align="center">完成</td><td align="center">抽象工厂、生成器。</td><td align="center">适配器、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
-<tr><td align="center">未完成</td><td align="center">工厂方法、原型、单例。</td><td align="center">桥接、组合、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
+<tr><td align="center">完成</td><td align="center">抽象工厂、生成器\原型。</td><td align="center">适配器、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
+<tr><td align="center">未完成</td><td align="center">工厂方法、单例。</td><td align="center">桥接、组合、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
 </tbody></table>
 <h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
 <ul>
@@ -167,7 +167,7 @@
 生成器</li>
 <li><input disabled="" type="checkbox"/>
 工厂方法</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 原型</li>
 <li><input disabled="" type="checkbox"/>
 单例</li>
@@ -752,6 +752,138 @@ end program builder_main
         house%door_type = self%door_type
         house%window_type = self%window_type
         house%floor = self%floor
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="原型模式"><a class="header" href="#原型模式">原型模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/prototype</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/prototype/go/example</p>
+<pre><code class="language-fortran">module prototype_module
+
+    implicit none
+    private
+    
+    public :: file_t, folder_t, inode_t
+    
+    type, abstract :: inode_t
+    contains
+    procedure(inode_t_print), deferred :: print
+    procedure(inode_t_clone), deferred :: clone
+    end type inode_t
+    
+    type, extends(inode_t) :: file_t
+    character(:), allocatable :: name
+    contains
+    procedure :: print =&gt; file_t_print
+    procedure :: clone =&gt; file_t_clone
+    end type file_t
+    
+    !&gt; Wrapper (Important)
+    type node_t
+    class(inode_t), pointer :: inode
+    end type node_t
+    
+    type, extends(inode_t) :: folder_t
+    type(node_t), allocatable :: children(:)
+    character(:), allocatable :: name
+    contains
+    procedure :: print =&gt; folder_t_print
+    procedure :: clone =&gt; folder_t_clone
+    end type folder_t
+    
+    abstract interface
+    
+        subroutine inode_t_print(self, indentation)
+        import inode_t
+        class(inode_t), intent(inout) :: self
+        character(*), intent(in) :: indentation
+        end subroutine inode_t_print
+
+        function inode_t_clone(self) result(inode)
+        import inode_t
+        class(inode_t), intent(inout) :: self
+        class(inode_t), allocatable :: inode
+        end function inode_t_clone
+    
+    end interface
+
+contains
+
+    subroutine file_t_print(self, indentation)
+    class(file_t), intent(inout) :: self
+    character(*), intent(in) :: indentation
+        print *, indentation // self%name
+    end subroutine file_t_print
+
+    function file_t_clone(self) result(inode)
+    class(file_t), intent(inout) :: self
+    class(inode_t), allocatable :: inode
+        allocate(file_t :: inode)
+        inode = file_t(name=self%name // &quot;_clone&quot;)
+    end function file_t_clone
+    
+    ! - - - - - - - - -
+    
+    subroutine folder_t_print(self, indentation)
+    class(folder_t), intent(inout) :: self
+    character(*), intent(in) :: indentation
+    integer :: i
+        print *, indentation // self%name
+        if (size(self%children) == 0) return
+        do i = 1, size(self%children)
+        call self%children(i)%inode%print(indentation // indentation)
+        end do
+    end subroutine folder_t_print
+
+    !&gt; There may be incorrect usage here, but I have no choice but to do so. 
+    !&gt;  Fortran's compilation check is stricter, and I am indeed bypassing it.
+    function folder_t_clone(self) result(inode)
+    class(folder_t), intent(inout) :: self
+    class(inode_t), allocatable :: inode
+    type(folder_t), allocatable :: tmp_folder
+    integer :: i
+        allocate(tmp_folder, source=self)
+        tmp_folder%name = tmp_folder%name // &quot;_clone&quot;
+        if (size(self%children) &gt; 0) then
+        do i = 1, size(tmp_folder%children)
+            associate(node =&gt; tmp_folder%children(i)%inode)
+            allocate(node, source=node%clone())
+            end associate
+        end do
+        end if
+        allocate(inode, source=tmp_folder)
+    end function folder_t_clone
+
+end module prototype_module
+</code></pre>
+<pre><code class="language-fortran">program prototype_main
+use prototype_module, only: file_t, folder_t, inode_t
+implicit none
+type(file_t), target :: file1, file2, file3
+type(folder_t), target :: folder1
+type(folder_t) :: folder2
+class(inode_t), allocatable :: clone_folder
+
+    file1%name = &quot;file1&quot;
+    file2%name = &quot;file2&quot;
+    file3%name = &quot;file3&quot;
+    
+    folder1%name = &quot;folder1&quot;
+    allocate(folder1%children(1))
+    folder1%children(1)%inode =&gt; file1
+    
+    folder2%name = &quot;folder2&quot;
+    allocate(folder2%children(3))
+    folder2%children(1)%inode =&gt; folder1
+    folder2%children(2)%inode =&gt; file2
+    folder2%children(3)%inode =&gt; file3
+    
+    print *, &quot;Printing hierarchy for Folder2&quot;
+    call folder2%print(&quot;   &quot;)
+    
+    clone_folder = folder2%clone()
+    print *, &quot;Printing hierarchy for clone Folder&quot;
+    call clone_folder%print(&quot;   &quot;)
+
+end program prototype_main
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="适配器模式"><a class="header" href="#适配器模式">适配器模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/adapter</p>
