@@ -1,0 +1,418 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>生成器模式 - Fortran-Design-Patterns</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="favicon.svg">
+                        <link rel="shortcut icon" href="favicon.png">
+                <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+                <link rel="stylesheet" href="css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="builder.html" class="active"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">6.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">7.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">8.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">9.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">10.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">11.</strong> 访问者模式</a></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Fortran-Design-Patterns</h1>
+
+                    <div class="right-buttons">
+                                                <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/tree/main/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                                                                        <a href="https://github.com/zoziha/Fortran-Design-Patterns/edit/main/src/builder.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="生成器模式"><a class="header" href="#生成器模式">生成器模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/builder</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/builder/go/example</p>
+<pre><code class="language-fortran">module builder_module
+
+    use, intrinsic :: iso_fortran_env, only: int8
+    implicit none
+    private
+    
+    public :: ibuilder_t, director_t, house_t, get_builder
+
+    type, abstract :: ibuilder_t
+    contains
+    procedure(ibuilder_t_set_window_type), deferred :: set_window_type
+    procedure(ibuilder_t_set_door_type), deferred :: set_door_type
+    procedure(ibuilder_t_set_num_floor), deferred :: set_num_floor
+    procedure(ibuilder_t_get_house), deferred :: get_house
+    end type ibuilder_t
+    
+    type, extends(ibuilder_t) :: normal_builder_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    contains
+    procedure :: set_window_type =&gt; normal_builder_t_set_window_type
+    procedure :: set_door_type =&gt; normal_builder_t_set_door_type
+    procedure :: set_num_floor =&gt; normal_builder_t_set_num_floor
+    procedure :: get_house =&gt; normal_builder_t_get_house
+    end type normal_builder_t
+    
+    type, extends(ibuilder_t) :: igloo_builder_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    contains
+    procedure :: set_window_type =&gt; igloo_builder_t_set_window_type
+    procedure :: set_door_type =&gt; igloo_builder_t_set_door_type
+    procedure :: set_num_floor =&gt; igloo_builder_t_set_num_floor
+    procedure :: get_house =&gt; igloo_builder_t_get_house
+    end type igloo_builder_t
+    
+    type house_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    end type house_t
+    
+    type director_t
+    class(ibuilder_t), pointer :: builder
+    contains
+    procedure :: set_builder =&gt; director_t_set_builder
+    procedure :: build_house =&gt; director_t_build_house
+    end type director_t
+    
+    abstract interface
+    
+        subroutine ibuilder_t_set_window_type(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_window_type
+        
+        subroutine ibuilder_t_set_door_type(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_door_type
+        
+        subroutine ibuilder_t_set_num_floor(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_num_floor
+        
+        function ibuilder_t_get_house(self) result(house)
+        import ibuilder_t, house_t
+        class(ibuilder_t), intent(inout) :: self
+        type(house_t) :: house
+        end function ibuilder_t_get_house
+        
+    end interface
+
+contains
+
+    function get_builder(builder_type) result(ibuilder)
+    character(*), intent(in) :: builder_type
+    class(ibuilder_t), allocatable :: ibuilder
+        select case(builder_type)
+        case (&quot;normal&quot;)
+        allocate(normal_builder_t :: ibuilder)
+        case (&quot;igloo&quot;)
+        allocate(igloo_builder_t :: ibuilder)
+        end select
+    end function get_builder
+    
+    ! - - - - - - - - - -
+    
+    subroutine normal_builder_t_set_window_type(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%window_type = &quot;Wooden Window&quot;
+    end subroutine normal_builder_t_set_window_type
+    
+    subroutine normal_builder_t_set_door_type(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%door_type = &quot;Wooden Door&quot;
+    end subroutine normal_builder_t_set_door_type
+    
+    subroutine normal_builder_t_set_num_floor(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%floor = 2_int8
+    end subroutine normal_builder_t_set_num_floor
+    
+    function normal_builder_t_get_house(self) result(house)
+    class(normal_builder_t), intent(inout) :: self
+    type(house_t) :: house
+        ! TODO: A GFortran Bug Here.
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
+    end function normal_builder_t_get_house
+    
+    ! - - - - - - - - - -
+    
+    subroutine igloo_builder_t_set_window_type(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%window_type = &quot;Snow Window&quot;
+    end subroutine igloo_builder_t_set_window_type
+    
+    subroutine igloo_builder_t_set_door_type(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%door_type = &quot;Snow Door&quot;
+    end subroutine igloo_builder_t_set_door_type
+    
+    subroutine igloo_builder_t_set_num_floor(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%floor = 1_int8
+    end subroutine igloo_builder_t_set_num_floor
+    
+    function igloo_builder_t_get_house(self) result(house)
+    class(igloo_builder_t), intent(inout) :: self
+    type(house_t) :: house
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
+    end function igloo_builder_t_get_house
+    
+    ! - - - - - - - - - -
+    
+    subroutine director_t_set_builder(self, b)
+    class(director_t), intent(inout) :: self
+    class(ibuilder_t), intent(inout), target :: b
+        self%builder =&gt; b
+    end subroutine director_t_set_builder
+    
+    function director_t_build_house(self) result(house)
+    class(director_t), intent(inout) :: self
+    type(house_t) :: house
+        call self%builder%set_door_type()
+        call self%builder%set_window_type()
+        call self%builder%set_num_floor()
+        house = self%builder%get_house()
+    end function director_t_build_house
+
+end module builder_module
+</code></pre>
+<pre><code class="language-fortran">program builder_main
+use builder_module, only: ibuilder_t, director_t, house_t, get_builder
+implicit none
+! type(normal_builder_t) :: normal_builder
+! type(igloo_builder_t) :: igloo_builder
+class(ibuilder_t), allocatable :: normal_builder, igloo_builder
+type(director_t) :: director
+type(house_t) :: normal_house, igloo_house
+    
+    normal_builder = get_builder(&quot;normal&quot;)
+    igloo_builder  = get_builder(&quot;igloo&quot;)
+    
+    !&gt; Normal House
+    call director%set_builder(normal_builder)
+    normal_house = director%build_house()
+    
+    print *, &quot;Normal House Door Type: &quot;, normal_house%door_type
+    print *, &quot;Normal House Window Type: &quot;, normal_house%window_type
+    print *, &quot;Normal House Num Floor: &quot;, normal_house%floor
+    
+    !&gt; Igloo House
+    call director%set_builder(igloo_builder)
+    igloo_house = director%build_house()
+    
+    print *, &quot;Igloo House Door Type: &quot;, igloo_house%door_type
+    print *, &quot;Igloo House Window Type: &quot;, igloo_house%window_type
+    print *, &quot;Igloo House Num Floor: &quot;, igloo_house%floor
+    
+end program builder_main
+
+!&gt; Results shall be:
+
+!  Normal House Door Type: Wooden Door
+!  Normal House Window Type: Wooden Window
+!  Normal House Num Floor:     2
+!  Igloo House Door Type: Snow Door
+!  Igloo House Window Type: Snow Window
+!  Igloo House Num Floor:     1
+</code></pre>
+<p>使用默认结构体构造函数来赋值可分配字符型类型的子元素，在GFortran上出现bug，ifort正常：</p>
+<pre><code class="language-fortran">        ! TODO: A GFortran Bug Here.
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="abstract-factory.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="adapter.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="abstract-factory.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="adapter.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

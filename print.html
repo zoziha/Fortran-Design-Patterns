@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">3.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">4.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">5.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">6.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">7.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">8.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">9.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">10.</strong> 访问者模式</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="adapter.html"><strong aria-hidden="true">4.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="proxy.html"><strong aria-hidden="true">5.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chain-of-responsibility.html"><strong aria-hidden="true">6.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="command.html"><strong aria-hidden="true">7.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="iterator.html"><strong aria-hidden="true">8.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="observer.html"><strong aria-hidden="true">9.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="template-method.html"><strong aria-hidden="true">10.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="visitor.html"><strong aria-hidden="true">11.</strong> 访问者模式</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -156,14 +156,14 @@
 <p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <h2 id="设计模式列表"><a class="header" href="#设计模式列表">设计模式列表</a></h2>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
-<tr><td align="center">完成</td><td align="center">抽象工厂。</td><td align="center">适配器、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
-<tr><td align="center">未完成</td><td align="center">生成器、工厂方法、原型、单例。</td><td align="center">桥接、组合、装饰、外观、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
+<tr><td align="center">完成</td><td align="center">抽象工厂、生成器。</td><td align="center">适配器、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
+<tr><td align="center">未完成</td><td align="center">工厂方法、原型、单例。</td><td align="center">桥接、组合、装饰、外观、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
 </tbody></table>
 <h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
 <ul>
 <li><input disabled="" type="checkbox" checked=""/>
 抽象工厂</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 生成器</li>
 <li><input disabled="" type="checkbox"/>
 工厂方法</li>
@@ -537,6 +537,222 @@ end program abstract_factory_main
 !  This is a T-shirt👕.
 !  Logo: lining
 !  Size:    14
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="生成器模式"><a class="header" href="#生成器模式">生成器模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/builder</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/builder/go/example</p>
+<pre><code class="language-fortran">module builder_module
+
+    use, intrinsic :: iso_fortran_env, only: int8
+    implicit none
+    private
+    
+    public :: ibuilder_t, director_t, house_t, get_builder
+
+    type, abstract :: ibuilder_t
+    contains
+    procedure(ibuilder_t_set_window_type), deferred :: set_window_type
+    procedure(ibuilder_t_set_door_type), deferred :: set_door_type
+    procedure(ibuilder_t_set_num_floor), deferred :: set_num_floor
+    procedure(ibuilder_t_get_house), deferred :: get_house
+    end type ibuilder_t
+    
+    type, extends(ibuilder_t) :: normal_builder_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    contains
+    procedure :: set_window_type =&gt; normal_builder_t_set_window_type
+    procedure :: set_door_type =&gt; normal_builder_t_set_door_type
+    procedure :: set_num_floor =&gt; normal_builder_t_set_num_floor
+    procedure :: get_house =&gt; normal_builder_t_get_house
+    end type normal_builder_t
+    
+    type, extends(ibuilder_t) :: igloo_builder_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    contains
+    procedure :: set_window_type =&gt; igloo_builder_t_set_window_type
+    procedure :: set_door_type =&gt; igloo_builder_t_set_door_type
+    procedure :: set_num_floor =&gt; igloo_builder_t_set_num_floor
+    procedure :: get_house =&gt; igloo_builder_t_get_house
+    end type igloo_builder_t
+    
+    type house_t
+    character(:), allocatable :: window_type
+    character(:), allocatable :: door_type
+    integer(int8) :: floor
+    end type house_t
+    
+    type director_t
+    class(ibuilder_t), pointer :: builder
+    contains
+    procedure :: set_builder =&gt; director_t_set_builder
+    procedure :: build_house =&gt; director_t_build_house
+    end type director_t
+    
+    abstract interface
+    
+        subroutine ibuilder_t_set_window_type(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_window_type
+        
+        subroutine ibuilder_t_set_door_type(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_door_type
+        
+        subroutine ibuilder_t_set_num_floor(self)
+        import ibuilder_t
+        class(ibuilder_t), intent(inout) :: self
+        end subroutine ibuilder_t_set_num_floor
+        
+        function ibuilder_t_get_house(self) result(house)
+        import ibuilder_t, house_t
+        class(ibuilder_t), intent(inout) :: self
+        type(house_t) :: house
+        end function ibuilder_t_get_house
+        
+    end interface
+
+contains
+
+    function get_builder(builder_type) result(ibuilder)
+    character(*), intent(in) :: builder_type
+    class(ibuilder_t), allocatable :: ibuilder
+        select case(builder_type)
+        case (&quot;normal&quot;)
+        allocate(normal_builder_t :: ibuilder)
+        case (&quot;igloo&quot;)
+        allocate(igloo_builder_t :: ibuilder)
+        end select
+    end function get_builder
+    
+    ! - - - - - - - - - -
+    
+    subroutine normal_builder_t_set_window_type(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%window_type = &quot;Wooden Window&quot;
+    end subroutine normal_builder_t_set_window_type
+    
+    subroutine normal_builder_t_set_door_type(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%door_type = &quot;Wooden Door&quot;
+    end subroutine normal_builder_t_set_door_type
+    
+    subroutine normal_builder_t_set_num_floor(self)
+    class(normal_builder_t), intent(inout) :: self
+        self%floor = 2_int8
+    end subroutine normal_builder_t_set_num_floor
+    
+    function normal_builder_t_get_house(self) result(house)
+    class(normal_builder_t), intent(inout) :: self
+    type(house_t) :: house
+        ! TODO: A GFortran Bug Here.
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
+    end function normal_builder_t_get_house
+    
+    ! - - - - - - - - - -
+    
+    subroutine igloo_builder_t_set_window_type(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%window_type = &quot;Snow Window&quot;
+    end subroutine igloo_builder_t_set_window_type
+    
+    subroutine igloo_builder_t_set_door_type(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%door_type = &quot;Snow Door&quot;
+    end subroutine igloo_builder_t_set_door_type
+    
+    subroutine igloo_builder_t_set_num_floor(self)
+    class(igloo_builder_t), intent(inout) :: self
+        self%floor = 1_int8
+    end subroutine igloo_builder_t_set_num_floor
+    
+    function igloo_builder_t_get_house(self) result(house)
+    class(igloo_builder_t), intent(inout) :: self
+    type(house_t) :: house
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
+    end function igloo_builder_t_get_house
+    
+    ! - - - - - - - - - -
+    
+    subroutine director_t_set_builder(self, b)
+    class(director_t), intent(inout) :: self
+    class(ibuilder_t), intent(inout), target :: b
+        self%builder =&gt; b
+    end subroutine director_t_set_builder
+    
+    function director_t_build_house(self) result(house)
+    class(director_t), intent(inout) :: self
+    type(house_t) :: house
+        call self%builder%set_door_type()
+        call self%builder%set_window_type()
+        call self%builder%set_num_floor()
+        house = self%builder%get_house()
+    end function director_t_build_house
+
+end module builder_module
+</code></pre>
+<pre><code class="language-fortran">program builder_main
+use builder_module, only: ibuilder_t, director_t, house_t, get_builder
+implicit none
+! type(normal_builder_t) :: normal_builder
+! type(igloo_builder_t) :: igloo_builder
+class(ibuilder_t), allocatable :: normal_builder, igloo_builder
+type(director_t) :: director
+type(house_t) :: normal_house, igloo_house
+    
+    normal_builder = get_builder(&quot;normal&quot;)
+    igloo_builder  = get_builder(&quot;igloo&quot;)
+    
+    !&gt; Normal House
+    call director%set_builder(normal_builder)
+    normal_house = director%build_house()
+    
+    print *, &quot;Normal House Door Type: &quot;, normal_house%door_type
+    print *, &quot;Normal House Window Type: &quot;, normal_house%window_type
+    print *, &quot;Normal House Num Floor: &quot;, normal_house%floor
+    
+    !&gt; Igloo House
+    call director%set_builder(igloo_builder)
+    igloo_house = director%build_house()
+    
+    print *, &quot;Igloo House Door Type: &quot;, igloo_house%door_type
+    print *, &quot;Igloo House Window Type: &quot;, igloo_house%window_type
+    print *, &quot;Igloo House Num Floor: &quot;, igloo_house%floor
+    
+end program builder_main
+
+!&gt; Results shall be:
+
+!  Normal House Door Type: Wooden Door
+!  Normal House Window Type: Wooden Window
+!  Normal House Num Floor:     2
+!  Igloo House Door Type: Snow Door
+!  Igloo House Window Type: Snow Window
+!  Igloo House Num Floor:     1
+</code></pre>
+<p>使用默认结构体构造函数来赋值可分配字符型类型的子元素，在GFortran上出现bug，ifort正常：</p>
+<pre><code class="language-fortran">        ! TODO: A GFortran Bug Here.
+        ! house = house_t(door_type=self%door_type, &amp;
+        !                 window_type=self%window_type, &amp;
+        !                 floor=self%floor)
+        house%door_type = self%door_type
+        house%window_type = self%window_type
+        house%floor = self%floor
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="适配器模式"><a class="header" href="#适配器模式">适配器模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/adapter</p>
