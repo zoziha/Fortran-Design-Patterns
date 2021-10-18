@@ -21,3 +21,7 @@
   - [观察者模式](behavioral/observer.md)
   - [模板方法模式](behavioral/template-method.md)
   - [访问者模式](behavioral/visitor.md)
+
+---
+
+  - [模型与算法](others/model-and-algorithm.md)
