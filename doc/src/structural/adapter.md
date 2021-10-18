@@ -5,9 +5,9 @@
 Go代码：https://refactoringguru.cn/design-patterns/adapter/go/example
 
 ```fortran
-{{#include ../../src/structural/adapter/adapter_module.f90}}
+{{#include ../../../src/structural/adapter/adapter_module.f90}}
 ```
 
 ```fortran
-{{#include ../../src/structural/adapter/adapter_main.f90}}
+{{#include ../../../src/structural/adapter/adapter_main.f90}}
 ```

@@ -5,9 +5,9 @@
 Go代码：https://refactoringguru.cn/design-patterns/observer/go/example
 
 ```fortran
-{{#include ../../src/behavioral/observer/observer_module.f90}}
+{{#include ../../../src/behavioral/observer/observer_module.f90}}
 ```
 
 ```fortran
-{{#include ../../src/behavioral/observer/observer_main.f90}}
+{{#include ../../../src/behavioral/observer/observer_main.f90}}
 ```

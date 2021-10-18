@@ -5,9 +5,9 @@
 Go代码：https://refactoringguru.cn/design-patterns/visitor/go/example
 
 ```fortran
-{{#include ../../src/behavioral/visitor/visitor_module.f90}}
+{{#include ../../../src/behavioral/visitor/visitor_module.f90}}
 ```
 
 ```fortran
-{{#include ../../src/behavioral/visitor/visitor_main.f90}}
+{{#include ../../../src/behavioral/visitor/visitor_main.f90}}
 ```

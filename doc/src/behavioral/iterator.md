@@ -5,9 +5,9 @@
 Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example
 
 ```fortran
-{{#include ../../src/behavioral/iterator/iterator_module.f90}}
+{{#include ../../../src/behavioral/iterator/iterator_module.f90}}
 ```
 
 ```fortran
-{{#include ../../src/behavioral/iterator/iterator_main.f90}}
+{{#include ../../../src/behavioral/iterator/iterator_main.f90}}
 ```

@@ -56,6 +56,11 @@ source-dir = "src/structural/adapter"
 main = "adapter_main.f90"
 
 [[test]]
+name = "facade"
+source-dir = "src/structural/facade"
+main = "facade_main.f90"
+
+[[test]]
 name = "proxy"
 source-dir = "src/structural/proxy"
 main = "proxy_main.f90"

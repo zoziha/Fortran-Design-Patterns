@@ -5,9 +5,9 @@
 Go代码：https://refactoringguru.cn/design-patterns/proxy/go/example
 
 ```fortran
-{{#include ../../src/structural/proxy/proxy_module.f90}}
+{{#include ../../../src/structural/proxy/proxy_module.f90}}
 ```
 
 ```fortran
-{{#include ../../src/structural/proxy/proxy_main.f90}}
+{{#include ../../../src/structural/proxy/proxy_main.f90}}
 ```
