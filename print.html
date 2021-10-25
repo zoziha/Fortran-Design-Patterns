@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="chapter-item expanded "><a href="creational/prototype.html"><strong aria-hidden="true">4.</strong> 原型模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">5.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/composite.html"><strong aria-hidden="true">6.</strong> 组合模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">7.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">8.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">9.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">10.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">11.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">12.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">13.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">14.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">15.</strong> 模型与算法</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Fortran的23种设计模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="creational/abstract-factory.html"><strong aria-hidden="true">2.</strong> 抽象工厂模式</a></li><li class="chapter-item expanded "><a href="creational/builder.html"><strong aria-hidden="true">3.</strong> 生成器模式</a></li><li class="chapter-item expanded "><a href="creational/factory.html"><strong aria-hidden="true">4.</strong> 工厂模式</a></li><li class="chapter-item expanded "><a href="creational/prototype.html"><strong aria-hidden="true">5.</strong> 原型模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="structural/adapter.html"><strong aria-hidden="true">6.</strong> 适配器模式</a></li><li class="chapter-item expanded "><a href="structural/composite.html"><strong aria-hidden="true">7.</strong> 组合模式</a></li><li class="chapter-item expanded "><a href="structural/facade.html"><strong aria-hidden="true">8.</strong> 外观模式</a></li><li class="chapter-item expanded "><a href="structural/proxy.html"><strong aria-hidden="true">9.</strong> 代理模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="behavioral/chain-of-responsibility.html"><strong aria-hidden="true">10.</strong> 责任链模式</a></li><li class="chapter-item expanded "><a href="behavioral/command.html"><strong aria-hidden="true">11.</strong> 命令模式</a></li><li class="chapter-item expanded "><a href="behavioral/iterator.html"><strong aria-hidden="true">12.</strong> 迭代器模式</a></li><li class="chapter-item expanded "><a href="behavioral/observer.html"><strong aria-hidden="true">13.</strong> 观察者模式</a></li><li class="chapter-item expanded "><a href="behavioral/template-method.html"><strong aria-hidden="true">14.</strong> 模板方法模式</a></li><li class="chapter-item expanded "><a href="behavioral/visitor.html"><strong aria-hidden="true">15.</strong> 访问者模式</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="others/model-and-algorithm.html"><strong aria-hidden="true">16.</strong> 模型与算法</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -156,8 +156,8 @@
 <p>设计模式：模式的概念是由克里斯托佛·亚历山大在其著作《建筑模式语言》中首次提出的。<strong>模式可复用</strong>，除非有必要，不必重新思考模式。</p>
 <h2 id="设计模式列表"><a class="header" href="#设计模式列表">设计模式列表</a></h2>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
-<tr><td align="center">完成</td><td align="center">抽象工厂、生成器\原型。</td><td align="center">适配器、组合、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
-<tr><td align="center">未完成</td><td align="center">工厂方法、单例。</td><td align="center">桥接、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
+<tr><td align="center">完成</td><td align="center">抽象工厂、生成器、工厂方法、原型。</td><td align="center">适配器、组合、外观、代理。</td><td align="center">责任链、命令、迭代器、观察者、模板方法、访问者。</td></tr>
+<tr><td align="center">未完成</td><td align="center">单例。</td><td align="center">桥接、装饰、享元。</td><td align="center">中介者、备忘录、状态、策略。</td></tr>
 </tbody></table>
 <h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
 <ul>
@@ -165,7 +165,7 @@
 抽象工厂</li>
 <li><input disabled="" type="checkbox" checked=""/>
 生成器</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 工厂方法</li>
 <li><input disabled="" type="checkbox" checked=""/>
 原型</li>
@@ -752,6 +752,146 @@ end program builder_main
         house%door_type = self%door_type
         house%window_type = self%window_type
         house%floor = self%floor
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="抽象工厂模式-1"><a class="header" href="#抽象工厂模式-1">抽象工厂模式</a></h1>
+<p>正文：https://refactoringguru.cn/design-patterns/factory</p>
+<p>Go代码：https://refactoringguru.cn/design-patterns/factory/go/example</p>
+<pre><code class="language-fortran">module factory_module
+    
+    use, intrinsic :: iso_fortran_env, only: int8
+    implicit none
+    private
+    
+    public :: igun_t, ak47_t, musket_t, get_gun
+
+    type, abstract :: igun_t
+    contains
+        procedure(igun_t_set_name), deferred :: set_name
+        procedure(igun_t_set_power), deferred :: set_power
+        procedure(igun_t_get_name), deferred :: get_name
+        procedure(igun_t_get_power), deferred :: get_power
+    end type igun_t
+    
+    abstract interface
+        
+        subroutine igun_t_set_name(self, name)
+            import igun_t
+            class(igun_t), intent(inout) :: self
+            character(*), intent(in) :: name
+        end subroutine igun_t_set_name
+        
+        subroutine igun_t_set_power(self, power)
+            import igun_t, int8
+            class(igun_t), intent(inout) :: self
+            integer(int8), intent(in) :: power
+        end subroutine igun_t_set_power
+        
+        function igun_t_get_name(self) result(name)
+            import igun_t
+            class(igun_t), intent(inout) :: self
+            character(:), allocatable :: name
+        end function igun_t_get_name
+        
+        function igun_t_get_power(self) result(power)
+            import igun_t, int8
+            class(igun_t), intent(inout) ::self
+            integer(int8) :: power
+        end function igun_t_get_power
+        
+    end interface
+    
+    type, extends(igun_t) :: gun_t
+        character(:), allocatable :: name
+        integer(int8) :: power
+    contains
+        procedure :: set_name =&gt; gun_t_set_name
+        procedure :: get_name =&gt; gun_t_get_name
+        procedure :: set_power =&gt; gun_t_set_power
+        procedure :: get_power =&gt; gun_t_get_power
+    end type gun_t
+    
+    type, extends(gun_t) :: ak47_t
+    end type ak47_t
+    
+    type, extends(gun_t) :: musket_t
+    end type musket_t
+        
+contains
+
+    subroutine gun_t_set_name(self, name)
+        class(gun_t), intent(inout) :: self
+        character(*), intent(in) :: name
+        self%name = name
+    end subroutine gun_t_set_name
+    
+    subroutine gun_t_set_power(self, power)
+        class(gun_t), intent(inout) :: self
+        integer(int8), intent(in) :: power
+        self%power = power
+    end subroutine gun_t_set_power
+    
+    function gun_t_get_name(self) result(name)
+        class(gun_t), intent(inout) :: self
+        character(:), allocatable :: name
+        name = self%name
+    end function gun_t_get_name
+    
+    function gun_t_get_power(self) result(power)
+        class(gun_t), intent(inout) ::self
+        integer(int8) :: power
+        power = self%power
+    end function gun_t_get_power
+    
+    function get_gun(gun_type) result(igun)
+        character(*), intent(in) :: gun_type
+        class(igun_t), allocatable :: igun
+        
+        select case(gun_type)
+        case (&quot;ak47&quot;)
+            igun = ak47_t(name=&quot;ak47 gun&quot;, power=4)
+        case (&quot;musket&quot;)
+            igun = musket_t(name=&quot;musket gun&quot;, power=1)
+        case default
+            error stop &quot;*ERROR* `gnu_type` not supported&quot;
+        end select
+        
+    end function get_gun
+    
+    
+end module factory_module
+</code></pre>
+<pre><code class="language-fortran">program factory_main
+
+    use factory_module, only: igun_t, ak47_t, musket_t, get_gun
+    implicit none
+    
+    class(igun_t), allocatable :: ak47, musket
+    
+    allocate(ak47_t :: ak47)
+    allocate(musket_t :: musket)
+    
+    ak47 = get_gun(&quot;ak47&quot;)
+    musket = get_gun(&quot;musket&quot;)
+    
+    call print_details(ak47)
+    call print_details(musket)
+    
+contains
+
+    subroutine print_details(igun) 
+        class(igun_t), intent(inout) :: igun
+        print *, &quot;Gun: &quot;, igun%get_name()
+        print *, &quot;Power: &quot;, igun%get_power()
+    end subroutine print_details
+
+end program factory_main
+
+!&gt; Results shall be:
+
+!  Gun: ak47 gun
+!  Power:     4
+!  Gun: musket gun
+!  Power:     1
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="原型模式"><a class="header" href="#原型模式">原型模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/prototype</p>
