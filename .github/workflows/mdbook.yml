@@ -8,7 +8,7 @@ on:
     - "src/**.f90"
   
   pull_request:
-    braches:
+    branches:
     - main
     paths:
     - "doc/src/**.md"
