@@ -3,6 +3,7 @@
 [![BSD-3](https://img.shields.io/github/license/zoziha/Fortran-Design-Patterns?color=pink)](LICENSE)
 [![fpm](https://github.com/zoziha/Fortran-Design-Patterns/workflows/fpm/badge.svg)](https://github.com/zoziha/Fortran-Design-Patterns/actions)
 [![mdbook](https://github.com/zoziha/Fortran-Design-Patterns/workflows/mdbook/badge.svg)](https://github.com/zoziha/Fortran-Design-Patterns/actions)
+[![wakatime](https://wakatime.com/badge/user/ca8e3153-da86-47e8-ba89-1fac0c842c19.svg)](https://wakatime.com/@ca8e3153-da86-47e8-ba89-1fac0c842c19)
 
 《Fortran的23种设计模式》是一份Fortran面向对象编程中文实用教程。
 
