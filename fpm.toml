@@ -58,6 +58,11 @@ name = "prototype"
 source-dir = "src/creational/prototype"
 main = "prototype_main.f90"
 
+[[test]]
+name = "singleton"
+source-dir = "src/creational/singleton"
+main = "singleton_main.f90"
+
 # - - - - - - - - - -
 
 [[test]]
