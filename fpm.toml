@@ -71,6 +71,11 @@ source-dir = "src/structural/adapter"
 main = "adapter_main.f90"
 
 [[test]]
+name = "bridge"
+source-dir = "src/structural/bridge"
+main = "bridge_main.f90"
+
+[[test]]
 name = "composite"
 source-dir = "src/structural/composite"
 main = "composite_main.f90"
