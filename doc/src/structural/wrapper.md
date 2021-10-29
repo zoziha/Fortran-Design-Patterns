@@ -1,8 +1,8 @@
 # 装饰模式
 
-正文：https://refactoringguru.cn/design-patterns/wrapper
+正文：https://refactoringguru.cn/design-patterns/decorator
 
-Go代码：https://refactoringguru.cn/design-patterns/wrapper/go/example
+Go代码：https://refactoringguru.cn/design-patterns/decorator/go/example
 
 ```fortran
 {{#include ../../../src/structural/wrapper/wrapper_module.f90}}

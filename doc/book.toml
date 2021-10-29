@@ -7,4 +7,4 @@ title = "Fortran的23种设计模式"
 
 [output.html]
 git-repository-url = "https://github.com/zoziha/Fortran-Design-Patterns/tree/main/"
-edit-url-template = "https://github.com/zoziha/Fortran-Design-Patterns/edit/main/{path}"
+edit-url-template = "https://github.com/zoziha/Fortran-Design-Patterns/edit/main/doc/{path}"

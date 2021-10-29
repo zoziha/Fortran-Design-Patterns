@@ -15,6 +15,7 @@
 
   - [适配器模式](structural/adapter.md)
   - [桥接模式](structural/bridge.md)
+  - [享元模式](structural/cache.md)
   - [组合模式](structural/composite.md)
   - [外观模式](structural/facade.md)
   - [代理模式](structural/proxy.md)

@@ -7,7 +7,7 @@ on:
     - "fpm.toml"
     
   pull_request:
-    braches:
+    branches:
     - main
     paths:
     - "src/**.f90"

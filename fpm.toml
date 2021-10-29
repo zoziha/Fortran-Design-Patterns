@@ -76,6 +76,11 @@ source-dir = "src/structural/bridge"
 main = "bridge_main.f90"
 
 [[test]]
+name = "cache"
+source-dir = "src/structural/cache"
+main = "cache_main.f90"
+
+[[test]]
 name = "composite"
 source-dir = "src/structural/composite"
 main = "composite_main.f90"
