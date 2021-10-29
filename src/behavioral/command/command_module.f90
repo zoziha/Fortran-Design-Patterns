@@ -1,6 +1,6 @@
 !> Reference: https://refactoring.guru/design-patterns/command/go/example
 module command_pattern
-    
+
     implicit none
     private
 
@@ -40,7 +40,7 @@ module command_pattern
         class(device), pointer :: d
     contains
         procedure :: execute => on_command_execute
-    end type on_command 
+    end type on_command
 
     type, extends(command) :: off_command
         class(device), pointer :: d

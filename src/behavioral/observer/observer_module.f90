@@ -19,8 +19,8 @@ module observer_pattern
         procedure(update_procedure), deferred :: update
         procedure(get_ID_procedure), deferred :: get_ID
     end type observer
-    
-    !> We cannot directly use `class(observer), allocatable :: o_list(:)` 
+
+    !> We cannot directly use `class(observer), allocatable :: o_list(:)`
     !>  instead of `type(node), allocatable :: o_list(:)`.
     type node
         class(observer), allocatable :: o
@@ -44,7 +44,7 @@ module observer_pattern
         subroutine update_procedure(self, s)
             import observer
             class(observer), intent(inout) :: self
-            character(len=*), intent(inout) :: s 
+            character(len=*), intent(inout) :: s
         end subroutine update_procedure
         function get_ID_procedure(self) result(result)
             import observer
@@ -93,7 +93,7 @@ contains
         id = o_to_remove%get_ID()
         do j = 1, i
             if (o_list(j)%o%get_ID() == id) then
-                allocate(result(i-1), source=[o_list(:j-1), o_list(j+1:)])
+                allocate (result(i - 1), source=[o_list(:j - 1), o_list(j + 1:)])
                 return
             end if
         end do
@@ -106,14 +106,14 @@ contains
         class(observer), intent(inout) :: o_to_append
         type(node), allocatable :: result(:)
         integer :: i
-        if (.not.allocated(o_list)) then
-            allocate(result(1))
-            allocate(result(1)%o, source=o_to_append)
+        if (.not. allocated(o_list)) then
+            allocate (result(1))
+            allocate (result(1)%o, source=o_to_append)
         else
             i = size(o_list)
-            allocate(result(i+1))
+            allocate (result(i + 1))
             result(1:i) = o_list
-            allocate(result(i+1)%o, source=o_to_append)
+            allocate (result(i + 1)%o, source=o_to_append)
         end if
     end function append_slice
 
@@ -127,7 +127,7 @@ contains
     subroutine register(self, o)
         class(item), intent(inout) :: self
         class(observer), intent(inout) :: o
-        self%o_list = append_slice(self%o_list,o)
+        self%o_list = append_slice(self%o_list, o)
     end subroutine register
 
     subroutine deregister(self, o)

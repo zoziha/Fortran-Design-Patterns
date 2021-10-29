@@ -10,21 +10,21 @@ program test_command
     type(button) :: off_b
 
     !> Linking
-    allocate(on_c%d, source=t)
-    allocate(off_c%d, source=t)
+    allocate (on_c%d, source=t)
+    allocate (off_c%d, source=t)
 
-    allocate(on_b%c, source=on_c)
-    allocate(off_b%c, source=off_c)
+    allocate (on_b%c, source=on_c)
+    allocate (off_b%c, source=off_c)
 
     !> Operating
     call on_b%press()
     call off_b%press()
 
     !> Free memory.
-    deallocate(on_c%d)
-    deallocate(off_c%d)
-    deallocate(on_b%c)
-    deallocate(off_b%c)
+    deallocate (on_c%d)
+    deallocate (off_c%d)
+    deallocate (on_b%c)
+    deallocate (off_b%c)
 
 end program test_command
 

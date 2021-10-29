@@ -16,26 +16,26 @@ program test_CoR
     call d%set_next(m)
     call r%set_next(d)
 
-    p1 = patient("abc",.true.,.true.,.true.,.true.)
+    p1 = patient("abc", .true., .true., .true., .true.)
     !> Patient visiting
     print *, "> Patient `"//p1%name//"` : "
     call r%execute(p1)
 
-    p2 = patient("def",.true.,.false.,.false.,.false.)
+    p2 = patient("def", .true., .false., .false., .false.)
     !> Patient visiting
     print *, "> Patient `"//p2%name//"` : "
     call r%execute(p2)
 
     !> Optional statements
-    deallocate(m%next)
-    deallocate(d%next)
-    deallocate(r%next)
+    deallocate (m%next)
+    deallocate (d%next)
+    deallocate (r%next)
 
 end program test_CoR
 
 !> Results shall be:
 
-!  > Patient `abc` : 
+!  > Patient `abc` :
 !  Patient registration already done.✔️
 !  Doctor checkup already done.✔️
 !  Medicine already given to patient.✔️

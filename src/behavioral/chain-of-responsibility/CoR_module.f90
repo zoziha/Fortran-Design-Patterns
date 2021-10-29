@@ -83,9 +83,9 @@ contains
         class(reception), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine reception_set_next   
+    end subroutine reception_set_next
 
     subroutine doctor_execute(self, p)
         class(doctor), intent(inout) :: self
@@ -107,9 +107,9 @@ contains
         class(doctor), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine doctor_set_next   
+    end subroutine doctor_set_next
 
     subroutine medicine_execute(self, p)
         class(medical), intent(inout) :: self
@@ -131,9 +131,9 @@ contains
         class(medical), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine medicine_set_next   
+    end subroutine medicine_set_next
 
     subroutine cashier_execute(self, p)
         class(cashier), intent(inout) :: self
@@ -153,8 +153,8 @@ contains
         class(cashier), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine cashier_set_next   
+    end subroutine cashier_set_next
 
 end module hospital_CoR
