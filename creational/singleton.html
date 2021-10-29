@@ -155,16 +155,16 @@
 
     implicit none
     private
-    
+
     public :: single, get_instance, dispose_instance
-    
+
     logical :: lock = .false.
-    
+
     type single_t
         private
         integer :: value
     end type single_t
-    
+
     type(single_t) :: single
 
 contains
@@ -181,7 +181,7 @@ contains
             lock = .true.
         end if
     end function get_instance
-    
+
     subroutine dispose_instance(single)
         type(single_t), intent(inout) :: single
         print *, &quot;Disposing single instance now.&quot;
@@ -192,16 +192,16 @@ contains
 end module singleton_module
 </code></pre>
 <pre><code class="language-fortran">program singleton_main
-    
+
     use singleton_module, only: single, get_instance, dispose_instance
     implicit none
-    
+
     single = get_instance(10)
     single = get_instance(23)
     single = get_instance(0)
     call dispose_instance(single)
     single = get_instance(9)
-    
+
 end program singleton_main
 </code></pre>
 

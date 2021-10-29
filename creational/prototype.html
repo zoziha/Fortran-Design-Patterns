@@ -156,125 +156,125 @@
 
     implicit none
     private
-    
+
     public :: file_t, folder_t, inode_t
-    
+
     type, abstract :: inode_t
     contains
-    procedure(inode_t_print), deferred :: print
-    procedure(inode_t_clone), deferred :: clone
+        procedure(inode_t_print), deferred :: print
+        procedure(inode_t_clone), deferred :: clone
     end type inode_t
-    
+
     type, extends(inode_t) :: file_t
-    character(:), allocatable :: name
+        character(:), allocatable :: name
     contains
-    procedure :: print =&gt; file_t_print
-    procedure :: clone =&gt; file_t_clone
+        procedure :: print =&gt; file_t_print
+        procedure :: clone =&gt; file_t_clone
     end type file_t
-    
+
     !&gt; Wrapper (Important)
     type node_t
-    class(inode_t), pointer :: inode
+        class(inode_t), pointer :: inode
     end type node_t
-    
+
     type, extends(inode_t) :: folder_t
-    type(node_t), allocatable :: children(:)
-    character(:), allocatable :: name
+        type(node_t), allocatable :: children(:)
+        character(:), allocatable :: name
     contains
-    procedure :: print =&gt; folder_t_print
-    procedure :: clone =&gt; folder_t_clone
+        procedure :: print =&gt; folder_t_print
+        procedure :: clone =&gt; folder_t_clone
     end type folder_t
-    
+
     abstract interface
-    
+
         subroutine inode_t_print(self, indentation)
-        import inode_t
-        class(inode_t), intent(inout) :: self
-        character(*), intent(in) :: indentation
+            import inode_t
+            class(inode_t), intent(inout) :: self
+            character(*), intent(in) :: indentation
         end subroutine inode_t_print
 
         function inode_t_clone(self) result(inode)
-        import inode_t
-        class(inode_t), intent(inout) :: self
-        class(inode_t), allocatable :: inode
+            import inode_t
+            class(inode_t), intent(inout) :: self
+            class(inode_t), allocatable :: inode
         end function inode_t_clone
-    
+
     end interface
 
 contains
 
     subroutine file_t_print(self, indentation)
-    class(file_t), intent(inout) :: self
-    character(*), intent(in) :: indentation
-        print *, indentation // self%name
+        class(file_t), intent(inout) :: self
+        character(*), intent(in) :: indentation
+        print *, indentation//self%name
     end subroutine file_t_print
 
     function file_t_clone(self) result(inode)
-    class(file_t), intent(inout) :: self
-    class(inode_t), allocatable :: inode
-        allocate(file_t :: inode)
-        inode = file_t(name=self%name // &quot;_clone&quot;)
+        class(file_t), intent(inout) :: self
+        class(inode_t), allocatable :: inode
+        allocate (file_t :: inode)
+        inode = file_t(name=self%name//&quot;_clone&quot;)
     end function file_t_clone
-    
+
     ! - - - - - - - - -
-    
+
     subroutine folder_t_print(self, indentation)
-    class(folder_t), intent(inout) :: self
-    character(*), intent(in) :: indentation
-    integer :: i
-        print *, indentation // self%name
+        class(folder_t), intent(inout) :: self
+        character(*), intent(in) :: indentation
+        integer :: i
+        print *, indentation//self%name
         if (size(self%children) == 0) return
         do i = 1, size(self%children)
-        call self%children(i)%inode%print(indentation // indentation)
+            call self%children(i)%inode%print(indentation//indentation)
         end do
     end subroutine folder_t_print
 
-    !&gt; There may be incorrect usage here, but I have no choice but to do so. 
+    !&gt; There may be incorrect usage here, but I have no choice but to do so.
     !&gt;  Fortran's compilation check is stricter, and I am indeed bypassing it.
     function folder_t_clone(self) result(inode)
-    class(folder_t), intent(inout) :: self
-    class(inode_t), allocatable :: inode
-    type(folder_t), allocatable :: tmp_folder
-    integer :: i
-        allocate(tmp_folder, source=self)
-        tmp_folder%name = tmp_folder%name // &quot;_clone&quot;
+        class(folder_t), intent(inout) :: self
+        class(inode_t), allocatable :: inode
+        type(folder_t), allocatable :: tmp_folder
+        integer :: i
+        allocate (tmp_folder, source=self)
+        tmp_folder%name = tmp_folder%name//&quot;_clone&quot;
         if (size(self%children) &gt; 0) then
         do i = 1, size(tmp_folder%children)
-            associate(node =&gt; tmp_folder%children(i)%inode)
-            allocate(node, source=node%clone())
+            associate (node =&gt; tmp_folder%children(i)%inode)
+                allocate (node, source=node%clone())
             end associate
         end do
         end if
-        allocate(inode, source=tmp_folder)
+        allocate (inode, source=tmp_folder)
     end function folder_t_clone
 
 end module prototype_module
 </code></pre>
 <pre><code class="language-fortran">program prototype_main
-use prototype_module, only: file_t, folder_t, inode_t
-implicit none
-type(file_t), target :: file1, file2, file3
-type(folder_t), target :: folder1
-type(folder_t) :: folder2
-class(inode_t), allocatable :: clone_folder
+    use prototype_module, only: file_t, folder_t, inode_t
+    implicit none
+    type(file_t), target :: file1, file2, file3
+    type(folder_t), target :: folder1
+    type(folder_t) :: folder2
+    class(inode_t), allocatable :: clone_folder
 
     file1%name = &quot;file1&quot;
     file2%name = &quot;file2&quot;
     file3%name = &quot;file3&quot;
-    
+
     folder1%name = &quot;folder1&quot;
-    allocate(folder1%children(1))
+    allocate (folder1%children(1))
     folder1%children(1)%inode =&gt; file1
-    
+
     folder2%name = &quot;folder2&quot;
-    allocate(folder2%children(3))
+    allocate (folder2%children(3))
     folder2%children(1)%inode =&gt; folder1
     folder2%children(2)%inode =&gt; file2
     folder2%children(3)%inode =&gt; file3
-    
+
     print *, &quot;Printing hierarchy for Folder2&quot;
     call folder2%print(&quot;   &quot;)
-    
+
     clone_folder = folder2%clone()
     print *, &quot;Printing hierarchy for clone Folder&quot;
     call clone_folder%print(&quot;   &quot;)

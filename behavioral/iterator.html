@@ -153,64 +153,64 @@
 <p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
 <pre><code class="language-fortran">module iterator_module
-    
+
     use, intrinsic :: iso_fortran_env, only: int8
     implicit none
     private
-    
+
     public :: user_t, user_collection_t, user_iterator_t, iterator_t
-    
+
     !&gt; Abstract types
-    
+
     !&gt; Collection
     type, abstract :: collection_t
     contains
         procedure(collection_t_create_iterator), deferred :: create_iterator
     end type collection_t
-    
+
     !&gt; Iterator
     type, abstract :: iterator_t
     contains
         procedure(iterator_t_has_next), deferred :: has_next
         procedure(iterator_t_get_next), deferred :: get_next
     end type iterator_t
-    
+
     !&gt; User
     type user_t
         character(:), allocatable :: name
         integer(int8) :: age
     end type user_t
-    
+
     abstract interface
-    
+
         function collection_t_create_iterator(self) result(iterator)
             import iterator_t, collection_t
             !&gt; TODO:
             class(collection_t), intent(in) :: self
             class(iterator_t), allocatable :: iterator
         end function collection_t_create_iterator
-        
+
         logical function iterator_t_has_next(self)
             import iterator_t
             class(iterator_t), intent(in) :: self
         end function iterator_t_has_next
-        
+
         type(user_t) function iterator_t_get_next(self)
             import user_t, iterator_t
             class(iterator_t), intent(inout) :: self
         end function iterator_t_get_next
-        
+
     end interface
-    
+
     !&gt; Specific types
-    
+
     !&gt; User collection
     type, extends(collection_t) :: user_collection_t
         type(user_t), allocatable :: users(:)
     contains
         procedure :: create_iterator =&gt; user_collection_t_create_iterator
     end type user_collection_t
-    
+
     !&gt; User iterator
     type, extends(iterator_t) :: user_iterator_t
         integer :: index
@@ -228,49 +228,49 @@ contains
         ! TODO:
         iterator = user_iterator_t(index=0, users=self%users)
     end function user_collection_t_create_iterator
-    
+
     logical function user_iterator_t_has_next(self) result(has)
         class(user_iterator_t), intent(in) :: self
-        
+
         has = merge(.true., .false., self%index &lt; size(self%users))
-        
+
     end function user_iterator_t_has_next
-    
+
     type(user_t) function user_iterator_t_get_next(self) result(user)
         class(user_iterator_t), intent(inout) :: self
-        
+
         self%index = self%index + 1
         user = self%users(self%index)
-    
+
     end function user_iterator_t_get_next
-    
+
 end module iterator_module
 </code></pre>
 <pre><code class="language-fortran">program iterator_main
 
     use, intrinsic :: iso_fortran_env, only: int8
     use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
-    
+
     type(user_t) :: user1, user2, user
     type(user_collection_t) :: user_collection
     ! TODO:
     class(iterator_t), allocatable :: iterator
-    
+
     user1 = user_t(name=&quot;A&quot;, age=30_int8)
     user2 = user_t(name=&quot;B&quot;, age=20_int8)
-    
+
     user_collection = user_collection_t(users=[user1, user2])
-    
+
     !&gt; Specific iterator
-    allocate(user_iterator_t :: iterator)
+    allocate (user_iterator_t :: iterator)
     iterator = user_collection%create_iterator()
-    
+
     do while (iterator%has_next())
         user = iterator%get_next()
         print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
     end do
-    
-    deallocate(iterator)
+
+    deallocate (iterator)
 
 end program iterator_main
 

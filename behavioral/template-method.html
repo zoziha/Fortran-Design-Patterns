@@ -156,200 +156,200 @@
 
     implicit none
     private
-    
+
     public :: otp_t, sms_t, email_t
-    
+
     type, abstract :: iopt_t
     contains
-    procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
-    procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
-    procedure(iopt_t_get_message)   , deferred :: get_message
-    procedure(iopt_t_send_notification), deferred :: send_notification
-    procedure(iopt_t_publish_metric), deferred :: publish_metric
+        procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
+        procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
+        procedure(iopt_t_get_message), deferred :: get_message
+        procedure(iopt_t_send_notification), deferred :: send_notification
+        procedure(iopt_t_publish_metric), deferred :: publish_metric
     end type iopt_t
-    
+
     abstract interface
-    
+
         function iopt_t_gen_random_opt(self, len) result(random_opt)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        integer, intent(in) :: len
-        character(:), allocatable :: random_opt 
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            integer, intent(in) :: len
+            character(:), allocatable :: random_opt
         end function iopt_t_gen_random_opt
-        
+
         subroutine iopt_t_save_opt_cache(self, otp)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: otp
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: otp
         end subroutine iopt_t_save_opt_cache
-        
+
         function iopt_t_get_message(self, otp) result(msg)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: otp
-        character(:), allocatable :: msg
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: otp
+            character(:), allocatable :: msg
         end function iopt_t_get_message
-        
+
         subroutine iopt_t_send_notification(self, msg)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: msg
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: msg
         end subroutine iopt_t_send_notification
-        
+
         subroutine iopt_t_publish_metric(self)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
         end subroutine iopt_t_publish_metric
-        
+
     end interface
-    
+
     ! - - - - - - - - - - - - -
-    
+
     type otp_t
-    class(iopt_t), pointer :: iopt
+        class(iopt_t), pointer :: iopt
     contains
-    procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
+        procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
     end type otp_t
-    
+
     type, extends(iopt_t) :: sms_t
     contains
-    procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
-    procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
-    procedure :: get_message    =&gt; sms_t_get_message
-    procedure :: send_notification =&gt; sms_t_send_notification
-    procedure :: publish_metric =&gt; sms_t_publish_metric
+        procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
+        procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
+        procedure :: get_message =&gt; sms_t_get_message
+        procedure :: send_notification =&gt; sms_t_send_notification
+        procedure :: publish_metric =&gt; sms_t_publish_metric
     end type sms_t
-    
+
     type, extends(iopt_t) :: email_t
     contains
-    procedure :: gen_random_opt =&gt; email_t_gen_random_opt
-    procedure :: save_opt_cache =&gt; email_t_save_opt_cache
-    procedure :: get_message    =&gt; email_t_get_message
-    procedure :: send_notification =&gt; email_t_send_notification
-    procedure :: publish_metric =&gt; email_t_publish_metric
+        procedure :: gen_random_opt =&gt; email_t_gen_random_opt
+        procedure :: save_opt_cache =&gt; email_t_save_opt_cache
+        procedure :: get_message =&gt; email_t_get_message
+        procedure :: send_notification =&gt; email_t_send_notification
+        procedure :: publish_metric =&gt; email_t_publish_metric
     end type email_t
-    
+
 contains
 
     subroutine otp_t_gen_and_send_otp(self, otp_length)
-    class(otp_t), intent(inout) :: self
-    integer, intent(in) :: otp_length
-    
-    character(:), allocatable :: otp
-    character(:), allocatable :: msg
-    
-    otp = self%iopt%gen_random_opt(otp_length)
-    call self%iopt%save_opt_cache(otp)
-    msg = self%iopt%get_message(otp)
-    call self%iopt%send_notification(msg)
-    call self%iopt%publish_metric()
-        
+        class(otp_t), intent(inout) :: self
+        integer, intent(in) :: otp_length
+
+        character(:), allocatable :: otp
+        character(:), allocatable :: msg
+
+        otp = self%iopt%gen_random_opt(otp_length)
+        call self%iopt%save_opt_cache(otp)
+        msg = self%iopt%get_message(otp)
+        call self%iopt%send_notification(msg)
+        call self%iopt%publish_metric()
+
     end subroutine otp_t_gen_and_send_otp
-    
+
     ! - - - - - - - - - -
-    
+
     function sms_t_gen_random_opt(self, len) result(random_opt)
-    class(sms_t), intent(inout) :: self
-    integer, intent(in) :: len
-    character(:), allocatable :: random_opt
-    
-    random_opt = &quot;1234&quot;
-    print *, &quot;SMS: generating random otp &quot;, random_opt
-        
+        class(sms_t), intent(inout) :: self
+        integer, intent(in) :: len
+        character(:), allocatable :: random_opt
+
+        random_opt = &quot;1234&quot;
+        print *, &quot;SMS: generating random otp &quot;, random_opt
+
     end function sms_t_gen_random_opt
-    
+
     subroutine sms_t_save_opt_cache(self, otp)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    
-    print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+
+        print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
+
     end subroutine sms_t_save_opt_cache
-    
+
     function sms_t_get_message(self, otp) result(msg)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    character(:), allocatable :: msg
-    
-    msg = &quot;SMS OTP for login is &quot; // otp
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        character(:), allocatable :: msg
+
+        msg = &quot;SMS OTP for login is &quot;//otp
+
     end function sms_t_get_message
-    
+
     subroutine sms_t_send_notification(self, msg)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: msg
-    
-    print *, &quot;SMS: sending sms: &quot; // msg
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: msg
+
+        print *, &quot;SMS: sending sms: &quot;//msg
+
     end subroutine sms_t_send_notification
-    
+
     subroutine sms_t_publish_metric(self)
-    class(sms_t), intent(inout) :: self
-    
-    print *, &quot;SMS: publishing metric&quot;
-        
+        class(sms_t), intent(inout) :: self
+
+        print *, &quot;SMS: publishing metric&quot;
+
     end subroutine sms_t_publish_metric
-    
+
     ! - - - - - - - - - -
-    
+
     function email_t_gen_random_opt(self, len) result(random_opt)
-    class(email_t), intent(inout) :: self
-    integer, intent(in) :: len
-    character(:), allocatable :: random_opt
-    
-    random_opt = &quot;1234&quot;
-    print *, &quot;EMAIL: generating random otp &quot;, random_opt
-        
+        class(email_t), intent(inout) :: self
+        integer, intent(in) :: len
+        character(:), allocatable :: random_opt
+
+        random_opt = &quot;1234&quot;
+        print *, &quot;EMAIL: generating random otp &quot;, random_opt
+
     end function email_t_gen_random_opt
-    
+
     subroutine email_t_save_opt_cache(self, otp)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    
-    print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+
+        print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
+
     end subroutine email_t_save_opt_cache
-    
+
     function email_t_get_message(self, otp) result(msg)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    character(:), allocatable :: msg
-    
-    msg = &quot;EMAIL OTP for login is &quot; // otp
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        character(:), allocatable :: msg
+
+        msg = &quot;EMAIL OTP for login is &quot;//otp
+
     end function email_t_get_message
-    
+
     subroutine email_t_send_notification(self, msg)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: msg
-    
-    print *, &quot;EMAIL: sending email: &quot; // msg
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: msg
+
+        print *, &quot;EMAIL: sending email: &quot;//msg
+
     end subroutine email_t_send_notification
-    
+
     subroutine email_t_publish_metric(self)
-    class(email_t), intent(inout) :: self
-    
-    print *, &quot;EMAIL: publishing metric&quot;
-        
+        class(email_t), intent(inout) :: self
+
+        print *, &quot;EMAIL: publishing metric&quot;
+
     end subroutine email_t_publish_metric
 
 end module template_method_module
 </code></pre>
 <pre><code class="language-fortran">program template_method_main
 
-use template_method_module, only: otp_t, sms_t, email_t
+    use template_method_module, only: otp_t, sms_t, email_t
 
-type(otp_t) :: otp
-type(sms_t), target :: sms_otp
-type(email_t), target :: email_otp
-    
+    type(otp_t) :: otp
+    type(sms_t), target :: sms_otp
+    type(email_t), target :: email_otp
+
     sms_otp = sms_t()
     otp%iopt =&gt; sms_otp
     call otp%gen_and_send_otp(4)
-    
-    write(*,*)
-    
+
+    write (*, *)
+
     email_otp = email_t()
     otp%iopt =&gt; email_otp
     call otp%gen_and_send_otp(4)
@@ -362,7 +362,7 @@ end program template_method_main
 !  SMS: saving otp: 1234 to cache
 !  SMS: sending sms: SMS OTP for login is 1234
 !  SMS: publishing metric
-! 
+!
 !  EMAIL: generating random otp 1234
 !  EMAIL: saving otp: 1234 to cache
 !  EMAIL: sending email: EMAIL OTP for login is 1234

@@ -292,17 +292,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
     use, intrinsic :: iso_fortran_env, only: int8
     implicit none
     private
-    
+
     public :: isports_factory_t, erke_t, lining_t, get_sports_factory, erke_shoe_t, erke_shirt_t, &amp;
-        lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
-    
+              lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
+
     !&gt; Abstract classes
     type, abstract :: isports_factory_t
     contains
-        procedure(isports_factory_t_make_shoe) , deferred :: make_shoe
+        procedure(isports_factory_t_make_shoe), deferred :: make_shoe
         procedure(isports_factory_t_make_shirt), deferred :: make_shirt
     end type isports_factory_t
-    
+
     type, abstract :: ishoe_t
     contains
         procedure(ishoe_t_set_logo), deferred :: set_logo
@@ -310,7 +310,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
         procedure(ishoe_t_get_logo), deferred :: get_logo
         procedure(ishoe_t_get_size), deferred :: get_size
     end type ishoe_t
-    
+
     type, abstract :: ishirt_t
     contains
         procedure(ishirt_t_set_logo), deferred :: set_logo
@@ -318,9 +318,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
         procedure(ishirt_t_get_logo), deferred :: get_logo
         procedure(ishirt_t_get_size), deferred :: get_size
     end type ishirt_t
-    
+
     abstract interface
-    
+
         function isports_factory_t_make_shoe(self) result(shoe)
             import isports_factory_t, ishoe_t
             class(isports_factory_t), intent(inout) :: self
@@ -331,7 +331,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
             class(isports_factory_t), intent(inout) :: self
             class(ishirt_t), allocatable :: shirt
         end function isports_factory_t_make_shirt
-        
+
         subroutine ishoe_t_set_logo(self, logo)
             import ishoe_t
             class(ishoe_t), intent(inout) :: self
@@ -352,7 +352,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
             class(ishoe_t), intent(inout) :: self
             integer(int8) :: size
         end function ishoe_t_get_size
-        
+
         subroutine ishirt_t_set_logo(self, logo)
             import ishirt_t
             class(ishirt_t), intent(inout) :: self
@@ -373,23 +373,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
             class(ishirt_t), intent(inout) :: self
             integer(int8) :: size
         end function ishirt_t_get_size
-         
+
     end interface
-    
+
     !&gt; Specific objects
-    
+
     type, extends(isports_factory_t) :: erke_t
     contains
-        procedure :: make_shoe  =&gt; erke_t_make_shoe
+        procedure :: make_shoe =&gt; erke_t_make_shoe
         procedure :: make_shirt =&gt; erke_t_make_shirt
     end type erke_t
-    
+
     type, extends(isports_factory_t) :: lining_t
     contains
-        procedure :: make_shoe  =&gt; lining_t_make_shoe
+        procedure :: make_shoe =&gt; lining_t_make_shoe
         procedure :: make_shirt =&gt; lining_t_make_shirt
     end type lining_t
-    
+
     type, extends(ishoe_t) :: shoe_t
         character(:), allocatable :: logo
         integer(int8) :: size
@@ -399,7 +399,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
         procedure :: get_logo =&gt; shoe_t_get_logo
         procedure :: get_size =&gt; shoe_t_get_size
     end type shoe_t
-    
+
     type, extends(ishirt_t) :: shirt_t
         character(:), allocatable :: logo
         integer(int8) :: size
@@ -409,25 +409,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
         procedure :: get_logo =&gt; shirt_t_get_logo
         procedure :: get_size =&gt; shirt_t_get_size
     end type shirt_t
-    
+
     type, extends(shoe_t) :: erke_shoe_t
     end type erke_shoe_t
-    
+
     type, extends(shoe_t) :: lining_shoe_t
     end type lining_shoe_t
-    
+
     type, extends(shirt_t) :: erke_shirt_t
     end type erke_shirt_t
-    
+
     type, extends(shirt_t) :: lining_shirt_t
     end type lining_shirt_t
-    
+
 contains
 
     function get_sports_factory(brand) result(isports_factory)
         character(*), intent(in) :: brand
         class(isports_factory_t), allocatable :: isports_factory
-        
+
         select case (brand)
         case (&quot;erke&quot;)
             isports_factory = erke_t()
@@ -436,162 +436,162 @@ contains
         case default
             error stop &quot;*&lt;ERROR&gt;* Brand not supported.&quot;
         end select
-        
+
     end function get_sports_factory
 
     function erke_t_make_shoe(self) result(shoe)
         class(erke_t), intent(inout) :: self
-        class(ishoe_t), allocatable  :: shoe
-        
+        class(ishoe_t), allocatable :: shoe
+
         shoe = erke_shoe_t(logo=&quot;erke&quot;, size=14_int8)
-        
+
     end function erke_t_make_shoe
-    
+
     function erke_t_make_shirt(self) result(shirt)
         class(erke_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
-        
+
         shirt = erke_shirt_t(logo=&quot;erke&quot;, size=14_int8)
-        
+
     end function erke_t_make_shirt
-    
+
     function lining_t_make_shoe(self) result(shoe)
         class(lining_t), intent(inout) :: self
         class(ishoe_t), allocatable :: shoe
-        
+
         shoe = lining_shoe_t(logo=&quot;lining&quot;, size=14_int8)
-        
+
     end function lining_t_make_shoe
-    
+
     function lining_t_make_shirt(self) result(shirt)
         class(lining_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
-        
+
         shirt = lining_shirt_t(logo=&quot;lining&quot;, size=14_int8)
-        
+
     end function lining_t_make_shirt
-    
+
     subroutine shoe_t_set_logo(self, logo)
         class(shoe_t), intent(inout) :: self
         character(*), intent(in) :: logo
-        
+
         self%logo = logo
-        
+
     end subroutine shoe_t_set_logo
-    
+
     subroutine shoe_t_set_size(self, size)
         class(shoe_t), intent(inout) :: self
         integer(int8), intent(in) :: size
-        
+
         self%size = size
-        
+
     end subroutine shoe_t_set_size
-    
+
     function shoe_t_get_logo(self) result(logo)
         class(shoe_t), intent(inout) :: self
         character(:), allocatable :: logo
-        
+
         logo = self%logo
-        
+
     end function shoe_t_get_logo
-    
+
     function shoe_t_get_size(self) result(size)
         class(shoe_t), intent(inout) :: self
         integer(int8) :: size
-        
+
         size = self%size
-        
+
     end function shoe_t_get_size
-    
+
     subroutine shirt_t_set_logo(self, logo)
         class(shirt_t), intent(inout) :: self
         character(*), intent(in) :: logo
-        
+
         self%logo = logo
-        
+
     end subroutine shirt_t_set_logo
-    
+
     subroutine shirt_t_set_size(self, size)
         class(shirt_t), intent(inout) :: self
         integer(int8), intent(in) :: size
-        
+
         self%size = size
-        
+
     end subroutine shirt_t_set_size
-    
+
     function shirt_t_get_logo(self) result(logo)
         class(shirt_t), intent(inout) :: self
         character(:), allocatable :: logo
-        
+
         logo = self%logo
-        
+
     end function shirt_t_get_logo
-    
+
     function shirt_t_get_size(self) result(size)
         class(shirt_t), intent(inout) :: self
         integer(int8) :: size
-        
+
         size = self%size
-        
+
     end function shirt_t_get_size
 
 end module abstract_factory_module
 </code></pre>
 <pre><code class="language-fortran">program abstract_factory_main
-    
+
     use, intrinsic :: iso_fortran_env, only: int8
     use abstract_factory_module, only: isports_factory_t, erke_t, lining_t, get_sports_factory, erke_shoe_t, erke_shirt_t, &amp;
-        lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
-    
+                                       lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
+
     class(isports_factory_t), allocatable :: erke_factory, lining_factory
-    class(ishoe_t) , allocatable :: erke_shoe
+    class(ishoe_t), allocatable :: erke_shoe
     class(ishirt_t), allocatable :: erke_shirt
-    class(ishoe_t) , allocatable :: lining_shoe
+    class(ishoe_t), allocatable :: lining_shoe
     class(ishirt_t), allocatable :: lining_shirt
-    
-    allocate(erke_t :: erke_factory)
-    allocate(lining_t :: lining_factory)
-    
-    erke_factory   = get_sports_factory(&quot;erke&quot;)
+
+    allocate (erke_t :: erke_factory)
+    allocate (lining_t :: lining_factory)
+
+    erke_factory = get_sports_factory(&quot;erke&quot;)
     lining_factory = get_sports_factory(&quot;lining&quot;)
-    
-    allocate(erke_shoe_t :: erke_shoe)
-    allocate(erke_shirt_t :: erke_shirt)
-    allocate(lining_shoe_t :: lining_shoe)
-    allocate(lining_shirt_t :: lining_shirt)
-    
-    erke_shoe  = erke_factory%make_shoe()
+
+    allocate (erke_shoe_t :: erke_shoe)
+    allocate (erke_shirt_t :: erke_shirt)
+    allocate (lining_shoe_t :: lining_shoe)
+    allocate (lining_shirt_t :: lining_shirt)
+
+    erke_shoe = erke_factory%make_shoe()
     erke_shirt = erke_factory%make_shirt()
-    
-    lining_shoe  = lining_factory%make_shoe()
+
+    lining_shoe = lining_factory%make_shoe()
     lining_shirt = lining_factory%make_shirt()
-    
+
     call print_shoe_details(erke_shoe)
     call print_shirt_details(erke_shirt)
-    
+
     call print_shoe_details(lining_shoe)
     call print_shirt_details(lining_shirt)
-    
+
 contains
 
     subroutine print_shoe_details(ishoe)
         class(ishoe_t), intent(inout) :: ishoe
-        
+
         print *, &quot;This is a pair of shoes👟.&quot;
         print *, &quot;Logo: &quot;, ishoe%get_logo()
         print *, &quot;Size: &quot;, ishoe%get_size()
-        
+
     end subroutine print_shoe_details
 
     subroutine print_shirt_details(ishirt)
         class(ishirt_t), intent(inout) :: ishirt
-        
+
         print *, &quot;This is a T-shirt👕.&quot;
         print *, &quot;Logo: &quot;, ishirt%get_logo()
         print *, &quot;Size: &quot;, ishirt%get_size()
-        
+
     end subroutine print_shirt_details
-    
+
 end program abstract_factory_main
 
 !&gt; Results shall be:
@@ -617,110 +617,110 @@ end program abstract_factory_main
     use, intrinsic :: iso_fortran_env, only: int8
     implicit none
     private
-    
+
     public :: ibuilder_t, director_t, house_t, get_builder
 
     type, abstract :: ibuilder_t
     contains
-    procedure(ibuilder_t_set_window_type), deferred :: set_window_type
-    procedure(ibuilder_t_set_door_type), deferred :: set_door_type
-    procedure(ibuilder_t_set_num_floor), deferred :: set_num_floor
-    procedure(ibuilder_t_get_house), deferred :: get_house
+        procedure(ibuilder_t_set_window_type), deferred :: set_window_type
+        procedure(ibuilder_t_set_door_type), deferred :: set_door_type
+        procedure(ibuilder_t_set_num_floor), deferred :: set_num_floor
+        procedure(ibuilder_t_get_house), deferred :: get_house
     end type ibuilder_t
-    
+
     type, extends(ibuilder_t) :: normal_builder_t
-    character(:), allocatable :: window_type
-    character(:), allocatable :: door_type
-    integer(int8) :: floor
+        character(:), allocatable :: window_type
+        character(:), allocatable :: door_type
+        integer(int8) :: floor
     contains
-    procedure :: set_window_type =&gt; normal_builder_t_set_window_type
-    procedure :: set_door_type =&gt; normal_builder_t_set_door_type
-    procedure :: set_num_floor =&gt; normal_builder_t_set_num_floor
-    procedure :: get_house =&gt; normal_builder_t_get_house
+        procedure :: set_window_type =&gt; normal_builder_t_set_window_type
+        procedure :: set_door_type =&gt; normal_builder_t_set_door_type
+        procedure :: set_num_floor =&gt; normal_builder_t_set_num_floor
+        procedure :: get_house =&gt; normal_builder_t_get_house
     end type normal_builder_t
-    
+
     type, extends(ibuilder_t) :: igloo_builder_t
-    character(:), allocatable :: window_type
-    character(:), allocatable :: door_type
-    integer(int8) :: floor
+        character(:), allocatable :: window_type
+        character(:), allocatable :: door_type
+        integer(int8) :: floor
     contains
-    procedure :: set_window_type =&gt; igloo_builder_t_set_window_type
-    procedure :: set_door_type =&gt; igloo_builder_t_set_door_type
-    procedure :: set_num_floor =&gt; igloo_builder_t_set_num_floor
-    procedure :: get_house =&gt; igloo_builder_t_get_house
+        procedure :: set_window_type =&gt; igloo_builder_t_set_window_type
+        procedure :: set_door_type =&gt; igloo_builder_t_set_door_type
+        procedure :: set_num_floor =&gt; igloo_builder_t_set_num_floor
+        procedure :: get_house =&gt; igloo_builder_t_get_house
     end type igloo_builder_t
-    
+
     type house_t
-    character(:), allocatable :: window_type
-    character(:), allocatable :: door_type
-    integer(int8) :: floor
+        character(:), allocatable :: window_type
+        character(:), allocatable :: door_type
+        integer(int8) :: floor
     end type house_t
-    
+
     type director_t
-    class(ibuilder_t), pointer :: builder
+        class(ibuilder_t), pointer :: builder
     contains
-    procedure :: set_builder =&gt; director_t_set_builder
-    procedure :: build_house =&gt; director_t_build_house
+        procedure :: set_builder =&gt; director_t_set_builder
+        procedure :: build_house =&gt; director_t_build_house
     end type director_t
-    
+
     abstract interface
-    
+
         subroutine ibuilder_t_set_window_type(self)
-        import ibuilder_t
-        class(ibuilder_t), intent(inout) :: self
+            import ibuilder_t
+            class(ibuilder_t), intent(inout) :: self
         end subroutine ibuilder_t_set_window_type
-        
+
         subroutine ibuilder_t_set_door_type(self)
-        import ibuilder_t
-        class(ibuilder_t), intent(inout) :: self
+            import ibuilder_t
+            class(ibuilder_t), intent(inout) :: self
         end subroutine ibuilder_t_set_door_type
-        
+
         subroutine ibuilder_t_set_num_floor(self)
-        import ibuilder_t
-        class(ibuilder_t), intent(inout) :: self
+            import ibuilder_t
+            class(ibuilder_t), intent(inout) :: self
         end subroutine ibuilder_t_set_num_floor
-        
+
         function ibuilder_t_get_house(self) result(house)
-        import ibuilder_t, house_t
-        class(ibuilder_t), intent(inout) :: self
-        type(house_t) :: house
+            import ibuilder_t, house_t
+            class(ibuilder_t), intent(inout) :: self
+            type(house_t) :: house
         end function ibuilder_t_get_house
-        
+
     end interface
 
 contains
 
     function get_builder(builder_type) result(ibuilder)
-    character(*), intent(in) :: builder_type
-    class(ibuilder_t), allocatable :: ibuilder
-        select case(builder_type)
+        character(*), intent(in) :: builder_type
+        class(ibuilder_t), allocatable :: ibuilder
+        select case (builder_type)
         case (&quot;normal&quot;)
-        allocate(normal_builder_t :: ibuilder)
+            allocate (normal_builder_t :: ibuilder)
         case (&quot;igloo&quot;)
-        allocate(igloo_builder_t :: ibuilder)
+            allocate (igloo_builder_t :: ibuilder)
         end select
     end function get_builder
-    
+
     ! - - - - - - - - - -
-    
+
     subroutine normal_builder_t_set_window_type(self)
-    class(normal_builder_t), intent(inout) :: self
+        class(normal_builder_t), intent(inout) :: self
         self%window_type = &quot;Wooden Window&quot;
     end subroutine normal_builder_t_set_window_type
-    
+
     subroutine normal_builder_t_set_door_type(self)
-    class(normal_builder_t), intent(inout) :: self
+        class(normal_builder_t), intent(inout) :: self
         self%door_type = &quot;Wooden Door&quot;
     end subroutine normal_builder_t_set_door_type
-    
+
     subroutine normal_builder_t_set_num_floor(self)
-    class(normal_builder_t), intent(inout) :: self
+        class(normal_builder_t), intent(inout) :: self
         self%floor = 2_int8
     end subroutine normal_builder_t_set_num_floor
-    
+
     function normal_builder_t_get_house(self) result(house)
-    class(normal_builder_t), intent(inout) :: self
-    type(house_t) :: house
+        class(normal_builder_t), intent(inout) :: self
+        type(house_t) :: house
         ! TODO: A GFortran Bug Here.
         ! house = house_t(door_type=self%door_type, &amp;
         !                 window_type=self%window_type, &amp;
@@ -729,27 +729,27 @@ contains
         house%window_type = self%window_type
         house%floor = self%floor
     end function normal_builder_t_get_house
-    
+
     ! - - - - - - - - - -
-    
+
     subroutine igloo_builder_t_set_window_type(self)
-    class(igloo_builder_t), intent(inout) :: self
+        class(igloo_builder_t), intent(inout) :: self
         self%window_type = &quot;Snow Window&quot;
     end subroutine igloo_builder_t_set_window_type
-    
+
     subroutine igloo_builder_t_set_door_type(self)
-    class(igloo_builder_t), intent(inout) :: self
+        class(igloo_builder_t), intent(inout) :: self
         self%door_type = &quot;Snow Door&quot;
     end subroutine igloo_builder_t_set_door_type
-    
+
     subroutine igloo_builder_t_set_num_floor(self)
-    class(igloo_builder_t), intent(inout) :: self
+        class(igloo_builder_t), intent(inout) :: self
         self%floor = 1_int8
     end subroutine igloo_builder_t_set_num_floor
-    
+
     function igloo_builder_t_get_house(self) result(house)
-    class(igloo_builder_t), intent(inout) :: self
-    type(house_t) :: house
+        class(igloo_builder_t), intent(inout) :: self
+        type(house_t) :: house
         ! house = house_t(door_type=self%door_type, &amp;
         !                 window_type=self%window_type, &amp;
         !                 floor=self%floor)
@@ -757,18 +757,18 @@ contains
         house%window_type = self%window_type
         house%floor = self%floor
     end function igloo_builder_t_get_house
-    
+
     ! - - - - - - - - - -
-    
+
     subroutine director_t_set_builder(self, b)
-    class(director_t), intent(inout) :: self
-    class(ibuilder_t), intent(inout), target :: b
+        class(director_t), intent(inout) :: self
+        class(ibuilder_t), intent(inout), target :: b
         self%builder =&gt; b
     end subroutine director_t_set_builder
-    
+
     function director_t_build_house(self) result(house)
-    class(director_t), intent(inout) :: self
-    type(house_t) :: house
+        class(director_t), intent(inout) :: self
+        type(house_t) :: house
         call self%builder%set_door_type()
         call self%builder%set_window_type()
         call self%builder%set_num_floor()
@@ -778,32 +778,32 @@ contains
 end module builder_module
 </code></pre>
 <pre><code class="language-fortran">program builder_main
-use builder_module, only: ibuilder_t, director_t, house_t, get_builder
-implicit none
+    use builder_module, only: ibuilder_t, director_t, house_t, get_builder
+    implicit none
 
-class(ibuilder_t), allocatable :: normal_builder, igloo_builder
-type(director_t) :: director
-type(house_t) :: normal_house, igloo_house
-    
+    class(ibuilder_t), allocatable :: normal_builder, igloo_builder
+    type(director_t) :: director
+    type(house_t) :: normal_house, igloo_house
+
     normal_builder = get_builder(&quot;normal&quot;)
-    igloo_builder  = get_builder(&quot;igloo&quot;)
-    
+    igloo_builder = get_builder(&quot;igloo&quot;)
+
     !&gt; Normal House
     call director%set_builder(normal_builder)
     normal_house = director%build_house()
-    
+
     print *, &quot;Normal House Door Type: &quot;, normal_house%door_type
     print *, &quot;Normal House Window Type: &quot;, normal_house%window_type
     print *, &quot;Normal House Num Floor: &quot;, normal_house%floor
-    
+
     !&gt; Igloo House
     call director%set_builder(igloo_builder)
     igloo_house = director%build_house()
-    
+
     print *, &quot;Igloo House Door Type: &quot;, igloo_house%door_type
     print *, &quot;Igloo House Window Type: &quot;, igloo_house%window_type
     print *, &quot;Igloo House Num Floor: &quot;, igloo_house%floor
-    
+
 end program builder_main
 
 !&gt; Results shall be:
@@ -828,11 +828,11 @@ end program builder_main
 <p>正文：https://refactoringguru.cn/design-patterns/factory</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/factory/go/example</p>
 <pre><code class="language-fortran">module factory_module
-    
+
     use, intrinsic :: iso_fortran_env, only: int8
     implicit none
     private
-    
+
     public :: igun_t, ak47_t, musket_t, get_gun
 
     type, abstract :: igun_t
@@ -842,35 +842,35 @@ end program builder_main
         procedure(igun_t_get_name), deferred :: get_name
         procedure(igun_t_get_power), deferred :: get_power
     end type igun_t
-    
+
     abstract interface
-        
+
         subroutine igun_t_set_name(self, name)
             import igun_t
             class(igun_t), intent(inout) :: self
             character(*), intent(in) :: name
         end subroutine igun_t_set_name
-        
+
         subroutine igun_t_set_power(self, power)
             import igun_t, int8
             class(igun_t), intent(inout) :: self
             integer(int8), intent(in) :: power
         end subroutine igun_t_set_power
-        
+
         function igun_t_get_name(self) result(name)
             import igun_t
             class(igun_t), intent(inout) :: self
             character(:), allocatable :: name
         end function igun_t_get_name
-        
+
         function igun_t_get_power(self) result(power)
             import igun_t, int8
-            class(igun_t), intent(inout) ::self
+            class(igun_t), intent(inout) :: self
             integer(int8) :: power
         end function igun_t_get_power
-        
+
     end interface
-    
+
     type, extends(igun_t) :: gun_t
         character(:), allocatable :: name
         integer(int8) :: power
@@ -880,13 +880,13 @@ end program builder_main
         procedure :: set_power =&gt; gun_t_set_power
         procedure :: get_power =&gt; gun_t_get_power
     end type gun_t
-    
+
     type, extends(gun_t) :: ak47_t
     end type ak47_t
-    
+
     type, extends(gun_t) :: musket_t
     end type musket_t
-        
+
 contains
 
     subroutine gun_t_set_name(self, name)
@@ -894,30 +894,30 @@ contains
         character(*), intent(in) :: name
         self%name = name
     end subroutine gun_t_set_name
-    
+
     subroutine gun_t_set_power(self, power)
         class(gun_t), intent(inout) :: self
         integer(int8), intent(in) :: power
         self%power = power
     end subroutine gun_t_set_power
-    
+
     function gun_t_get_name(self) result(name)
         class(gun_t), intent(inout) :: self
         character(:), allocatable :: name
         name = self%name
     end function gun_t_get_name
-    
+
     function gun_t_get_power(self) result(power)
-        class(gun_t), intent(inout) ::self
+        class(gun_t), intent(inout) :: self
         integer(int8) :: power
         power = self%power
     end function gun_t_get_power
-    
+
     function get_gun(gun_type) result(igun)
         character(*), intent(in) :: gun_type
         class(igun_t), allocatable :: igun
-        
-        select case(gun_type)
+
+        select case (gun_type)
         case (&quot;ak47&quot;)
             igun = ak47_t(name=&quot;ak47 gun&quot;, power=4)
         case (&quot;musket&quot;)
@@ -925,31 +925,30 @@ contains
         case default
             error stop &quot;*ERROR* `gnu_type` not supported&quot;
         end select
-        
+
     end function get_gun
-    
-    
+
 end module factory_module
 </code></pre>
 <pre><code class="language-fortran">program factory_main
 
     use factory_module, only: igun_t, ak47_t, musket_t, get_gun
     implicit none
-    
+
     class(igun_t), allocatable :: ak47, musket
-    
-    allocate(ak47_t :: ak47)
-    allocate(musket_t :: musket)
-    
+
+    allocate (ak47_t :: ak47)
+    allocate (musket_t :: musket)
+
     ak47 = get_gun(&quot;ak47&quot;)
     musket = get_gun(&quot;musket&quot;)
-    
+
     call print_details(ak47)
     call print_details(musket)
-    
+
 contains
 
-    subroutine print_details(igun) 
+    subroutine print_details(igun)
         class(igun_t), intent(inout) :: igun
         print *, &quot;Gun: &quot;, igun%get_name()
         print *, &quot;Power: &quot;, igun%get_power()
@@ -971,125 +970,125 @@ end program factory_main
 
     implicit none
     private
-    
+
     public :: file_t, folder_t, inode_t
-    
+
     type, abstract :: inode_t
     contains
-    procedure(inode_t_print), deferred :: print
-    procedure(inode_t_clone), deferred :: clone
+        procedure(inode_t_print), deferred :: print
+        procedure(inode_t_clone), deferred :: clone
     end type inode_t
-    
+
     type, extends(inode_t) :: file_t
-    character(:), allocatable :: name
+        character(:), allocatable :: name
     contains
-    procedure :: print =&gt; file_t_print
-    procedure :: clone =&gt; file_t_clone
+        procedure :: print =&gt; file_t_print
+        procedure :: clone =&gt; file_t_clone
     end type file_t
-    
+
     !&gt; Wrapper (Important)
     type node_t
-    class(inode_t), pointer :: inode
+        class(inode_t), pointer :: inode
     end type node_t
-    
+
     type, extends(inode_t) :: folder_t
-    type(node_t), allocatable :: children(:)
-    character(:), allocatable :: name
+        type(node_t), allocatable :: children(:)
+        character(:), allocatable :: name
     contains
-    procedure :: print =&gt; folder_t_print
-    procedure :: clone =&gt; folder_t_clone
+        procedure :: print =&gt; folder_t_print
+        procedure :: clone =&gt; folder_t_clone
     end type folder_t
-    
+
     abstract interface
-    
+
         subroutine inode_t_print(self, indentation)
-        import inode_t
-        class(inode_t), intent(inout) :: self
-        character(*), intent(in) :: indentation
+            import inode_t
+            class(inode_t), intent(inout) :: self
+            character(*), intent(in) :: indentation
         end subroutine inode_t_print
 
         function inode_t_clone(self) result(inode)
-        import inode_t
-        class(inode_t), intent(inout) :: self
-        class(inode_t), allocatable :: inode
+            import inode_t
+            class(inode_t), intent(inout) :: self
+            class(inode_t), allocatable :: inode
         end function inode_t_clone
-    
+
     end interface
 
 contains
 
     subroutine file_t_print(self, indentation)
-    class(file_t), intent(inout) :: self
-    character(*), intent(in) :: indentation
-        print *, indentation // self%name
+        class(file_t), intent(inout) :: self
+        character(*), intent(in) :: indentation
+        print *, indentation//self%name
     end subroutine file_t_print
 
     function file_t_clone(self) result(inode)
-    class(file_t), intent(inout) :: self
-    class(inode_t), allocatable :: inode
-        allocate(file_t :: inode)
-        inode = file_t(name=self%name // &quot;_clone&quot;)
+        class(file_t), intent(inout) :: self
+        class(inode_t), allocatable :: inode
+        allocate (file_t :: inode)
+        inode = file_t(name=self%name//&quot;_clone&quot;)
     end function file_t_clone
-    
+
     ! - - - - - - - - -
-    
+
     subroutine folder_t_print(self, indentation)
-    class(folder_t), intent(inout) :: self
-    character(*), intent(in) :: indentation
-    integer :: i
-        print *, indentation // self%name
+        class(folder_t), intent(inout) :: self
+        character(*), intent(in) :: indentation
+        integer :: i
+        print *, indentation//self%name
         if (size(self%children) == 0) return
         do i = 1, size(self%children)
-        call self%children(i)%inode%print(indentation // indentation)
+            call self%children(i)%inode%print(indentation//indentation)
         end do
     end subroutine folder_t_print
 
-    !&gt; There may be incorrect usage here, but I have no choice but to do so. 
+    !&gt; There may be incorrect usage here, but I have no choice but to do so.
     !&gt;  Fortran's compilation check is stricter, and I am indeed bypassing it.
     function folder_t_clone(self) result(inode)
-    class(folder_t), intent(inout) :: self
-    class(inode_t), allocatable :: inode
-    type(folder_t), allocatable :: tmp_folder
-    integer :: i
-        allocate(tmp_folder, source=self)
-        tmp_folder%name = tmp_folder%name // &quot;_clone&quot;
+        class(folder_t), intent(inout) :: self
+        class(inode_t), allocatable :: inode
+        type(folder_t), allocatable :: tmp_folder
+        integer :: i
+        allocate (tmp_folder, source=self)
+        tmp_folder%name = tmp_folder%name//&quot;_clone&quot;
         if (size(self%children) &gt; 0) then
         do i = 1, size(tmp_folder%children)
-            associate(node =&gt; tmp_folder%children(i)%inode)
-            allocate(node, source=node%clone())
+            associate (node =&gt; tmp_folder%children(i)%inode)
+                allocate (node, source=node%clone())
             end associate
         end do
         end if
-        allocate(inode, source=tmp_folder)
+        allocate (inode, source=tmp_folder)
     end function folder_t_clone
 
 end module prototype_module
 </code></pre>
 <pre><code class="language-fortran">program prototype_main
-use prototype_module, only: file_t, folder_t, inode_t
-implicit none
-type(file_t), target :: file1, file2, file3
-type(folder_t), target :: folder1
-type(folder_t) :: folder2
-class(inode_t), allocatable :: clone_folder
+    use prototype_module, only: file_t, folder_t, inode_t
+    implicit none
+    type(file_t), target :: file1, file2, file3
+    type(folder_t), target :: folder1
+    type(folder_t) :: folder2
+    class(inode_t), allocatable :: clone_folder
 
     file1%name = &quot;file1&quot;
     file2%name = &quot;file2&quot;
     file3%name = &quot;file3&quot;
-    
+
     folder1%name = &quot;folder1&quot;
-    allocate(folder1%children(1))
+    allocate (folder1%children(1))
     folder1%children(1)%inode =&gt; file1
-    
+
     folder2%name = &quot;folder2&quot;
-    allocate(folder2%children(3))
+    allocate (folder2%children(3))
     folder2%children(1)%inode =&gt; folder1
     folder2%children(2)%inode =&gt; file2
     folder2%children(3)%inode =&gt; file3
-    
+
     print *, &quot;Printing hierarchy for Folder2&quot;
     call folder2%print(&quot;   &quot;)
-    
+
     clone_folder = folder2%clone()
     print *, &quot;Printing hierarchy for clone Folder&quot;
     call clone_folder%print(&quot;   &quot;)
@@ -1117,16 +1116,16 @@ end program prototype_main
 
     implicit none
     private
-    
+
     public :: single, get_instance, dispose_instance
-    
+
     logical :: lock = .false.
-    
+
     type single_t
         private
         integer :: value
     end type single_t
-    
+
     type(single_t) :: single
 
 contains
@@ -1143,7 +1142,7 @@ contains
             lock = .true.
         end if
     end function get_instance
-    
+
     subroutine dispose_instance(single)
         type(single_t), intent(inout) :: single
         print *, &quot;Disposing single instance now.&quot;
@@ -1154,16 +1153,16 @@ contains
 end module singleton_module
 </code></pre>
 <pre><code class="language-fortran">program singleton_main
-    
+
     use singleton_module, only: single, get_instance, dispose_instance
     implicit none
-    
+
     single = get_instance(10)
     single = get_instance(23)
     single = get_instance(0)
     call dispose_instance(single)
     single = get_instance(9)
-    
+
 end program singleton_main
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="适配器模式"><a class="header" href="#适配器模式">适配器模式</a></h1>
@@ -1173,76 +1172,76 @@ end program singleton_main
 
     implicit none
     private
-    
+
     public :: client_t, computer_t, mac_t, windows_t, windows_adapter_t
-    
+
     type client_t
     contains
-    procedure :: insert_lightning_connector_into_computer =&gt; client_t_insert_lightning_connector_into_computer
+        procedure :: insert_lightning_connector_into_computer =&gt; client_t_insert_lightning_connector_into_computer
     end type client_t
-    
+
     type, abstract :: computer_t
     contains
-    procedure(computer_t_insert_into_lightning_port), deferred :: insert_into_lightning_port
+        procedure(computer_t_insert_into_lightning_port), deferred :: insert_into_lightning_port
     end type computer_t
-    
+
     type, extends(computer_t) :: mac_t
     contains
-    procedure :: insert_into_lightning_port =&gt; mac_t_insert_into_lightning_port
+        procedure :: insert_into_lightning_port =&gt; mac_t_insert_into_lightning_port
     end type mac_t
-    
+
     type, extends(computer_t) :: windows_t
     contains
-    procedure :: insert_into_lightning_port =&gt; windows_t_insert_into_lightning_port
+        procedure :: insert_into_lightning_port =&gt; windows_t_insert_into_lightning_port
     end type windows_t
-    
+
     type, extends(computer_t) :: windows_adapter_t
-    type(windows_t), pointer :: windows_machine
+        type(windows_t), pointer :: windows_machine
     contains
-    procedure :: insert_into_lightning_port =&gt; windows_adapter_t_insert_into_lightning_port
+        procedure :: insert_into_lightning_port =&gt; windows_adapter_t_insert_into_lightning_port
     end type windows_adapter_t
-    
+
     abstract interface
         subroutine computer_t_insert_into_lightning_port(self)
-        import computer_t
-        class(computer_t), intent(inout) :: self
+            import computer_t
+            class(computer_t), intent(inout) :: self
         end subroutine computer_t_insert_into_lightning_port
     end interface
-    
+
 contains
 
     subroutine client_t_insert_lightning_connector_into_computer(self, com)
-    class(client_t), intent(inout) :: self
-    class(computer_t), intent(inout) :: com
+        class(client_t), intent(inout) :: self
+        class(computer_t), intent(inout) :: com
         print *, &quot;Client inserts Lightning connector into computer.&quot;
         call com%insert_into_lightning_port()
     end subroutine client_t_insert_lightning_connector_into_computer
-    
+
     subroutine mac_t_insert_into_lightning_port(self)
-    class(mac_t), intent(inout) :: self
+        class(mac_t), intent(inout) :: self
         print *, &quot;Lightning connector is plugged into mac machine.&quot;
     end subroutine mac_t_insert_into_lightning_port
-    
+
     subroutine windows_t_insert_into_lightning_port(self)
-    class(windows_t), intent(inout) :: self
+        class(windows_t), intent(inout) :: self
         print *, &quot;USB connector is plugged into windows machine.&quot;
     end subroutine windows_t_insert_into_lightning_port
-    
+
     subroutine windows_adapter_t_insert_into_lightning_port(self)
-    class(windows_adapter_t), intent(inout) :: self
+        class(windows_adapter_t), intent(inout) :: self
         print *, &quot;Adapter converts Lightning signal to USB.&quot;
         call self%windows_machine%insert_into_lightning_port()
     end subroutine windows_adapter_t_insert_into_lightning_port
-    
+
 end module adapter_module
 </code></pre>
 <pre><code class="language-fortran">program adapter_main
-use adapter_module, only: client_t, computer_t, mac_t, windows_t, windows_adapter_t
-implicit none
-type(client_t) :: client
-type(mac_t) :: mac
-type(windows_t), target :: windows
-type(windows_adapter_t) :: windows_adapter
+    use adapter_module, only: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+    implicit none
+    type(client_t) :: client
+    type(mac_t) :: mac
+    type(windows_t), target :: windows
+    type(windows_adapter_t) :: windows_adapter
 
     call client%insert_lightning_connector_into_computer(mac)
     windows_adapter%windows_machine =&gt; windows
@@ -1365,21 +1364,21 @@ end module bridge_module
 
     use bridge_module, only: hp_t, epson_t, mac_t, windows_t
     implicit none
-    
+
     type(hp_t) :: hp_printer
     type(epson_t) :: epson_printer
     type(mac_t) :: mac_computer
     type(windows_t) :: windows_computer
-    
+
     call mac_computer%set_printer(hp_printer)
     call mac_computer%print()
-    
+
     call mac_computer%set_printer(epson_printer)
     call mac_computer%print()
-    
+
     call windows_computer%set_printer(hp_printer)
     call windows_computer%print()
-    
+
     call windows_computer%set_printer(epson_printer)
     call windows_computer%print()
 
@@ -1405,73 +1404,73 @@ end program bridge_main
     private
 
     public :: file_t, folder_t
-    
+
     type, abstract :: component_t
     contains
-    procedure(component_t_search), deferred :: search
+        procedure(component_t_search), deferred :: search
     end type component_t
-    
+
     type, extends(component_t) :: file_t
-    character(:), allocatable :: name
+        character(:), allocatable :: name
     contains
-    procedure :: search =&gt; file_t_search
-    procedure :: get_name =&gt; file_t_get_name
+        procedure :: search =&gt; file_t_search
+        procedure :: get_name =&gt; file_t_get_name
     end type file_t
-    
+
     type node_t
-    class(component_t), pointer :: node
+        class(component_t), pointer :: node
     end type node_t
-    
+
     type, extends(component_t) :: folder_t
-    type(node_t), allocatable :: components(:)
-    character(:), allocatable :: name
+        type(node_t), allocatable :: components(:)
+        character(:), allocatable :: name
     contains
-    procedure :: search =&gt; folder_t_search
+        procedure :: search =&gt; folder_t_search
     end type folder_t
-    
+
     abstract interface
         subroutine component_t_search(self, keyward)
-        import component_t
-        class(component_t), intent(inout) :: self
-        character(*), intent(in) :: keyward
+            import component_t
+            class(component_t), intent(inout) :: self
+            character(*), intent(in) :: keyward
         end subroutine component_t_search
     end interface
-    
+
 contains
 
     subroutine file_t_search(self, keyward)
-    class(file_t), intent(inout) :: self
-    character(*), intent(in) :: keyward
+        class(file_t), intent(inout) :: self
+        character(*), intent(in) :: keyward
         print *, &quot;Searching for keyword &quot;, keyward, &quot; in file &quot;, self%name
     end subroutine file_t_search
-    
+
     function file_t_get_name(self) result(name)
-    class(file_t), intent(inout) :: self
-    character(:), allocatable :: name
+        class(file_t), intent(inout) :: self
+        character(:), allocatable :: name
         name = self%name
     end function file_t_get_name
-    
+
     ! - - - - - - - - - -
-    
+
     subroutine folder_t_search(self, keyward)
-    class(folder_t), intent(inout) :: self
-    character(*), intent(in) :: keyward
-    integer :: i
+        class(folder_t), intent(inout) :: self
+        character(*), intent(in) :: keyward
+        integer :: i
         print *, &quot;Searching recursively for keyword &quot;, keyward, &quot; in folder &quot;, self%name
         if (size(self%components) == 0) return
         do i = 1, size(self%components)
-        call self%components(i)%node%search(keyward)
+            call self%components(i)%node%search(keyward)
         end do
     end subroutine folder_t_search
-    
+
 end module composite_module
 </code></pre>
 <pre><code class="language-fortran">program composite_main
-use composite_module, only: file_t, folder_t
-implicit none
-type(file_t), target :: file1, file2, file3
-type(folder_t), target :: folder1
-type(folder_t) :: folder2
+    use composite_module, only: file_t, folder_t
+    implicit none
+    type(file_t), target :: file1, file2, file3
+    type(folder_t), target :: folder1
+    type(folder_t) :: folder2
 
     file1%name = &quot;File1&quot;
     file2%name = &quot;File2&quot;
@@ -1479,17 +1478,17 @@ type(folder_t) :: folder2
 
     folder1%name = &quot;Folder1&quot;
     folder2%name = &quot;Folder2&quot;
-    
-    allocate(folder1%components(1))
+
+    allocate (folder1%components(1))
     folder1%components(1)%node =&gt; file1
-    
-    allocate(folder2%components(3))
+
+    allocate (folder2%components(3))
     folder2%components(1)%node =&gt; file2
     folder2%components(2)%node =&gt; file3
     folder2%components(3)%node =&gt; folder1
-    
+
     call folder2%search(&quot;rose&quot;)
-    
+
 end program composite_main
 
 !&gt; Results shall be:
@@ -1507,56 +1506,56 @@ end program composite_main
 
     implicit none
     private
-    
+
     public :: new_wallet_facade, wallet_facade_t
-    
+
     type account_t
-    character(:), allocatable :: name
+        character(:), allocatable :: name
     contains
-    procedure :: check_account =&gt; account_t_check_account
+        procedure :: check_account =&gt; account_t_check_account
     end type account_t
-    
+
     type security_code_t
-    integer :: code
+        integer :: code
     contains
-    procedure :: check_code =&gt; security_code_t_check_code
+        procedure :: check_code =&gt; security_code_t_check_code
     end type security_code_t
-    
+
     type wallet_t
-    integer :: balance
+        integer :: balance
     contains
-    procedure :: credit_balance =&gt; wallet_t_credit_balance
-    procedure :: debit_balance  =&gt; wallet_t_debit_balance
+        procedure :: credit_balance =&gt; wallet_t_credit_balance
+        procedure :: debit_balance =&gt; wallet_t_debit_balance
     end type wallet_t
-    
+
     type ledger_t
     contains
-    procedure :: make_entry =&gt; ledger_t_make_entry
+        procedure :: make_entry =&gt; ledger_t_make_entry
     end type ledger_t
-    
+
     type notification_t
     contains
-    procedure :: send_wallet_credit_notification =&gt; notification_t_send_wallet_credit_notification
-    procedure :: send_wallet_debit_notification  =&gt; notification_t_send_wallet_debit_notification
+        procedure :: send_wallet_credit_notification =&gt; notification_t_send_wallet_credit_notification
+        procedure :: send_wallet_debit_notification =&gt; notification_t_send_wallet_debit_notification
     end type notification_t
-    
+
     type wallet_facade_t
-    type(account_t) :: account
-    type(wallet_t) :: wallet
-    type(security_code_t) :: security_code
-    type(notification_t) :: notification
-    type(ledger_t) :: ledger
+        type(account_t) :: account
+        type(wallet_t) :: wallet
+        type(security_code_t) :: security_code
+        type(notification_t) :: notification
+        type(ledger_t) :: ledger
     contains
-    procedure :: add_money_to_wallet =&gt; wallet_facade_t_add_money_to_wallet
-    procedure :: deduct_money_from_wallet =&gt; wallet_facade_t_deduct_money_from_wallet
+        procedure :: add_money_to_wallet =&gt; wallet_facade_t_add_money_to_wallet
+        procedure :: deduct_money_from_wallet =&gt; wallet_facade_t_deduct_money_from_wallet
     end type wallet_facade_t
-    
+
 contains
 
     function new_wallet_facade(account_id, code) result(wallet_facade)
-    character(*), intent(in) :: account_id
-    integer, intent(in) :: code
-    type(wallet_facade_t) :: wallet_facade
+        character(*), intent(in) :: account_id
+        integer, intent(in) :: code
+        type(wallet_facade_t) :: wallet_facade
         print *, &quot;Starting create account&quot;
         wallet_facade = wallet_facade_t(account=account_t(account_id), &amp;
                                         security_code=security_code_t(code), &amp;
@@ -1565,11 +1564,11 @@ contains
                                         ledger=ledger_t())
         print *, &quot;Account created&quot;
     end function new_wallet_facade
-    
+
     subroutine wallet_facade_t_add_money_to_wallet(self, account_id, security_code, amount)
-    class(wallet_facade_t), intent(inout) :: self
-    character(*), intent(in) :: account_id
-    integer, intent(in) :: security_code, amount
+        class(wallet_facade_t), intent(inout) :: self
+        character(*), intent(in) :: account_id
+        integer, intent(in) :: security_code, amount
         print *, &quot;Starting add money to wallet&quot;
         call self%account%check_account(account_id)
         call self%security_code%check_code(security_code)
@@ -1577,11 +1576,11 @@ contains
         call self%notification%send_wallet_credit_notification()
         call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
     end subroutine wallet_facade_t_add_money_to_wallet
-    
+
     subroutine wallet_facade_t_deduct_money_from_wallet(self, account_id, security_code, amount)
-    class(wallet_facade_t), intent(inout) :: self
-    character(*), intent(in) :: account_id
-    integer, intent(in) :: security_code, amount
+        class(wallet_facade_t), intent(inout) :: self
+        character(*), intent(in) :: account_id
+        integer, intent(in) :: security_code, amount
         print *, &quot;Starting debit money from wallet&quot;
         call self%account%check_account(account_id)
         call self%security_code%check_code(security_code)
@@ -1589,77 +1588,77 @@ contains
         call self%notification%send_wallet_credit_notification()
         call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
     end subroutine wallet_facade_t_deduct_money_from_wallet
-    
+
     ! - - - - - - - - -
-    
+
     subroutine account_t_check_account(self, account_name)
-    class(account_t), intent(inout) :: self
-    character(*), intent(in) :: account_name
+        class(account_t), intent(inout) :: self
+        character(*), intent(in) :: account_name
         if (self%name /= account_name) then
-        error stop &quot;Account Name is incorrect&quot;
+            error stop &quot;Account Name is incorrect&quot;
         end if
         print *, &quot;Account Verified&quot;
     end subroutine account_t_check_account
-    
+
     ! - - - - - - - - -
-    
+
     subroutine security_code_t_check_code(self, incomming_code)
-    class(security_code_t), intent(inout) :: self
-    integer, intent(in) :: incomming_code
+        class(security_code_t), intent(inout) :: self
+        integer, intent(in) :: incomming_code
         if (self%code /= incomming_code) then
-        error stop &quot;Security Code is incorrect&quot;
+            error stop &quot;Security Code is incorrect&quot;
         end if
         print *, &quot;SecurityCode Verified&quot;
     end subroutine security_code_t_check_code
-    
+
     ! - - - - - - - - -
-    
+
     subroutine wallet_t_credit_balance(self, amount)
-    class(wallet_t), intent(inout) :: self
-    integer, intent(in) :: amount
+        class(wallet_t), intent(inout) :: self
+        integer, intent(in) :: amount
         self%balance = self%balance + amount
         print *, &quot;Wallet balance added successfully&quot;
     end subroutine wallet_t_credit_balance
-    
+
     subroutine wallet_t_debit_balance(self, amount)
-    class(wallet_t), intent(inout) :: self
-    integer, intent(in) :: amount
+        class(wallet_t), intent(inout) :: self
+        integer, intent(in) :: amount
         if (self%balance &lt; amount) then
-        error stop &quot;Balance is not sufficient&quot;
+            error stop &quot;Balance is not sufficient&quot;
         end if
         print *, &quot;Wallet balance is Sufficient&quot;
         self%balance = self%balance - amount
     end subroutine wallet_t_debit_balance
-    
+
     ! - - - - - - - - -
-    
+
     subroutine ledger_t_make_entry(self, account_id, txn_type, amount)
-    class(ledger_t), intent(inout) :: self
-    character(*), intent(in) :: account_id, txn_type
-    integer, intent(in) :: amount
+        class(ledger_t), intent(inout) :: self
+        character(*), intent(in) :: account_id, txn_type
+        integer, intent(in) :: amount
         print *, &quot;Make ledger entry for accountId &quot;, account_id, &amp;
             &quot; with txnType &quot;, txn_type, &amp;
             &quot; for amount &quot;, amount
     end subroutine ledger_t_make_entry
-    
+
     ! - - - - - - - - -
-    
+
     subroutine notification_t_send_wallet_credit_notification(self)
-    class(notification_t), intent(inout) :: self
+        class(notification_t), intent(inout) :: self
         print *, &quot;Sending wallet credit notification&quot;
     end subroutine notification_t_send_wallet_credit_notification
-    
+
     subroutine notification_t_send_wallet_debit_notification(self)
-    class(notification_t), intent(inout) :: self
+        class(notification_t), intent(inout) :: self
         print *, &quot;Sending wallet debit notification&quot;
     end subroutine notification_t_send_wallet_debit_notification
-    
+
 end module facade_module
 </code></pre>
 <pre><code class="language-fortran">program facade_main
-use facade_module, only: wallet_facade_t, new_wallet_facade
-implicit none
-type(wallet_facade_t) :: wallet_facade
+    use facade_module, only: wallet_facade_t, new_wallet_facade
+    implicit none
+    type(wallet_facade_t) :: wallet_facade
 
     wallet_facade = new_wallet_facade(account_id=&quot;abc&quot;, code=1234)
     call wallet_facade%add_money_to_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=10)
@@ -1692,100 +1691,100 @@ end program facade_main
     use, intrinsic :: iso_fortran_env, only: int16
     implicit none
     private
-    
+
     public :: nginx_t, new_nginx_server
-    
+
     type, abstract :: server_t
     contains
         procedure(server_t_handle_request), deferred :: handle_request
     end type server_t
-    
+
     abstract interface
         subroutine server_t_handle_request(self, url, method, code, msg)
             import server_t, int16
             class(server_t), intent(inout) :: self
             character(*), intent(in) :: url, method
             integer(int16), intent(out) :: code
-            character(:), intent(out), allocatable :: msg 
+            character(:), intent(out), allocatable :: msg
         end subroutine server_t_handle_request
     end interface
-    
+
     type map_t
         character(:), allocatable :: url
         integer(int16) :: rate_limiter
     end type map_t
-    
+
     type, extends(server_t) :: nginx_t
         type(application_t), allocatable :: application
         integer(int16) :: max_allowed_request
         type(map_t), allocatable :: map(:)
         ! TODO:
     contains
-        procedure :: handle_request      =&gt; nginx_t_handle_request
+        procedure :: handle_request =&gt; nginx_t_handle_request
         procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
     end type nginx_t
-    
+
     type, extends(server_t) :: application_t
     contains
         procedure :: handle_request =&gt; application_t_handle_request
     end type application_t
-    
+
 contains
 
     type(nginx_t) function new_nginx_server() result(nginx)
         type(map_t), allocatable :: map_(:)
         ! TODO:
-        allocate(map_(2))
+        allocate (map_(2))
         map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
         map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
-        
+
         nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
     end function new_nginx_server
-    
+
     subroutine nginx_t_handle_request(self, url, method, code, msg)
         class(nginx_t), intent(inout) :: self
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg
-        
+
         logical :: allowed
-        
+
         allowed = self%check_rate_limiting(url)
-        
-        if (.not.allowed) then
+
+        if (.not. allowed) then
             code = 403_int16
-            msg  = &quot;Not Allowed&quot;
+            msg = &quot;Not Allowed&quot;
             return
         end if
-        
+
         call self%application%handle_request(url, method, code, msg)
-        
+
     end subroutine nginx_t_handle_request
-    
+
     logical function nginx_t_check_rate_limiting(self, url) result(allowed)
         class(nginx_t), intent(inout) :: self
         character(*), intent(in) :: url
-        
+
         integer(int16) :: i
-        
+
         do i = 1_int16, size(self%map, kind=int16)
             if (self%map(i)%url == url) exit
         end do
-        
+
         ! i = i - 1_int16
-        
+
         if (self%map(i)%rate_limiter == 0_int16) then
             self%map(i)%rate_limiter = 1_int16
         end if
-        
+
         if (self%map(i)%rate_limiter &gt; self%max_allowed_request) then
             allowed = .false.
             return
         end if
-        
+
         allowed = .true.
         self%map(i)%rate_limiter = self%map(i)%rate_limiter + 1_int16
-        
+
     end function nginx_t_check_rate_limiting
 
     subroutine application_t_handle_request(self, url, method, code, msg)
@@ -1793,22 +1792,22 @@ contains
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg
-        
-        if (url==&quot;/app/status&quot; .and. method==&quot;GET&quot;) then
+
+        if (url == &quot;/app/status&quot; .and. method == &quot;GET&quot;) then
             code = 200_int16
             msg = &quot;Ok&quot;
             return
         end if
-        
-        if (url==&quot;/create/user&quot; .and. method==&quot;POST&quot;) then
+
+        if (url == &quot;/create/user&quot; .and. method == &quot;POST&quot;) then
             code = 201_int16
             msg = &quot;User Created&quot;
             return
         end if
-        
+
         code = 404_int16
         msg = &quot;Not Ok&quot;
-        
+
     end subroutine application_t_handle_request
 
 end module proxy_module
@@ -1817,39 +1816,39 @@ end module proxy_module
 
     use, intrinsic :: iso_fortran_env, only: int16
     use proxy_module, only: nginx_t, new_nginx_server
-    
+
     type(nginx_t) :: nginx_server
     character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
     integer(int16) :: code
     character(:), allocatable :: body
-    
+
     nginx_server = new_nginx_server()
-    
+
     call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
     print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-    
+
     call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
     print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-    
+
     call nginx_server%handle_request(app_status_url, &quot;GET&quot;, code, body)
     print *, &quot;Url: &quot;, app_status_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-    
+
     call nginx_server%handle_request(create_user_url, &quot;POST&quot;, code, body)
     print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-    
+
     call nginx_server%handle_request(create_user_url, &quot;GET&quot;, code, body)
     print *, &quot;Url: &quot;, create_user_url, new_line(&quot;&quot;), &amp;
         &quot;Http code: &quot;, code, new_line(&quot;&quot;), &amp;
         &quot;Body: &quot;, body
-    
+
 end program proxy_main
 
 !&gt; Results shall be:
@@ -2039,9 +2038,9 @@ contains
         class(reception), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine reception_set_next   
+    end subroutine reception_set_next
 
     subroutine doctor_execute(self, p)
         class(doctor), intent(inout) :: self
@@ -2063,9 +2062,9 @@ contains
         class(doctor), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine doctor_set_next   
+    end subroutine doctor_set_next
 
     subroutine medicine_execute(self, p)
         class(medical), intent(inout) :: self
@@ -2087,9 +2086,9 @@ contains
         class(medical), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine medicine_set_next   
+    end subroutine medicine_set_next
 
     subroutine cashier_execute(self, p)
         class(cashier), intent(inout) :: self
@@ -2109,9 +2108,9 @@ contains
         class(cashier), intent(inout) :: self
         class(department), intent(inout) :: next
 
-        allocate(self%next, source=next)
+        allocate (self%next, source=next)
 
-    end subroutine cashier_set_next   
+    end subroutine cashier_set_next
 
 end module hospital_CoR
 </code></pre>
@@ -2133,26 +2132,26 @@ program test_CoR
     call d%set_next(m)
     call r%set_next(d)
 
-    p1 = patient(&quot;abc&quot;,.true.,.true.,.true.,.true.)
+    p1 = patient(&quot;abc&quot;, .true., .true., .true., .true.)
     !&gt; Patient visiting
     print *, &quot;&gt; Patient `&quot;//p1%name//&quot;` : &quot;
     call r%execute(p1)
 
-    p2 = patient(&quot;def&quot;,.true.,.false.,.false.,.false.)
+    p2 = patient(&quot;def&quot;, .true., .false., .false., .false.)
     !&gt; Patient visiting
     print *, &quot;&gt; Patient `&quot;//p2%name//&quot;` : &quot;
     call r%execute(p2)
 
     !&gt; Optional statements
-    deallocate(m%next)
-    deallocate(d%next)
-    deallocate(r%next)
+    deallocate (m%next)
+    deallocate (d%next)
+    deallocate (r%next)
 
 end program test_CoR
 
 !&gt; Results shall be:
 
-!  &gt; Patient `abc` : 
+!  &gt; Patient `abc` :
 !  Patient registration already done.✔️
 !  Doctor checkup already done.✔️
 !  Medicine already given to patient.✔️
@@ -2168,7 +2167,7 @@ end program test_CoR
 <p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
 <pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
 module command_pattern
-    
+
     implicit none
     private
 
@@ -2208,7 +2207,7 @@ module command_pattern
         class(device), pointer :: d
     contains
         procedure :: execute =&gt; on_command_execute
-    end type on_command 
+    end type on_command
 
     type, extends(command) :: off_command
         class(device), pointer :: d
@@ -2272,21 +2271,21 @@ program test_command
     type(button) :: off_b
 
     !&gt; Linking
-    allocate(on_c%d, source=t)
-    allocate(off_c%d, source=t)
+    allocate (on_c%d, source=t)
+    allocate (off_c%d, source=t)
 
-    allocate(on_b%c, source=on_c)
-    allocate(off_b%c, source=off_c)
+    allocate (on_b%c, source=on_c)
+    allocate (off_b%c, source=off_c)
 
     !&gt; Operating
     call on_b%press()
     call off_b%press()
 
     !&gt; Free memory.
-    deallocate(on_c%d)
-    deallocate(off_c%d)
-    deallocate(on_b%c)
-    deallocate(off_b%c)
+    deallocate (on_c%d)
+    deallocate (off_c%d)
+    deallocate (on_b%c)
+    deallocate (off_b%c)
 
 end program test_command
 
@@ -2299,64 +2298,64 @@ end program test_command
 <p>正文：https://refactoringguru.cn/design-patterns/iterator</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/iterator/go/example</p>
 <pre><code class="language-fortran">module iterator_module
-    
+
     use, intrinsic :: iso_fortran_env, only: int8
     implicit none
     private
-    
+
     public :: user_t, user_collection_t, user_iterator_t, iterator_t
-    
+
     !&gt; Abstract types
-    
+
     !&gt; Collection
     type, abstract :: collection_t
     contains
         procedure(collection_t_create_iterator), deferred :: create_iterator
     end type collection_t
-    
+
     !&gt; Iterator
     type, abstract :: iterator_t
     contains
         procedure(iterator_t_has_next), deferred :: has_next
         procedure(iterator_t_get_next), deferred :: get_next
     end type iterator_t
-    
+
     !&gt; User
     type user_t
         character(:), allocatable :: name
         integer(int8) :: age
     end type user_t
-    
+
     abstract interface
-    
+
         function collection_t_create_iterator(self) result(iterator)
             import iterator_t, collection_t
             !&gt; TODO:
             class(collection_t), intent(in) :: self
             class(iterator_t), allocatable :: iterator
         end function collection_t_create_iterator
-        
+
         logical function iterator_t_has_next(self)
             import iterator_t
             class(iterator_t), intent(in) :: self
         end function iterator_t_has_next
-        
+
         type(user_t) function iterator_t_get_next(self)
             import user_t, iterator_t
             class(iterator_t), intent(inout) :: self
         end function iterator_t_get_next
-        
+
     end interface
-    
+
     !&gt; Specific types
-    
+
     !&gt; User collection
     type, extends(collection_t) :: user_collection_t
         type(user_t), allocatable :: users(:)
     contains
         procedure :: create_iterator =&gt; user_collection_t_create_iterator
     end type user_collection_t
-    
+
     !&gt; User iterator
     type, extends(iterator_t) :: user_iterator_t
         integer :: index
@@ -2374,49 +2373,49 @@ contains
         ! TODO:
         iterator = user_iterator_t(index=0, users=self%users)
     end function user_collection_t_create_iterator
-    
+
     logical function user_iterator_t_has_next(self) result(has)
         class(user_iterator_t), intent(in) :: self
-        
+
         has = merge(.true., .false., self%index &lt; size(self%users))
-        
+
     end function user_iterator_t_has_next
-    
+
     type(user_t) function user_iterator_t_get_next(self) result(user)
         class(user_iterator_t), intent(inout) :: self
-        
+
         self%index = self%index + 1
         user = self%users(self%index)
-    
+
     end function user_iterator_t_get_next
-    
+
 end module iterator_module
 </code></pre>
 <pre><code class="language-fortran">program iterator_main
 
     use, intrinsic :: iso_fortran_env, only: int8
     use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
-    
+
     type(user_t) :: user1, user2, user
     type(user_collection_t) :: user_collection
     ! TODO:
     class(iterator_t), allocatable :: iterator
-    
+
     user1 = user_t(name=&quot;A&quot;, age=30_int8)
     user2 = user_t(name=&quot;B&quot;, age=20_int8)
-    
+
     user_collection = user_collection_t(users=[user1, user2])
-    
+
     !&gt; Specific iterator
-    allocate(user_iterator_t :: iterator)
+    allocate (user_iterator_t :: iterator)
     iterator = user_collection%create_iterator()
-    
+
     do while (iterator%has_next())
         user = iterator%get_next()
         print &quot;(3A,I3)&quot;, &quot;User is &quot;, user%name, &quot;, age is &quot;, user%age
     end do
-    
-    deallocate(iterator)
+
+    deallocate (iterator)
 
 end program iterator_main
 
@@ -2449,8 +2448,8 @@ module observer_pattern
         procedure(update_procedure), deferred :: update
         procedure(get_ID_procedure), deferred :: get_ID
     end type observer
-    
-    !&gt; We cannot directly use `class(observer), allocatable :: o_list(:)` 
+
+    !&gt; We cannot directly use `class(observer), allocatable :: o_list(:)`
     !&gt;  instead of `type(node), allocatable :: o_list(:)`.
     type node
         class(observer), allocatable :: o
@@ -2474,7 +2473,7 @@ module observer_pattern
         subroutine update_procedure(self, s)
             import observer
             class(observer), intent(inout) :: self
-            character(len=*), intent(inout) :: s 
+            character(len=*), intent(inout) :: s
         end subroutine update_procedure
         function get_ID_procedure(self) result(result)
             import observer
@@ -2523,7 +2522,7 @@ contains
         id = o_to_remove%get_ID()
         do j = 1, i
             if (o_list(j)%o%get_ID() == id) then
-                allocate(result(i-1), source=[o_list(:j-1), o_list(j+1:)])
+                allocate (result(i - 1), source=[o_list(:j - 1), o_list(j + 1:)])
                 return
             end if
         end do
@@ -2536,14 +2535,14 @@ contains
         class(observer), intent(inout) :: o_to_append
         type(node), allocatable :: result(:)
         integer :: i
-        if (.not.allocated(o_list)) then
-            allocate(result(1))
-            allocate(result(1)%o, source=o_to_append)
+        if (.not. allocated(o_list)) then
+            allocate (result(1))
+            allocate (result(1)%o, source=o_to_append)
         else
             i = size(o_list)
-            allocate(result(i+1))
+            allocate (result(i + 1))
             result(1:i) = o_list
-            allocate(result(i+1)%o, source=o_to_append)
+            allocate (result(i + 1)%o, source=o_to_append)
         end if
     end function append_slice
 
@@ -2557,7 +2556,7 @@ contains
     subroutine register(self, o)
         class(item), intent(inout) :: self
         class(observer), intent(inout) :: o
-        self%o_list = append_slice(self%o_list,o)
+        self%o_list = append_slice(self%o_list, o)
     end subroutine register
 
     subroutine deregister(self, o)
@@ -2631,200 +2630,200 @@ end program test_observer
 
     implicit none
     private
-    
+
     public :: otp_t, sms_t, email_t
-    
+
     type, abstract :: iopt_t
     contains
-    procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
-    procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
-    procedure(iopt_t_get_message)   , deferred :: get_message
-    procedure(iopt_t_send_notification), deferred :: send_notification
-    procedure(iopt_t_publish_metric), deferred :: publish_metric
+        procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
+        procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
+        procedure(iopt_t_get_message), deferred :: get_message
+        procedure(iopt_t_send_notification), deferred :: send_notification
+        procedure(iopt_t_publish_metric), deferred :: publish_metric
     end type iopt_t
-    
+
     abstract interface
-    
+
         function iopt_t_gen_random_opt(self, len) result(random_opt)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        integer, intent(in) :: len
-        character(:), allocatable :: random_opt 
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            integer, intent(in) :: len
+            character(:), allocatable :: random_opt
         end function iopt_t_gen_random_opt
-        
+
         subroutine iopt_t_save_opt_cache(self, otp)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: otp
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: otp
         end subroutine iopt_t_save_opt_cache
-        
+
         function iopt_t_get_message(self, otp) result(msg)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: otp
-        character(:), allocatable :: msg
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: otp
+            character(:), allocatable :: msg
         end function iopt_t_get_message
-        
+
         subroutine iopt_t_send_notification(self, msg)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
-        character(*), intent(inout) :: msg
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
+            character(*), intent(inout) :: msg
         end subroutine iopt_t_send_notification
-        
+
         subroutine iopt_t_publish_metric(self)
-        import iopt_t
-        class(iopt_t), intent(inout) :: self
+            import iopt_t
+            class(iopt_t), intent(inout) :: self
         end subroutine iopt_t_publish_metric
-        
+
     end interface
-    
+
     ! - - - - - - - - - - - - -
-    
+
     type otp_t
-    class(iopt_t), pointer :: iopt
+        class(iopt_t), pointer :: iopt
     contains
-    procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
+        procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
     end type otp_t
-    
+
     type, extends(iopt_t) :: sms_t
     contains
-    procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
-    procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
-    procedure :: get_message    =&gt; sms_t_get_message
-    procedure :: send_notification =&gt; sms_t_send_notification
-    procedure :: publish_metric =&gt; sms_t_publish_metric
+        procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
+        procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
+        procedure :: get_message =&gt; sms_t_get_message
+        procedure :: send_notification =&gt; sms_t_send_notification
+        procedure :: publish_metric =&gt; sms_t_publish_metric
     end type sms_t
-    
+
     type, extends(iopt_t) :: email_t
     contains
-    procedure :: gen_random_opt =&gt; email_t_gen_random_opt
-    procedure :: save_opt_cache =&gt; email_t_save_opt_cache
-    procedure :: get_message    =&gt; email_t_get_message
-    procedure :: send_notification =&gt; email_t_send_notification
-    procedure :: publish_metric =&gt; email_t_publish_metric
+        procedure :: gen_random_opt =&gt; email_t_gen_random_opt
+        procedure :: save_opt_cache =&gt; email_t_save_opt_cache
+        procedure :: get_message =&gt; email_t_get_message
+        procedure :: send_notification =&gt; email_t_send_notification
+        procedure :: publish_metric =&gt; email_t_publish_metric
     end type email_t
-    
+
 contains
 
     subroutine otp_t_gen_and_send_otp(self, otp_length)
-    class(otp_t), intent(inout) :: self
-    integer, intent(in) :: otp_length
-    
-    character(:), allocatable :: otp
-    character(:), allocatable :: msg
-    
-    otp = self%iopt%gen_random_opt(otp_length)
-    call self%iopt%save_opt_cache(otp)
-    msg = self%iopt%get_message(otp)
-    call self%iopt%send_notification(msg)
-    call self%iopt%publish_metric()
-        
+        class(otp_t), intent(inout) :: self
+        integer, intent(in) :: otp_length
+
+        character(:), allocatable :: otp
+        character(:), allocatable :: msg
+
+        otp = self%iopt%gen_random_opt(otp_length)
+        call self%iopt%save_opt_cache(otp)
+        msg = self%iopt%get_message(otp)
+        call self%iopt%send_notification(msg)
+        call self%iopt%publish_metric()
+
     end subroutine otp_t_gen_and_send_otp
-    
+
     ! - - - - - - - - - -
-    
+
     function sms_t_gen_random_opt(self, len) result(random_opt)
-    class(sms_t), intent(inout) :: self
-    integer, intent(in) :: len
-    character(:), allocatable :: random_opt
-    
-    random_opt = &quot;1234&quot;
-    print *, &quot;SMS: generating random otp &quot;, random_opt
-        
+        class(sms_t), intent(inout) :: self
+        integer, intent(in) :: len
+        character(:), allocatable :: random_opt
+
+        random_opt = &quot;1234&quot;
+        print *, &quot;SMS: generating random otp &quot;, random_opt
+
     end function sms_t_gen_random_opt
-    
+
     subroutine sms_t_save_opt_cache(self, otp)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    
-    print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+
+        print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
+
     end subroutine sms_t_save_opt_cache
-    
+
     function sms_t_get_message(self, otp) result(msg)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    character(:), allocatable :: msg
-    
-    msg = &quot;SMS OTP for login is &quot; // otp
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        character(:), allocatable :: msg
+
+        msg = &quot;SMS OTP for login is &quot;//otp
+
     end function sms_t_get_message
-    
+
     subroutine sms_t_send_notification(self, msg)
-    class(sms_t), intent(inout) :: self
-    character(*), intent(inout) :: msg
-    
-    print *, &quot;SMS: sending sms: &quot; // msg
-        
+        class(sms_t), intent(inout) :: self
+        character(*), intent(inout) :: msg
+
+        print *, &quot;SMS: sending sms: &quot;//msg
+
     end subroutine sms_t_send_notification
-    
+
     subroutine sms_t_publish_metric(self)
-    class(sms_t), intent(inout) :: self
-    
-    print *, &quot;SMS: publishing metric&quot;
-        
+        class(sms_t), intent(inout) :: self
+
+        print *, &quot;SMS: publishing metric&quot;
+
     end subroutine sms_t_publish_metric
-    
+
     ! - - - - - - - - - -
-    
+
     function email_t_gen_random_opt(self, len) result(random_opt)
-    class(email_t), intent(inout) :: self
-    integer, intent(in) :: len
-    character(:), allocatable :: random_opt
-    
-    random_opt = &quot;1234&quot;
-    print *, &quot;EMAIL: generating random otp &quot;, random_opt
-        
+        class(email_t), intent(inout) :: self
+        integer, intent(in) :: len
+        character(:), allocatable :: random_opt
+
+        random_opt = &quot;1234&quot;
+        print *, &quot;EMAIL: generating random otp &quot;, random_opt
+
     end function email_t_gen_random_opt
-    
+
     subroutine email_t_save_opt_cache(self, otp)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    
-    print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+
+        print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
+
     end subroutine email_t_save_opt_cache
-    
+
     function email_t_get_message(self, otp) result(msg)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: otp
-    character(:), allocatable :: msg
-    
-    msg = &quot;EMAIL OTP for login is &quot; // otp
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: otp
+        character(:), allocatable :: msg
+
+        msg = &quot;EMAIL OTP for login is &quot;//otp
+
     end function email_t_get_message
-    
+
     subroutine email_t_send_notification(self, msg)
-    class(email_t), intent(inout) :: self
-    character(*), intent(inout) :: msg
-    
-    print *, &quot;EMAIL: sending email: &quot; // msg
-        
+        class(email_t), intent(inout) :: self
+        character(*), intent(inout) :: msg
+
+        print *, &quot;EMAIL: sending email: &quot;//msg
+
     end subroutine email_t_send_notification
-    
+
     subroutine email_t_publish_metric(self)
-    class(email_t), intent(inout) :: self
-    
-    print *, &quot;EMAIL: publishing metric&quot;
-        
+        class(email_t), intent(inout) :: self
+
+        print *, &quot;EMAIL: publishing metric&quot;
+
     end subroutine email_t_publish_metric
 
 end module template_method_module
 </code></pre>
 <pre><code class="language-fortran">program template_method_main
 
-use template_method_module, only: otp_t, sms_t, email_t
+    use template_method_module, only: otp_t, sms_t, email_t
 
-type(otp_t) :: otp
-type(sms_t), target :: sms_otp
-type(email_t), target :: email_otp
-    
+    type(otp_t) :: otp
+    type(sms_t), target :: sms_otp
+    type(email_t), target :: email_otp
+
     sms_otp = sms_t()
     otp%iopt =&gt; sms_otp
     call otp%gen_and_send_otp(4)
-    
-    write(*,*)
-    
+
+    write (*, *)
+
     email_otp = email_t()
     otp%iopt =&gt; email_otp
     call otp%gen_and_send_otp(4)
@@ -2837,7 +2836,7 @@ end program template_method_main
 !  SMS: saving otp: 1234 to cache
 !  SMS: sending sms: SMS OTP for login is 1234
 !  SMS: publishing metric
-! 
+!
 !  EMAIL: generating random otp 1234
 !  EMAIL: saving otp: 1234 to cache
 !  EMAIL: sending email: EMAIL OTP for login is 1234
@@ -2993,7 +2992,7 @@ end module visitor_pattern
 program test_visitor
 
     use visitor_pattern, only: square, circle, rectangle, area_calculator, middle_coordinates
-    
+
     type(square) :: s = square(side=2)
     type(circle) :: c = circle(radius=3)
     type(rectangle) :: r = rectangle(l=2, b=3)
