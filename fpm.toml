@@ -27,6 +27,11 @@ source-dir = "src/behavioral/observer"
 main = "observer_main.f90"
 
 [[test]]
+name = "state"
+source-dir = "src/behavioral/state"
+main = "state_main.f90"
+
+[[test]]
 name = "template_method"
 source-dir = "src/behavioral/template-method"
 main = "template_method_main.f90"
