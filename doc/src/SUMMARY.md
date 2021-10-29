@@ -18,6 +18,7 @@
   - [组合模式](structural/composite.md)
   - [外观模式](structural/facade.md)
   - [代理模式](structural/proxy.md)
+  - [装饰模式](structural/wrapper.md)
 
 ---
 

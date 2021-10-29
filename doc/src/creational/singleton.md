@@ -1,4 +1,4 @@
-# 原型模式
+# 单例模式
 
 正文：https://refactoringguru.cn/design-patterns/singleton
 

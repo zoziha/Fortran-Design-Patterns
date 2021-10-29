@@ -1,4 +1,4 @@
-# 适配器模式
+# 桥接模式
 
 正文：https://refactoringguru.cn/design-patterns/bridge
 

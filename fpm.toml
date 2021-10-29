@@ -89,3 +89,8 @@ main = "facade_main.f90"
 name = "proxy"
 source-dir = "src/structural/proxy"
 main = "proxy_main.f90"
+
+[[test]]
+name = "wrapper"
+source-dir = "src/structural/wrapper"
+main = "wrapper_main.f90"

@@ -1,4 +1,4 @@
-# 抽象工厂模式
+# 工厂模式
 
 正文：https://refactoringguru.cn/design-patterns/factory
 
