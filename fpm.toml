@@ -1,4 +1,10 @@
 name = "Fortran-Design-Patterns"
+version = "0.0.22"
+license = "BSD-3"
+maintainer = "左志华"
+copyright = "Copyright 2021 左志华"
+description = "Fortran Design Patterns"
+categories = ["Demo", "OOP", "Modern Fortran"]
 
 [library]
 source-dir = "src"
@@ -40,6 +46,11 @@ main = "observer_main.f90"
 name = "state"
 source-dir = "src/behavioral/state"
 main = "state_main.f90"
+
+[[test]]
+name = "strategy"
+source-dir = "src/behavioral/strategy"
+main = "strategy_main.f90"
 
 [[test]]
 name = "template_method"

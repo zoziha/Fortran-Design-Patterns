@@ -9,7 +9,7 @@
 
 |项目|描述|
 |:-:|:-:|
-|版本：|0.0.21|
+|版本：|0.0.22|
 |作者：|左志华（zoziha）|
 |网页：|https://zoziha.github.io/Fortran-Design-Patterns/|
 |版权：|Copyright (c) 2021 zoziha|
@@ -19,6 +19,7 @@
 ### 软件依赖
 
 - Git
+- [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
 - [Rust](https://www.rust-lang.org/zh-CN/)
 - [mdbook](https://github.com/rust-lang/mdBook)
 
