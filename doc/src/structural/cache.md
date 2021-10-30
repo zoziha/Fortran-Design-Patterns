@@ -1,4 +1,4 @@
-# 装饰模式
+# 享元模式
 
 正文：https://refactoringguru.cn/design-patterns/flyweight
 

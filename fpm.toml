@@ -22,6 +22,11 @@ source-dir = "src/behavioral/iterator"
 main = "iterator_main.f90"
 
 [[test]]
+name = "mediator"
+source-dir = "src/behavioral/mediator"
+main = "mediator_main.f90"
+
+[[test]]
 name = "memento"
 source-dir = "src/behavioral/memento"
 main = "memento_main.f90"
