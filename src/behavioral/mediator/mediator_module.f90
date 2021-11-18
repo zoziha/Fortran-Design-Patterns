@@ -38,7 +38,7 @@ module mediator_module
         logical function mediator_t_can_arrive(self, train) result(can)
             import mediator_t, train_t
             class(mediator_t), intent(inout) :: self
-            class(train_t), intent(in) :: train
+            class(train_t), intent(in), target :: train
         end function mediator_t_can_arrive
 
         subroutine mediator_t_notify_about_departure(self)
@@ -124,7 +124,7 @@ contains
 
     logical function station_manager_t_can_arrive(self, train) result(can)
         class(station_manager_t), intent(inout) :: self
-        class(train_t), intent(in) :: train
+        class(train_t), intent(in), target :: train
         
         if (self%is_platform_free) then
             self%is_platform_free = .false.

@@ -92,7 +92,8 @@ contains
             end associate
         end do
         end if
-        allocate (inode, source=tmp_folder)
+        
+        call move_alloc(tmp_folder, inode)
     end function folder_t_clone
 
 end module prototype_module
