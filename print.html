@@ -1060,7 +1060,8 @@ contains
             end associate
         end do
         end if
-        allocate (inode, source=tmp_folder)
+        
+        inode = tmp_folder
     end function folder_t_clone
 
 end module prototype_module
@@ -2790,7 +2791,7 @@ end program test_observer
         logical function mediator_t_can_arrive(self, train) result(can)
             import mediator_t, train_t
             class(mediator_t), intent(inout) :: self
-            class(train_t), intent(in) :: train
+            class(train_t), intent(in), target :: train
         end function mediator_t_can_arrive
 
         subroutine mediator_t_notify_about_departure(self)
@@ -2876,7 +2877,7 @@ contains
 
     logical function station_manager_t_can_arrive(self, train) result(can)
         class(station_manager_t), intent(inout) :: self
-        class(train_t), intent(in) :: train
+        class(train_t), intent(in), target :: train
         
         if (self%is_platform_free) then
             self%is_platform_free = .false.

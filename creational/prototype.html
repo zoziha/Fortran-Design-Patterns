@@ -246,7 +246,8 @@ contains
             end associate
         end do
         end if
-        allocate (inode, source=tmp_folder)
+        
+        inode = tmp_folder
     end function folder_t_clone
 
 end module prototype_module
