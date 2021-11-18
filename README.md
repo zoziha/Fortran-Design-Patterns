@@ -19,6 +19,7 @@
 ### 软件依赖
 
 - Git
+- [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
 - [Rust](https://www.rust-lang.org/zh-CN/)
 - [mdbook](https://github.com/rust-lang/mdBook)
 

@@ -87,7 +87,8 @@ contains
         if (size(self%children) > 0) then
         do i = 1, size(tmp_folder%children)
             associate (node => tmp_folder%children(i)%inode)
-                allocate (node, source=node%clone())
+                inode = node%clone()
+                allocate (tmp_folder%children(i)%inode, source=inode)
             end associate
         end do
         end if
