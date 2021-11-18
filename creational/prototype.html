@@ -247,7 +247,7 @@ contains
         end do
         end if
         
-        inode = tmp_folder
+        call move_alloc(tmp_folder, inode)
     end function folder_t_clone
 
 end module prototype_module
