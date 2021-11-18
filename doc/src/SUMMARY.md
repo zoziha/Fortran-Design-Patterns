@@ -27,8 +27,10 @@
   - [命令模式](behavioral/command.md)
   - [迭代器模式](behavioral/iterator.md)
   - [观察者模式](behavioral/observer.md)
+  - [中介者模式](behavioral/mediator.md)
   - [备忘录模式](behavioral/memento.md)
   - [状态模式](behavioral/state.md)
+  - [策略模式](behavioral/strategy.md)
   - [模板方法模式](behavioral/template-method.md)
   - [访问者模式](behavioral/visitor.md)
 
