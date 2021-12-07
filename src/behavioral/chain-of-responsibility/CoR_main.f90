@@ -1,6 +1,6 @@
 
 !> CoR: Patient visiting hospital
-program test_CoR
+program CoR_main
 
     use hospital_CoR
 
@@ -31,7 +31,7 @@ program test_CoR
     deallocate (d%next)
     deallocate (r%next)
 
-end program test_CoR
+end program CoR_main
 
 !> Results shall be:
 
