@@ -2078,6 +2078,15 @@ end program wrapper_main
 <div style="break-before: page; page-break-before: always;"></div><h1 id="责任链模式"><a class="header" href="#责任链模式">责任链模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/chain-of-responsibility</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/chain-of-responsibility/go/example</p>
+<h2 id="示例"><a class="header" href="#示例">示例</a></h2>
+<p>本例子模拟医院的看病缴费的责任链。</p>
+<p>病人需要进行的大致步骤是：</p>
+<ol>
+<li>进院，注册信息</li>
+<li>医生检查</li>
+<li>药房给药</li>
+<li>病人缴费，出院</li>
+</ol>
 <pre><code class="language-fortran">!&gt; CoR: Hospital departments
 module hospital_CoR
 
@@ -2241,7 +2250,7 @@ end module hospital_CoR
 </code></pre>
 <pre><code class="language-fortran">
 !&gt; CoR: Patient visiting hospital
-program test_CoR
+program CoR_main
 
     use hospital_CoR
 
@@ -2272,7 +2281,7 @@ program test_CoR
     deallocate (d%next)
     deallocate (r%next)
 
-end program test_CoR
+end program CoR_main
 
 !&gt; Results shall be:
 
@@ -2287,6 +2296,9 @@ end program test_CoR
 !  Medical giving medicine to patient.
 !  Cashier getting money from patient.
 </code></pre>
+<h2 id="评价"><a class="header" href="#评价">评价</a></h2>
+<p>责任链很像流水线，上一节点处理完进入下一节点。</p>
+<p>可以应用于科学计算的文件输入检查过程。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="命令模式"><a class="header" href="#命令模式">命令模式</a></h1>
 <p>正文：https://refactoringguru.cn/design-patterns/command</p>
 <p>Go代码：https://refactoringguru.cn/design-patterns/command/go/example</p>
