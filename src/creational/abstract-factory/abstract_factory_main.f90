@@ -10,16 +10,16 @@ program abstract_factory_main
     class(ishoe_t), allocatable :: lining_shoe
     class(ishirt_t), allocatable :: lining_shirt
 
-    allocate (erke_t :: erke_factory)
-    allocate (lining_t :: lining_factory)
+    ! allocate (erke_t :: erke_factory)
+    ! allocate (lining_t :: lining_factory)
 
     erke_factory = get_sports_factory("erke")
     lining_factory = get_sports_factory("lining")
 
-    allocate (erke_shoe_t :: erke_shoe)
-    allocate (erke_shirt_t :: erke_shirt)
-    allocate (lining_shoe_t :: lining_shoe)
-    allocate (lining_shirt_t :: lining_shirt)
+    ! allocate (erke_shoe_t :: erke_shoe)
+    ! allocate (erke_shirt_t :: erke_shirt)
+    ! allocate (lining_shoe_t :: lining_shoe)
+    ! allocate (lining_shirt_t :: lining_shirt)
 
     erke_shoe = erke_factory%make_shoe()
     erke_shirt = erke_factory%make_shirt()

@@ -9,10 +9,10 @@
 
 |项目|描述|
 |:-:|:-:|
-|版本：|0.0.22|
+|版本：|0.1.0|
 |作者：|左志华（zoziha）|
 |网页：|https://zoziha.github.io/Fortran-Design-Patterns/|
-|版权：|Copyright (c) 2021 zoziha|
+|版权：|Copyright (c) 2021~2022 zoziha|
 
 ## 开始
 
@@ -32,7 +32,7 @@ cd Fortran-Design-Patterns
 
 ### 使用[fortran-lang/fpm](https://github.com/fortran-lang/fpm)构建代码
 
-Fortran包管理器（fpm）是Fortran-lang社区驱动、为Fortran生态设计的包管理器和代码构建器。<br>
+Fortran包管理器（fpm）是Fortran-lang社区驱动、为Fortran生态设计的包管理器和代码构建器。
 你可以通过提供的`fpm.toml`构建代码：
 
 ```sh
@@ -42,7 +42,7 @@ fpm test <pattern_name, see `fpm.toml` or test list>
 
 ### 使用[mdbook](https://github.com/rust-lang/mdBook)构建文档
 
-mdBook是一个从Markdown文件创建现代在线书籍的实用程序。<br>
+mdBook是一个从Markdown文件创建现代在线书籍的实用程序。
 你可以通过提供的`book.toml`文件来构建《Fortran的23种设计模式》。
 
 ```sh

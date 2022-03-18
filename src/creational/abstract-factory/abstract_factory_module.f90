@@ -154,7 +154,7 @@ contains
         class(erke_t), intent(inout) :: self
         class(ishoe_t), allocatable :: shoe
 
-        shoe = erke_shoe_t(logo="erke", size=14_int8)
+        shoe = erke_shoe_t(logo="erke", size=15_int8)
 
     end function erke_t_make_shoe
 
@@ -162,7 +162,7 @@ contains
         class(erke_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
 
-        shirt = erke_shirt_t(logo="erke", size=14_int8)
+        shirt = erke_shirt_t(logo="erke", size=84_int8)
 
     end function erke_t_make_shirt
 
@@ -178,7 +178,7 @@ contains
         class(lining_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
 
-        shirt = lining_shirt_t(logo="lining", size=14_int8)
+        shirt = lining_shirt_t(logo="lining", size=85_int8)
 
     end function lining_t_make_shirt
 
