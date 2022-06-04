@@ -1,5 +1,5 @@
 name = "Fortran-Design-Patterns"
-version = "0.1.0"
+version = "0.1.1"
 license = "BSD-3"
 maintainer = "左志华"
 copyright = "Copyright 2021 左志华"
@@ -50,6 +50,11 @@ main = "state_main.f90"
 [[test]]
 name = "strategy"
 source-dir = "src/behavioral/strategy"
+main = "strategy_main.f90"
+
+[[test]]
+name = "strategy_ex"
+source-dir = "src/behavioral/strategy/extends"
 main = "strategy_main.f90"
 
 [[test]]
