@@ -309,7 +309,7 @@ contains
         class(erke_t), intent(inout) :: self
         class(ishoe_t), allocatable :: shoe
 
-        shoe = erke_shoe_t(logo=&quot;erke&quot;, size=14_int8)
+        shoe = erke_shoe_t(logo=&quot;erke&quot;, size=15_int8)
 
     end function erke_t_make_shoe
 
@@ -317,7 +317,7 @@ contains
         class(erke_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
 
-        shirt = erke_shirt_t(logo=&quot;erke&quot;, size=14_int8)
+        shirt = erke_shirt_t(logo=&quot;erke&quot;, size=84_int8)
 
     end function erke_t_make_shirt
 
@@ -333,7 +333,7 @@ contains
         class(lining_t), intent(inout) :: self
         class(ishirt_t), allocatable :: shirt
 
-        shirt = lining_shirt_t(logo=&quot;lining&quot;, size=14_int8)
+        shirt = lining_shirt_t(logo=&quot;lining&quot;, size=85_int8)
 
     end function lining_t_make_shirt
 
@@ -415,16 +415,16 @@ end module abstract_factory_module
     class(ishoe_t), allocatable :: lining_shoe
     class(ishirt_t), allocatable :: lining_shirt
 
-    allocate (erke_t :: erke_factory)
-    allocate (lining_t :: lining_factory)
+    ! allocate (erke_t :: erke_factory)
+    ! allocate (lining_t :: lining_factory)
 
     erke_factory = get_sports_factory(&quot;erke&quot;)
     lining_factory = get_sports_factory(&quot;lining&quot;)
 
-    allocate (erke_shoe_t :: erke_shoe)
-    allocate (erke_shirt_t :: erke_shirt)
-    allocate (lining_shoe_t :: lining_shoe)
-    allocate (lining_shirt_t :: lining_shirt)
+    ! allocate (erke_shoe_t :: erke_shoe)
+    ! allocate (erke_shirt_t :: erke_shirt)
+    ! allocate (lining_shoe_t :: lining_shoe)
+    ! allocate (lining_shirt_t :: lining_shirt)
 
     erke_shoe = erke_factory%make_shoe()
     erke_shirt = erke_factory%make_shirt()
