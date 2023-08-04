@@ -1,8 +1,8 @@
 name = "Fortran-Design-Patterns"
-version = "0.1.1"
+version = "0.2.0"
 license = "BSD-3"
-maintainer = "左志华"
-copyright = "Copyright 2021 左志华"
+maintainer = "ZUO Zhihua"
+copyright = "Copyright 2021~2023 ZUO Zhihua"
 description = "Fortran Design Patterns"
 categories = ["Demo", "OOP", "Modern Fortran"]
 
@@ -130,3 +130,9 @@ main = "proxy_main.f90"
 name = "wrapper"
 source-dir = "src/structural/wrapper"
 main = "wrapper_main.f90"
+
+# interface-limit
+[[test]]
+name = "interface-limit"
+source-dir = "src/interface-limit"
+main = "interface_limit_main.f90"
