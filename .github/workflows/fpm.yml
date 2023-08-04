@@ -5,7 +5,7 @@ on:
     paths:
     - "src/**.f90"
     - "fpm.toml"
-    
+
   pull_request:
     branches:
     - main
@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        gcc_v: [10] # Version of GFortran we want to use.
+        gcc_v: [11] # Version of GFortran we want to use.
         include:
         - os: ubuntu-latest
           os-arch: linux-x86_64
@@ -42,14 +42,14 @@ jobs:
         ln -s /usr/local/bin/gfortran-${GCC_V} /usr/local/bin/gfortran
         which gfortran-${GCC_V}
         which gfortran
-        
+
     - name: Install GFortran Linux
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
-    
+
     - name: Install fpm
       uses: fortran-lang/setup-fpm@v3
       with:
