@@ -131,8 +131,13 @@ name = "wrapper"
 source-dir = "src/structural/wrapper"
 main = "wrapper_main.f90"
 
-# interface-limit
+# others
 [[test]]
 name = "interface-limit"
-source-dir = "src/interface-limit"
+source-dir = "src/others/interface-limit"
 main = "interface_limit_main.f90"
+
+[[test]]
+name = "interface-specific"
+source-dir = "src/others/interface-specific"
+main = "interface_specific_main.f90"

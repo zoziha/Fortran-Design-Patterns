@@ -3,6 +3,7 @@ name: fpm
 on: 
   push:
     paths:
+    - ".github/workflows/fpm.yml"
     - "src/**.f90"
     - "fpm.toml"
 
@@ -10,6 +11,7 @@ on:
     branches:
     - main
     paths:
+    - ".github/workflows/fpm.yml"
     - "src/**.f90"
     - "fpm.toml"
 
@@ -19,14 +21,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         gcc_v: [11] # Version of GFortran we want to use.
         include:
         - os: ubuntu-latest
           os-arch: linux-x86_64
-
-        - os: macos-latest
-          os-arch: macos-x86_64
 
     env:
       FC: gfortran
@@ -36,13 +35,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install GFortran macOS
-      if: contains(matrix.os, 'macos')
-      run: |
-        ln -s /usr/local/bin/gfortran-${GCC_V} /usr/local/bin/gfortran
-        which gfortran-${GCC_V}
-        which gfortran
-
     - name: Install GFortran Linux
       if: contains(matrix.os, 'ubuntu')
       run: |
@@ -51,9 +43,9 @@ jobs:
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
 
     - name: Install fpm
-      uses: fortran-lang/setup-fpm@v3
+      uses: fortran-lang/setup-fpm@v5
       with:
-        fpm-version: 'v0.4.0'
+        fpm-version: 'v0.9.0'
 
     - name: Build & Test
       run: |
