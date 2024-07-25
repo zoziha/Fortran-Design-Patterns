@@ -4,8 +4,8 @@ module abstract_factory_module
     implicit none
     private
 
-    public :: isports_factory_type, erke_type, lining_type, get_sports_factory, erke_shoe_type, erke_shirt_type, &
-              lining_shoe_type, lining_shirt_type, ishoe_type, ishirt_type
+    public :: isports_factory_type, erke_type, lining_type, get_sports_factory, erke_shoe_type, &
+              erke_shirt_type, lining_shoe_type, lining_shirt_type, ishoe_type, ishirt_type
 
     !> Abstract classes
     type, abstract :: isports_factory_type
