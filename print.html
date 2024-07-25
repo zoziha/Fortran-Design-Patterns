@@ -153,10 +153,10 @@
 <a href="https://github.com/zoziha/Fortran-Design-Patterns/actions"><img src="https://github.com/zoziha/Fortran-Design-Patterns/workflows/mdbook/badge.svg" alt="mdbook" /></a></p>
 <p>《Fortran的23种设计模式》是一份Fortran面向对象编程中文实用教程。</p>
 <table><thead><tr><th align="center">项目</th><th align="center">描述</th></tr></thead><tbody>
-<tr><td align="center">版本：</td><td align="center">0.2.0</td></tr>
+<tr><td align="center">版本：</td><td align="center">0.3.0</td></tr>
 <tr><td align="center">作者：</td><td align="center">ZUO Zhihua</td></tr>
 <tr><td align="center">网页：</td><td align="center">https://zoziha.github.io/Fortran-Design-Patterns/</td></tr>
-<tr><td align="center">版权：</td><td align="center">Copyright (c) 2021~2023 zoziha</td></tr>
+<tr><td align="center">版权：</td><td align="center">Copyright (c) 2021~2024 zoziha</td></tr>
 </tbody></table>
 <h2 id="开始"><a class="header" href="#开始">开始</a></h2>
 <h3 id="软件依赖"><a class="header" href="#软件依赖">软件依赖</a></h3>
@@ -188,7 +188,7 @@ fpm test &lt;pattern_name, see `fpm.toml` or test list&gt;
 </ul>
 <h2 id="开源许可证"><a class="header" href="#开源许可证">开源许可证</a></h2>
 <p>BSD 3-Clause License</p>
-<p>Copyright (c) 2021~2022, ZUO Zhihua
+<p>Copyright (c) 2021~2024, ZUO Zhihua
 All rights reserved.</p>
 <p>Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:</p>
@@ -229,7 +229,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <table><thead><tr><th align="center">状态</th><th align="center">创建型模式</th><th align="center">结构型模式</th><th align="center">行为模式</th></tr></thead><tbody>
 <tr><td align="center">完成</td><td align="center">抽象工厂、生成器、工厂方法、原型、单例。</td><td align="center">适配器、桥接、组合、装饰、外观、代理、享元。</td><td align="center">责任链、命令、迭代器、观察者、状态、模板方法、备忘录、中介者、访问者、策略。</td></tr>
 </tbody></table>
-<h4 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h4>
+<h3 id="创建型模式"><a class="header" href="#创建型模式">创建型模式</a></h3>
 <ul>
 <li><input disabled="" type="checkbox" checked=""/>
 抽象工厂</li>
@@ -242,7 +242,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <li><input disabled="" type="checkbox" checked=""/>
 单例</li>
 </ul>
-<h4 id="结构型模式"><a class="header" href="#结构型模式">结构型模式</a></h4>
+<h3 id="结构型模式"><a class="header" href="#结构型模式">结构型模式</a></h3>
 <ul>
 <li><input disabled="" type="checkbox" checked=""/>
 适配器</li>
@@ -259,7 +259,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <li><input disabled="" type="checkbox" checked=""/>
 代理</li>
 </ul>
-<h4 id="行为模式"><a class="header" href="#行为模式">行为模式</a></h4>
+<h3 id="行为模式"><a class="header" href="#行为模式">行为模式</a></h3>
 <ul>
 <li><input disabled="" type="checkbox" checked=""/>
 责任链</li>
@@ -292,261 +292,261 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
     implicit none
     private
 
-    public :: isports_factory_t, erke_t, lining_t, get_sports_factory, erke_shoe_t, erke_shirt_t, &amp;
-              lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
+    public :: isports_factory_type, erke_type, lining_type, get_sports_factory, erke_shoe_type, erke_shirt_type, &amp;
+              lining_shoe_type, lining_shirt_type, ishoe_type, ishirt_type
 
     !&gt; Abstract classes
-    type, abstract :: isports_factory_t
+    type, abstract :: isports_factory_type
     contains
-        procedure(isports_factory_t_make_shoe), deferred :: make_shoe
-        procedure(isports_factory_t_make_shirt), deferred :: make_shirt
-    end type isports_factory_t
+        procedure(isports_factory_type_make_shoe), deferred :: make_shoe
+        procedure(isports_factory_type_make_shirt), deferred :: make_shirt
+    end type isports_factory_type
 
-    type, abstract :: ishoe_t
+    type, abstract :: ishoe_type
     contains
-        procedure(ishoe_t_set_logo), deferred :: set_logo
-        procedure(ishoe_t_set_size), deferred :: set_size
-        procedure(ishoe_t_get_logo), deferred :: get_logo
-        procedure(ishoe_t_get_size), deferred :: get_size
-    end type ishoe_t
+        procedure(ishoe_type_set_logo), deferred :: set_logo
+        procedure(ishoe_type_set_size), deferred :: set_size
+        procedure(ishoe_type_get_logo), deferred :: get_logo
+        procedure(ishoe_type_get_size), deferred :: get_size
+    end type ishoe_type
 
-    type, abstract :: ishirt_t
+    type, abstract :: ishirt_type
     contains
-        procedure(ishirt_t_set_logo), deferred :: set_logo
-        procedure(ishirt_t_set_size), deferred :: set_size
-        procedure(ishirt_t_get_logo), deferred :: get_logo
-        procedure(ishirt_t_get_size), deferred :: get_size
-    end type ishirt_t
+        procedure(ishirt_type_set_logo), deferred :: set_logo
+        procedure(ishirt_type_set_size), deferred :: set_size
+        procedure(ishirt_type_get_logo), deferred :: get_logo
+        procedure(ishirt_type_get_size), deferred :: get_size
+    end type ishirt_type
 
     abstract interface
 
-        function isports_factory_t_make_shoe(self) result(shoe)
-            import isports_factory_t, ishoe_t
-            class(isports_factory_t), intent(inout) :: self
-            class(ishoe_t), allocatable :: shoe
-        end function isports_factory_t_make_shoe
-        function isports_factory_t_make_shirt(self) result(shirt)
-            import isports_factory_t, ishirt_t
-            class(isports_factory_t), intent(inout) :: self
-            class(ishirt_t), allocatable :: shirt
-        end function isports_factory_t_make_shirt
+        function isports_factory_type_make_shoe(self) result(shoe)
+            import isports_factory_type, ishoe_type
+            class(isports_factory_type), intent(inout) :: self
+            class(ishoe_type), allocatable :: shoe
+        end function isports_factory_type_make_shoe
+        function isports_factory_type_make_shirt(self) result(shirt)
+            import isports_factory_type, ishirt_type
+            class(isports_factory_type), intent(inout) :: self
+            class(ishirt_type), allocatable :: shirt
+        end function isports_factory_type_make_shirt
 
-        subroutine ishoe_t_set_logo(self, logo)
-            import ishoe_t
-            class(ishoe_t), intent(inout) :: self
+        subroutine ishoe_type_set_logo(self, logo)
+            import ishoe_type
+            class(ishoe_type), intent(inout) :: self
             character(*), intent(in) :: logo
-        end subroutine ishoe_t_set_logo
-        subroutine ishoe_t_set_size(self, size)
-            import ishoe_t, int8
-            class(ishoe_t), intent(inout) :: self
+        end subroutine ishoe_type_set_logo
+        subroutine ishoe_type_set_size(self, size)
+            import ishoe_type, int8
+            class(ishoe_type), intent(inout) :: self
             integer(int8), intent(in) :: size
-        end subroutine ishoe_t_set_size
-        function ishoe_t_get_logo(self) result(logo)
-            import ishoe_t
-            class(ishoe_t), intent(inout) :: self
+        end subroutine ishoe_type_set_size
+        function ishoe_type_get_logo(self) result(logo)
+            import ishoe_type
+            class(ishoe_type), intent(inout) :: self
             character(:), allocatable :: logo
-        end function ishoe_t_get_logo
-        function ishoe_t_get_size(self) result(size)
-            import ishoe_t, int8
-            class(ishoe_t), intent(inout) :: self
+        end function ishoe_type_get_logo
+        function ishoe_type_get_size(self) result(size)
+            import ishoe_type, int8
+            class(ishoe_type), intent(inout) :: self
             integer(int8) :: size
-        end function ishoe_t_get_size
+        end function ishoe_type_get_size
 
-        subroutine ishirt_t_set_logo(self, logo)
-            import ishirt_t
-            class(ishirt_t), intent(inout) :: self
+        subroutine ishirt_type_set_logo(self, logo)
+            import ishirt_type
+            class(ishirt_type), intent(inout) :: self
             character(*), intent(in) :: logo
-        end subroutine ishirt_t_set_logo
-        subroutine ishirt_t_set_size(self, size)
-            import ishirt_t, int8
-            class(ishirt_t), intent(inout) :: self
+        end subroutine ishirt_type_set_logo
+        subroutine ishirt_type_set_size(self, size)
+            import ishirt_type, int8
+            class(ishirt_type), intent(inout) :: self
             integer(int8), intent(in) :: size
-        end subroutine ishirt_t_set_size
-        function ishirt_t_get_logo(self) result(logo)
-            import ishirt_t
-            class(ishirt_t), intent(inout) :: self
+        end subroutine ishirt_type_set_size
+        function ishirt_type_get_logo(self) result(logo)
+            import ishirt_type
+            class(ishirt_type), intent(inout) :: self
             character(:), allocatable :: logo
-        end function ishirt_t_get_logo
-        function ishirt_t_get_size(self) result(size)
-            import ishirt_t, int8
-            class(ishirt_t), intent(inout) :: self
+        end function ishirt_type_get_logo
+        function ishirt_type_get_size(self) result(size)
+            import ishirt_type, int8
+            class(ishirt_type), intent(inout) :: self
             integer(int8) :: size
-        end function ishirt_t_get_size
+        end function ishirt_type_get_size
 
     end interface
 
     !&gt; Specific objects
 
-    type, extends(isports_factory_t) :: erke_t
+    type, extends(isports_factory_type) :: erke_type
     contains
-        procedure :: make_shoe =&gt; erke_t_make_shoe
-        procedure :: make_shirt =&gt; erke_t_make_shirt
-    end type erke_t
+        procedure :: make_shoe =&gt; erke_type_make_shoe
+        procedure :: make_shirt =&gt; erke_type_make_shirt
+    end type erke_type
 
-    type, extends(isports_factory_t) :: lining_t
+    type, extends(isports_factory_type) :: lining_type
     contains
-        procedure :: make_shoe =&gt; lining_t_make_shoe
-        procedure :: make_shirt =&gt; lining_t_make_shirt
-    end type lining_t
+        procedure :: make_shoe =&gt; lining_type_make_shoe
+        procedure :: make_shirt =&gt; lining_type_make_shirt
+    end type lining_type
 
-    type, extends(ishoe_t) :: shoe_t
+    type, extends(ishoe_type) :: shoe_type
         character(:), allocatable :: logo
         integer(int8) :: size
     contains
-        procedure :: set_logo =&gt; shoe_t_set_logo
-        procedure :: set_size =&gt; shoe_t_set_size
-        procedure :: get_logo =&gt; shoe_t_get_logo
-        procedure :: get_size =&gt; shoe_t_get_size
-    end type shoe_t
+        procedure :: set_logo =&gt; shoe_type_set_logo
+        procedure :: set_size =&gt; shoe_type_set_size
+        procedure :: get_logo =&gt; shoe_type_get_logo
+        procedure :: get_size =&gt; shoe_type_get_size
+    end type shoe_type
 
-    type, extends(ishirt_t) :: shirt_t
+    type, extends(ishirt_type) :: shirt_type
         character(:), allocatable :: logo
         integer(int8) :: size
     contains
-        procedure :: set_logo =&gt; shirt_t_set_logo
-        procedure :: set_size =&gt; shirt_t_set_size
-        procedure :: get_logo =&gt; shirt_t_get_logo
-        procedure :: get_size =&gt; shirt_t_get_size
-    end type shirt_t
+        procedure :: set_logo =&gt; shirt_type_set_logo
+        procedure :: set_size =&gt; shirt_type_set_size
+        procedure :: get_logo =&gt; shirt_type_get_logo
+        procedure :: get_size =&gt; shirt_type_get_size
+    end type shirt_type
 
-    type, extends(shoe_t) :: erke_shoe_t
-    end type erke_shoe_t
+    type, extends(shoe_type) :: erke_shoe_type
+    end type erke_shoe_type
 
-    type, extends(shoe_t) :: lining_shoe_t
-    end type lining_shoe_t
+    type, extends(shoe_type) :: lining_shoe_type
+    end type lining_shoe_type
 
-    type, extends(shirt_t) :: erke_shirt_t
-    end type erke_shirt_t
+    type, extends(shirt_type) :: erke_shirt_type
+    end type erke_shirt_type
 
-    type, extends(shirt_t) :: lining_shirt_t
-    end type lining_shirt_t
+    type, extends(shirt_type) :: lining_shirt_type
+    end type lining_shirt_type
 
 contains
 
     function get_sports_factory(brand) result(isports_factory)
         character(*), intent(in) :: brand
-        class(isports_factory_t), allocatable :: isports_factory
+        class(isports_factory_type), allocatable :: isports_factory
 
         select case (brand)
         case (&quot;erke&quot;)
-            isports_factory = erke_t()
+            isports_factory = erke_type()
         case (&quot;lining&quot;)
-            isports_factory = lining_t()
+            isports_factory = lining_type()
         case default
             error stop &quot;*&lt;ERROR&gt;* Brand not supported.&quot;
         end select
 
     end function get_sports_factory
 
-    function erke_t_make_shoe(self) result(shoe)
-        class(erke_t), intent(inout) :: self
-        class(ishoe_t), allocatable :: shoe
+    function erke_type_make_shoe(self) result(shoe)
+        class(erke_type), intent(inout) :: self
+        class(ishoe_type), allocatable :: shoe
 
-        shoe = erke_shoe_t(logo=&quot;erke&quot;, size=15_int8)
+        shoe = erke_shoe_type(logo=&quot;erke&quot;, size=15_int8)
 
-    end function erke_t_make_shoe
+    end function erke_type_make_shoe
 
-    function erke_t_make_shirt(self) result(shirt)
-        class(erke_t), intent(inout) :: self
-        class(ishirt_t), allocatable :: shirt
+    function erke_type_make_shirt(self) result(shirt)
+        class(erke_type), intent(inout) :: self
+        class(ishirt_type), allocatable :: shirt
 
-        shirt = erke_shirt_t(logo=&quot;erke&quot;, size=84_int8)
+        shirt = erke_shirt_type(logo=&quot;erke&quot;, size=84_int8)
 
-    end function erke_t_make_shirt
+    end function erke_type_make_shirt
 
-    function lining_t_make_shoe(self) result(shoe)
-        class(lining_t), intent(inout) :: self
-        class(ishoe_t), allocatable :: shoe
+    function lining_type_make_shoe(self) result(shoe)
+        class(lining_type), intent(inout) :: self
+        class(ishoe_type), allocatable :: shoe
 
-        shoe = lining_shoe_t(logo=&quot;lining&quot;, size=14_int8)
+        shoe = lining_shoe_type(logo=&quot;lining&quot;, size=14_int8)
 
-    end function lining_t_make_shoe
+    end function lining_type_make_shoe
 
-    function lining_t_make_shirt(self) result(shirt)
-        class(lining_t), intent(inout) :: self
-        class(ishirt_t), allocatable :: shirt
+    function lining_type_make_shirt(self) result(shirt)
+        class(lining_type), intent(inout) :: self
+        class(ishirt_type), allocatable :: shirt
 
-        shirt = lining_shirt_t(logo=&quot;lining&quot;, size=85_int8)
+        shirt = lining_shirt_type(logo=&quot;lining&quot;, size=85_int8)
 
-    end function lining_t_make_shirt
+    end function lining_type_make_shirt
 
-    subroutine shoe_t_set_logo(self, logo)
-        class(shoe_t), intent(inout) :: self
+    subroutine shoe_type_set_logo(self, logo)
+        class(shoe_type), intent(inout) :: self
         character(*), intent(in) :: logo
 
         self%logo = logo
 
-    end subroutine shoe_t_set_logo
+    end subroutine shoe_type_set_logo
 
-    subroutine shoe_t_set_size(self, size)
-        class(shoe_t), intent(inout) :: self
+    subroutine shoe_type_set_size(self, size)
+        class(shoe_type), intent(inout) :: self
         integer(int8), intent(in) :: size
 
         self%size = size
 
-    end subroutine shoe_t_set_size
+    end subroutine shoe_type_set_size
 
-    function shoe_t_get_logo(self) result(logo)
-        class(shoe_t), intent(inout) :: self
+    function shoe_type_get_logo(self) result(logo)
+        class(shoe_type), intent(inout) :: self
         character(:), allocatable :: logo
 
         logo = self%logo
 
-    end function shoe_t_get_logo
+    end function shoe_type_get_logo
 
-    function shoe_t_get_size(self) result(size)
-        class(shoe_t), intent(inout) :: self
+    function shoe_type_get_size(self) result(size)
+        class(shoe_type), intent(inout) :: self
         integer(int8) :: size
 
         size = self%size
 
-    end function shoe_t_get_size
+    end function shoe_type_get_size
 
-    subroutine shirt_t_set_logo(self, logo)
-        class(shirt_t), intent(inout) :: self
+    subroutine shirt_type_set_logo(self, logo)
+        class(shirt_type), intent(inout) :: self
         character(*), intent(in) :: logo
 
         self%logo = logo
 
-    end subroutine shirt_t_set_logo
+    end subroutine shirt_type_set_logo
 
-    subroutine shirt_t_set_size(self, size)
-        class(shirt_t), intent(inout) :: self
+    subroutine shirt_type_set_size(self, size)
+        class(shirt_type), intent(inout) :: self
         integer(int8), intent(in) :: size
 
         self%size = size
 
-    end subroutine shirt_t_set_size
+    end subroutine shirt_type_set_size
 
-    function shirt_t_get_logo(self) result(logo)
-        class(shirt_t), intent(inout) :: self
+    function shirt_type_get_logo(self) result(logo)
+        class(shirt_type), intent(inout) :: self
         character(:), allocatable :: logo
 
         logo = self%logo
 
-    end function shirt_t_get_logo
+    end function shirt_type_get_logo
 
-    function shirt_t_get_size(self) result(size)
-        class(shirt_t), intent(inout) :: self
+    function shirt_type_get_size(self) result(size)
+        class(shirt_type), intent(inout) :: self
         integer(int8) :: size
 
         size = self%size
 
-    end function shirt_t_get_size
+    end function shirt_type_get_size
 
 end module abstract_factory_module
 </code></pre>
 <pre><code class="language-fortran">program abstract_factory_main
 
     use, intrinsic :: iso_fortran_env, only: int8
-    use abstract_factory_module, only: isports_factory_t, erke_t, lining_t, get_sports_factory, erke_shoe_t, erke_shirt_t, &amp;
-                                       lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
+    use abstract_factory_module, only: isports_factory_type, erke_type, lining_type, get_sports_factory, erke_shoe_type, erke_shirt_type, &amp;
+                                       lining_shoe_type, lining_shirt_type, ishoe_type, ishirt_type
 
-    class(isports_factory_t), allocatable :: erke_factory, lining_factory
-    class(ishoe_t), allocatable :: erke_shoe
-    class(ishirt_t), allocatable :: erke_shirt
-    class(ishoe_t), allocatable :: lining_shoe
-    class(ishirt_t), allocatable :: lining_shirt
+    class(isports_factory_type), allocatable :: erke_factory, lining_factory
+    class(ishoe_type), allocatable :: erke_shoe
+    class(ishirt_type), allocatable :: erke_shirt
+    class(ishoe_type), allocatable :: lining_shoe
+    class(ishirt_type), allocatable :: lining_shirt
 
     ! allocate (erke_t :: erke_factory)
     ! allocate (lining_t :: lining_factory)
@@ -574,7 +574,7 @@ end module abstract_factory_module
 contains
 
     subroutine print_shoe_details(ishoe)
-        class(ishoe_t), intent(inout) :: ishoe
+        class(ishoe_type), intent(inout) :: ishoe
 
         print *, &quot;This is a pair of shoes👟.&quot;
         print *, &quot;Logo: &quot;, ishoe%get_logo()
@@ -583,7 +583,7 @@ contains
     end subroutine print_shoe_details
 
     subroutine print_shirt_details(ishirt)
-        class(ishirt_t), intent(inout) :: ishirt
+        class(ishirt_type), intent(inout) :: ishirt
 
         print *, &quot;This is a T-shirt👕.&quot;
         print *, &quot;Logo: &quot;, ishirt%get_logo()
@@ -617,73 +617,73 @@ end program abstract_factory_main
     implicit none
     private
 
-    public :: ibuilder_t, director_t, house_t, get_builder
+    public :: ibuilder_type, director_type, house_type, get_builder
 
-    type, abstract :: ibuilder_t
+    type, abstract :: ibuilder_type
     contains
-        procedure(ibuilder_t_set_window_type), deferred :: set_window_type
-        procedure(ibuilder_t_set_door_type), deferred :: set_door_type
-        procedure(ibuilder_t_set_num_floor), deferred :: set_num_floor
-        procedure(ibuilder_t_get_house), deferred :: get_house
-    end type ibuilder_t
+        procedure(ibuilder_type_set_window_type), deferred :: set_window_type
+        procedure(ibuilder_type_set_door_type), deferred :: set_door_type
+        procedure(ibuilder_type_set_num_floor), deferred :: set_num_floor
+        procedure(ibuilder_type_get_house), deferred :: get_house
+    end type ibuilder_type
 
-    type, extends(ibuilder_t) :: normal_builder_t
+    type, extends(ibuilder_type) :: normal_builder_type
         character(:), allocatable :: window_type
         character(:), allocatable :: door_type
         integer(int8) :: floor
     contains
-        procedure :: set_window_type =&gt; normal_builder_t_set_window_type
-        procedure :: set_door_type =&gt; normal_builder_t_set_door_type
-        procedure :: set_num_floor =&gt; normal_builder_t_set_num_floor
-        procedure :: get_house =&gt; normal_builder_t_get_house
-    end type normal_builder_t
+        procedure :: set_window_type =&gt; normal_builder_type_set_window_type
+        procedure :: set_door_type =&gt; normal_builder_type_set_door_type
+        procedure :: set_num_floor =&gt; normal_builder_type_set_num_floor
+        procedure :: get_house =&gt; normal_builder_type_get_house
+    end type normal_builder_type
 
-    type, extends(ibuilder_t) :: igloo_builder_t
+    type, extends(ibuilder_type) :: igloo_builder_type
         character(:), allocatable :: window_type
         character(:), allocatable :: door_type
         integer(int8) :: floor
     contains
-        procedure :: set_window_type =&gt; igloo_builder_t_set_window_type
-        procedure :: set_door_type =&gt; igloo_builder_t_set_door_type
-        procedure :: set_num_floor =&gt; igloo_builder_t_set_num_floor
-        procedure :: get_house =&gt; igloo_builder_t_get_house
-    end type igloo_builder_t
+        procedure :: set_window_type =&gt; igloo_builder_type_set_window_type
+        procedure :: set_door_type =&gt; igloo_builder_type_set_door_type
+        procedure :: set_num_floor =&gt; igloo_builder_type_set_num_floor
+        procedure :: get_house =&gt; igloo_builder_type_get_house
+    end type igloo_builder_type
 
-    type house_t
+    type house_type
         character(:), allocatable :: window_type
         character(:), allocatable :: door_type
         integer(int8) :: floor
-    end type house_t
+    end type house_type
 
-    type director_t
-        class(ibuilder_t), pointer :: builder
+    type director_type
+        class(ibuilder_type), pointer :: builder
     contains
-        procedure :: set_builder =&gt; director_t_set_builder
-        procedure :: build_house =&gt; director_t_build_house
-    end type director_t
+        procedure :: set_builder =&gt; director_type_set_builder
+        procedure :: build_house =&gt; director_type_build_house
+    end type director_type
 
     abstract interface
 
-        subroutine ibuilder_t_set_window_type(self)
-            import ibuilder_t
-            class(ibuilder_t), intent(inout) :: self
-        end subroutine ibuilder_t_set_window_type
+        subroutine ibuilder_type_set_window_type(self)
+            import ibuilder_type
+            class(ibuilder_type), intent(inout) :: self
+        end subroutine ibuilder_type_set_window_type
 
-        subroutine ibuilder_t_set_door_type(self)
-            import ibuilder_t
-            class(ibuilder_t), intent(inout) :: self
-        end subroutine ibuilder_t_set_door_type
+        subroutine ibuilder_type_set_door_type(self)
+            import ibuilder_type
+            class(ibuilder_type), intent(inout) :: self
+        end subroutine ibuilder_type_set_door_type
 
-        subroutine ibuilder_t_set_num_floor(self)
-            import ibuilder_t
-            class(ibuilder_t), intent(inout) :: self
-        end subroutine ibuilder_t_set_num_floor
+        subroutine ibuilder_type_set_num_floor(self)
+            import ibuilder_type
+            class(ibuilder_type), intent(inout) :: self
+        end subroutine ibuilder_type_set_num_floor
 
-        function ibuilder_t_get_house(self) result(house)
-            import ibuilder_t, house_t
-            class(ibuilder_t), intent(inout) :: self
-            type(house_t) :: house
-        end function ibuilder_t_get_house
+        function ibuilder_type_get_house(self) result(house)
+            import ibuilder_type, house_type
+            class(ibuilder_type), intent(inout) :: self
+            type(house_type) :: house
+        end function ibuilder_type_get_house
 
     end interface
 
@@ -691,35 +691,35 @@ contains
 
     function get_builder(builder_type) result(ibuilder)
         character(*), intent(in) :: builder_type
-        class(ibuilder_t), allocatable :: ibuilder
+        class(ibuilder_type), allocatable :: ibuilder
         select case (builder_type)
         case (&quot;normal&quot;)
-            allocate (normal_builder_t :: ibuilder)
+            allocate (normal_builder_type :: ibuilder)
         case (&quot;igloo&quot;)
-            allocate (igloo_builder_t :: ibuilder)
+            allocate (igloo_builder_type :: ibuilder)
         end select
     end function get_builder
 
     ! - - - - - - - - - -
 
-    subroutine normal_builder_t_set_window_type(self)
-        class(normal_builder_t), intent(inout) :: self
+    subroutine normal_builder_type_set_window_type(self)
+        class(normal_builder_type), intent(inout) :: self
         self%window_type = &quot;Wooden Window&quot;
-    end subroutine normal_builder_t_set_window_type
+    end subroutine normal_builder_type_set_window_type
 
-    subroutine normal_builder_t_set_door_type(self)
-        class(normal_builder_t), intent(inout) :: self
+    subroutine normal_builder_type_set_door_type(self)
+        class(normal_builder_type), intent(inout) :: self
         self%door_type = &quot;Wooden Door&quot;
-    end subroutine normal_builder_t_set_door_type
+    end subroutine normal_builder_type_set_door_type
 
-    subroutine normal_builder_t_set_num_floor(self)
-        class(normal_builder_t), intent(inout) :: self
+    subroutine normal_builder_type_set_num_floor(self)
+        class(normal_builder_type), intent(inout) :: self
         self%floor = 2_int8
-    end subroutine normal_builder_t_set_num_floor
+    end subroutine normal_builder_type_set_num_floor
 
-    function normal_builder_t_get_house(self) result(house)
-        class(normal_builder_t), intent(inout) :: self
-        type(house_t) :: house
+    function normal_builder_type_get_house(self) result(house)
+        class(normal_builder_type), intent(inout) :: self
+        type(house_type) :: house
         ! TODO: A GFortran Bug Here.
         ! house = house_t(door_type=self%door_type, &amp;
         !                 window_type=self%window_type, &amp;
@@ -727,62 +727,62 @@ contains
         house%door_type = self%door_type
         house%window_type = self%window_type
         house%floor = self%floor
-    end function normal_builder_t_get_house
+    end function normal_builder_type_get_house
 
     ! - - - - - - - - - -
 
-    subroutine igloo_builder_t_set_window_type(self)
-        class(igloo_builder_t), intent(inout) :: self
+    subroutine igloo_builder_type_set_window_type(self)
+        class(igloo_builder_type), intent(inout) :: self
         self%window_type = &quot;Snow Window&quot;
-    end subroutine igloo_builder_t_set_window_type
+    end subroutine igloo_builder_type_set_window_type
 
-    subroutine igloo_builder_t_set_door_type(self)
-        class(igloo_builder_t), intent(inout) :: self
+    subroutine igloo_builder_type_set_door_type(self)
+        class(igloo_builder_type), intent(inout) :: self
         self%door_type = &quot;Snow Door&quot;
-    end subroutine igloo_builder_t_set_door_type
+    end subroutine igloo_builder_type_set_door_type
 
-    subroutine igloo_builder_t_set_num_floor(self)
-        class(igloo_builder_t), intent(inout) :: self
+    subroutine igloo_builder_type_set_num_floor(self)
+        class(igloo_builder_type), intent(inout) :: self
         self%floor = 1_int8
-    end subroutine igloo_builder_t_set_num_floor
+    end subroutine igloo_builder_type_set_num_floor
 
-    function igloo_builder_t_get_house(self) result(house)
-        class(igloo_builder_t), intent(inout) :: self
-        type(house_t) :: house
+    function igloo_builder_type_get_house(self) result(house)
+        class(igloo_builder_type), intent(inout) :: self
+        type(house_type) :: house
         ! house = house_t(door_type=self%door_type, &amp;
         !                 window_type=self%window_type, &amp;
         !                 floor=self%floor)
         house%door_type = self%door_type
         house%window_type = self%window_type
         house%floor = self%floor
-    end function igloo_builder_t_get_house
+    end function igloo_builder_type_get_house
 
     ! - - - - - - - - - -
 
-    subroutine director_t_set_builder(self, b)
-        class(director_t), intent(inout) :: self
-        class(ibuilder_t), intent(inout), target :: b
+    subroutine director_type_set_builder(self, b)
+        class(director_type), intent(inout) :: self
+        class(ibuilder_type), intent(inout), target :: b
         self%builder =&gt; b
-    end subroutine director_t_set_builder
+    end subroutine director_type_set_builder
 
-    function director_t_build_house(self) result(house)
-        class(director_t), intent(inout) :: self
-        type(house_t) :: house
+    function director_type_build_house(self) result(house)
+        class(director_type), intent(inout) :: self
+        type(house_type) :: house
         call self%builder%set_door_type()
         call self%builder%set_window_type()
         call self%builder%set_num_floor()
         house = self%builder%get_house()
-    end function director_t_build_house
+    end function director_type_build_house
 
 end module builder_module
 </code></pre>
 <pre><code class="language-fortran">program builder_main
-    use builder_module, only: ibuilder_t, director_t, house_t, get_builder
+    use builder_module, only: ibuilder_type, director_type, house_type, get_builder
     implicit none
 
-    class(ibuilder_t), allocatable :: normal_builder, igloo_builder
-    type(director_t) :: director
-    type(house_t) :: normal_house, igloo_house
+    class(ibuilder_type), allocatable :: normal_builder, igloo_builder
+    type(director_type) :: director
+    type(house_type) :: normal_house, igloo_house
 
     normal_builder = get_builder(&quot;normal&quot;)
     igloo_builder = get_builder(&quot;igloo&quot;)
@@ -832,95 +832,95 @@ end program builder_main
     implicit none
     private
 
-    public :: igun_t, ak47_t, musket_t, get_gun
+    public :: igun_type, ak47_type, musket_type, get_gun
 
-    type, abstract :: igun_t
+    type, abstract :: igun_type
     contains
-        procedure(igun_t_set_name), deferred :: set_name
-        procedure(igun_t_set_power), deferred :: set_power
-        procedure(igun_t_get_name), deferred :: get_name
-        procedure(igun_t_get_power), deferred :: get_power
-    end type igun_t
+        procedure(igun_type_set_name), deferred :: set_name
+        procedure(igun_type_set_power), deferred :: set_power
+        procedure(igun_type_get_name), deferred :: get_name
+        procedure(igun_type_get_power), deferred :: get_power
+    end type igun_type
 
     abstract interface
 
-        subroutine igun_t_set_name(self, name)
-            import igun_t
-            class(igun_t), intent(inout) :: self
+        subroutine igun_type_set_name(self, name)
+            import igun_type
+            class(igun_type), intent(inout) :: self
             character(*), intent(in) :: name
-        end subroutine igun_t_set_name
+        end subroutine igun_type_set_name
 
-        subroutine igun_t_set_power(self, power)
-            import igun_t, int8
-            class(igun_t), intent(inout) :: self
+        subroutine igun_type_set_power(self, power)
+            import igun_type, int8
+            class(igun_type), intent(inout) :: self
             integer(int8), intent(in) :: power
-        end subroutine igun_t_set_power
+        end subroutine igun_type_set_power
 
-        function igun_t_get_name(self) result(name)
-            import igun_t
-            class(igun_t), intent(inout) :: self
+        function igun_type_get_name(self) result(name)
+            import igun_type
+            class(igun_type), intent(inout) :: self
             character(:), allocatable :: name
-        end function igun_t_get_name
+        end function igun_type_get_name
 
-        function igun_t_get_power(self) result(power)
-            import igun_t, int8
-            class(igun_t), intent(inout) :: self
+        function igun_type_get_power(self) result(power)
+            import igun_type, int8
+            class(igun_type), intent(inout) :: self
             integer(int8) :: power
-        end function igun_t_get_power
+        end function igun_type_get_power
 
     end interface
 
-    type, extends(igun_t) :: gun_t
+    type, extends(igun_type) :: gun_type
         character(:), allocatable :: name
         integer(int8) :: power
     contains
-        procedure :: set_name =&gt; gun_t_set_name
-        procedure :: get_name =&gt; gun_t_get_name
-        procedure :: set_power =&gt; gun_t_set_power
-        procedure :: get_power =&gt; gun_t_get_power
-    end type gun_t
+        procedure :: set_name =&gt; gun_type_set_name
+        procedure :: get_name =&gt; gun_type_get_name
+        procedure :: set_power =&gt; gun_type_set_power
+        procedure :: get_power =&gt; gun_type_get_power
+    end type gun_type
 
-    type, extends(gun_t) :: ak47_t
-    end type ak47_t
+    type, extends(gun_type) :: ak47_type
+    end type ak47_type
 
-    type, extends(gun_t) :: musket_t
-    end type musket_t
+    type, extends(gun_type) :: musket_type
+    end type musket_type
 
 contains
 
-    subroutine gun_t_set_name(self, name)
-        class(gun_t), intent(inout) :: self
+    subroutine gun_type_set_name(self, name)
+        class(gun_type), intent(inout) :: self
         character(*), intent(in) :: name
         self%name = name
-    end subroutine gun_t_set_name
+    end subroutine gun_type_set_name
 
-    subroutine gun_t_set_power(self, power)
-        class(gun_t), intent(inout) :: self
+    subroutine gun_type_set_power(self, power)
+        class(gun_type), intent(inout) :: self
         integer(int8), intent(in) :: power
         self%power = power
-    end subroutine gun_t_set_power
+    end subroutine gun_type_set_power
 
-    function gun_t_get_name(self) result(name)
-        class(gun_t), intent(inout) :: self
+    function gun_type_get_name(self) result(name)
+        class(gun_type), intent(inout) :: self
         character(:), allocatable :: name
         name = self%name
-    end function gun_t_get_name
+    end function gun_type_get_name
 
-    function gun_t_get_power(self) result(power)
-        class(gun_t), intent(inout) :: self
+    function gun_type_get_power(self) result(power)
+        class(gun_type), intent(inout) :: self
         integer(int8) :: power
         power = self%power
-    end function gun_t_get_power
+    end function gun_type_get_power
 
     function get_gun(gun_type) result(igun)
         character(*), intent(in) :: gun_type
-        class(igun_t), allocatable :: igun
+        class(igun_type), allocatable :: igun
 
         select case (gun_type)
         case (&quot;ak47&quot;)
-            igun = ak47_t(name=&quot;ak47 gun&quot;, power=4)
+            igun = ak47_type(name=&quot;ak47 gun&quot;, power=4)
         case (&quot;musket&quot;)
-            igun = musket_t(name=&quot;musket gun&quot;, power=1)
+            igun = musket_type(name=&quot;musket gun&quot;, power=1)
         case default
             error stop &quot;*ERROR* `gnu_type` not supported&quot;
         end select
@@ -931,13 +931,13 @@ end module factory_module
 </code></pre>
 <pre><code class="language-fortran">program factory_main
 
-    use factory_module, only: igun_t, ak47_t, musket_t, get_gun
+    use factory_module, only: igun_type, ak47_type, musket_type, get_gun
     implicit none
 
-    class(igun_t), allocatable :: ak47, musket
+    class(igun_type), allocatable :: ak47, musket
 
-    allocate (ak47_t :: ak47)
-    allocate (musket_t :: musket)
+    allocate (ak47_type :: ak47)
+    allocate (musket_type :: musket)
 
     ak47 = get_gun(&quot;ak47&quot;)
     musket = get_gun(&quot;musket&quot;)
@@ -948,7 +948,7 @@ end module factory_module
 contains
 
     subroutine print_details(igun)
-        class(igun_t), intent(inout) :: igun
+        class(igun_type), intent(inout) :: igun
         print *, &quot;Gun: &quot;, igun%get_name()
         print *, &quot;Power: &quot;, igun%get_power()
     end subroutine print_details
@@ -970,69 +970,69 @@ end program factory_main
     implicit none
     private
 
-    public :: file_t, folder_t, inode_t
+    public :: file_type, folder_type, inode_type
 
-    type, abstract :: inode_t
+    type, abstract :: inode_type
     contains
-        procedure(inode_t_print), deferred :: print
-        procedure(inode_t_clone), deferred :: clone
-    end type inode_t
+        procedure(inode_type_print), deferred :: print
+        procedure(inode_type_clone), deferred :: clone
+    end type inode_type
 
-    type, extends(inode_t) :: file_t
+    type, extends(inode_type) :: file_type
         character(:), allocatable :: name
     contains
-        procedure :: print =&gt; file_t_print
-        procedure :: clone =&gt; file_t_clone
-    end type file_t
+        procedure :: print =&gt; file_type_print
+        procedure :: clone =&gt; file_type_clone
+    end type file_type
 
     !&gt; Wrapper (Important)
-    type node_t
-        class(inode_t), pointer :: inode
-    end type node_t
+    type node_type
+        class(inode_type), pointer :: inode
+    end type node_type
 
-    type, extends(inode_t) :: folder_t
-        type(node_t), allocatable :: children(:)
+    type, extends(inode_type) :: folder_type
+        type(node_type), allocatable :: children(:)
         character(:), allocatable :: name
     contains
-        procedure :: print =&gt; folder_t_print
-        procedure :: clone =&gt; folder_t_clone
-    end type folder_t
+        procedure :: print =&gt; folder_type_print
+        procedure :: clone =&gt; folder_type_clone
+    end type folder_type
 
     abstract interface
 
-        subroutine inode_t_print(self, indentation)
-            import inode_t
-            class(inode_t), intent(inout) :: self
+        subroutine inode_type_print(self, indentation)
+            import inode_type
+            class(inode_type), intent(inout) :: self
             character(*), intent(in) :: indentation
-        end subroutine inode_t_print
+        end subroutine inode_type_print
 
-        function inode_t_clone(self) result(inode)
-            import inode_t
-            class(inode_t), intent(inout) :: self
-            class(inode_t), allocatable :: inode
-        end function inode_t_clone
+        function inode_type_clone(self) result(inode)
+            import inode_type
+            class(inode_type), intent(inout) :: self
+            class(inode_type), allocatable :: inode
+        end function inode_type_clone
 
     end interface
 
 contains
 
-    subroutine file_t_print(self, indentation)
-        class(file_t), intent(inout) :: self
+    subroutine file_type_print(self, indentation)
+        class(file_type), intent(inout) :: self
         character(*), intent(in) :: indentation
         print *, indentation//self%name
-    end subroutine file_t_print
+    end subroutine file_type_print
 
-    function file_t_clone(self) result(inode)
-        class(file_t), intent(inout) :: self
-        class(inode_t), allocatable :: inode
-        allocate (file_t :: inode)
-        inode = file_t(name=self%name//&quot;_clone&quot;)
-    end function file_t_clone
+    function file_type_clone(self) result(inode)
+        class(file_type), intent(inout) :: self
+        class(inode_type), allocatable :: inode
+        allocate (file_type :: inode)
+        inode = file_type(name=self%name//&quot;_clone&quot;)
+    end function file_type_clone
 
     ! - - - - - - - - -
 
-    subroutine folder_t_print(self, indentation)
-        class(folder_t), intent(inout) :: self
+    subroutine folder_type_print(self, indentation)
+        class(folder_type), intent(inout) :: self
         character(*), intent(in) :: indentation
         integer :: i
         print *, indentation//self%name
@@ -1040,14 +1040,14 @@ contains
         do i = 1, size(self%children)
             call self%children(i)%inode%print(indentation//indentation)
         end do
-    end subroutine folder_t_print
+    end subroutine folder_type_print
 
     !&gt; There may be incorrect usage here, but I have no choice but to do so.
     !&gt;  Fortran's compilation check is stricter, and I am indeed bypassing it.
-    function folder_t_clone(self) result(inode)
-        class(folder_t), intent(inout) :: self
-        class(inode_t), allocatable :: inode
-        type(folder_t), allocatable :: tmp_folder
+    function folder_type_clone(self) result(inode)
+        class(folder_type), intent(inout) :: self
+        class(inode_type), allocatable :: inode
+        type(folder_type), allocatable :: tmp_folder
         integer :: i
         allocate (tmp_folder, source=self)
         tmp_folder%name = tmp_folder%name//&quot;_clone&quot;
@@ -1061,17 +1061,17 @@ contains
         end if
         
         call move_alloc(tmp_folder, inode)
-    end function folder_t_clone
+    end function folder_type_clone
 
 end module prototype_module
 </code></pre>
 <pre><code class="language-fortran">program prototype_main
-    use prototype_module, only: file_t, folder_t, inode_t
+    use prototype_module, only: file_type, folder_type, inode_type
     implicit none
-    type(file_t), target :: file1, file2, file3
-    type(folder_t), target :: folder1
-    type(folder_t) :: folder2
-    class(inode_t), allocatable :: clone_folder
+    type(file_type), target :: file1, file2, file3
+    type(folder_type), target :: folder1
+    type(folder_type) :: folder2
+    class(inode_type), allocatable :: clone_folder
 
     file1%name = &quot;file1&quot;
     file2%name = &quot;file2&quot;
@@ -1122,18 +1122,18 @@ end program prototype_main
 
     logical :: lock = .false.
 
-    type single_t
+    type single_type
         private
         integer :: value
-    end type single_t
+    end type single_type
 
-    type(single_t) :: single
+    type(single_type) :: single
 
 contains
 
     function get_instance(value) result(single)
         integer, intent(in) :: value
-        type(single_t) :: single
+        type(single_type) :: single
         if (lock) then
             print *, &quot;Single instance already created.&quot;
             return
@@ -1145,7 +1145,7 @@ contains
     end function get_instance
 
     subroutine dispose_instance(single)
-        type(single_t), intent(inout) :: single
+        type(single_type), intent(inout) :: single
         print *, &quot;Disposing single instance now.&quot;
         single%value = 0
         lock = .false.
@@ -1174,75 +1174,75 @@ end program singleton_main
     implicit none
     private
 
-    public :: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+    public :: client_type, computer_type, mac_type, windows_type, windows_adapter_type
 
-    type client_t
+    type client_type
     contains
-        procedure :: insert_lightning_connector_into_computer =&gt; client_t_insert_lightning_connector_into_computer
-    end type client_t
+        procedure :: insert_lightning_connector_into_computer =&gt; client_type_insert_lightning_connector_into_computer
+    end type client_type
 
-    type, abstract :: computer_t
+    type, abstract :: computer_type
     contains
-        procedure(computer_t_insert_into_lightning_port), deferred :: insert_into_lightning_port
-    end type computer_t
+        procedure(computer_type_insert_into_lightning_port), deferred :: insert_into_lightning_port
+    end type computer_type
 
-    type, extends(computer_t) :: mac_t
+    type, extends(computer_type) :: mac_type
     contains
-        procedure :: insert_into_lightning_port =&gt; mac_t_insert_into_lightning_port
-    end type mac_t
+        procedure :: insert_into_lightning_port =&gt; mac_type_insert_into_lightning_port
+    end type mac_type
 
-    type, extends(computer_t) :: windows_t
+    type, extends(computer_type) :: windows_type
     contains
-        procedure :: insert_into_lightning_port =&gt; windows_t_insert_into_lightning_port
-    end type windows_t
+        procedure :: insert_into_lightning_port =&gt; windows_type_insert_into_lightning_port
+    end type windows_type
 
-    type, extends(computer_t) :: windows_adapter_t
-        type(windows_t), pointer :: windows_machine
+    type, extends(computer_type) :: windows_adapter_type
+        type(windows_type), pointer :: windows_machine
     contains
-        procedure :: insert_into_lightning_port =&gt; windows_adapter_t_insert_into_lightning_port
-    end type windows_adapter_t
+        procedure :: insert_into_lightning_port =&gt; windows_adapter_type_insert_into_lightning_port
+    end type windows_adapter_type
 
     abstract interface
-        subroutine computer_t_insert_into_lightning_port(self)
-            import computer_t
-            class(computer_t), intent(inout) :: self
-        end subroutine computer_t_insert_into_lightning_port
+        subroutine computer_type_insert_into_lightning_port(self)
+            import computer_type
+            class(computer_type), intent(inout) :: self
+        end subroutine computer_type_insert_into_lightning_port
     end interface
 
 contains
 
-    subroutine client_t_insert_lightning_connector_into_computer(self, com)
-        class(client_t), intent(inout) :: self
-        class(computer_t), intent(inout) :: com
+    subroutine client_type_insert_lightning_connector_into_computer(self, com)
+        class(client_type), intent(inout) :: self
+        class(computer_type), intent(inout) :: com
         print *, &quot;Client inserts Lightning connector into computer.&quot;
         call com%insert_into_lightning_port()
-    end subroutine client_t_insert_lightning_connector_into_computer
+    end subroutine client_type_insert_lightning_connector_into_computer
 
-    subroutine mac_t_insert_into_lightning_port(self)
-        class(mac_t), intent(inout) :: self
+    subroutine mac_type_insert_into_lightning_port(self)
+        class(mac_type), intent(inout) :: self
         print *, &quot;Lightning connector is plugged into mac machine.&quot;
-    end subroutine mac_t_insert_into_lightning_port
+    end subroutine mac_type_insert_into_lightning_port
 
-    subroutine windows_t_insert_into_lightning_port(self)
-        class(windows_t), intent(inout) :: self
+    subroutine windows_type_insert_into_lightning_port(self)
+        class(windows_type), intent(inout) :: self
         print *, &quot;USB connector is plugged into windows machine.&quot;
-    end subroutine windows_t_insert_into_lightning_port
+    end subroutine windows_type_insert_into_lightning_port
 
-    subroutine windows_adapter_t_insert_into_lightning_port(self)
-        class(windows_adapter_t), intent(inout) :: self
+    subroutine windows_adapter_type_insert_into_lightning_port(self)
+        class(windows_adapter_type), intent(inout) :: self
         print *, &quot;Adapter converts Lightning signal to USB.&quot;
         call self%windows_machine%insert_into_lightning_port()
-    end subroutine windows_adapter_t_insert_into_lightning_port
+    end subroutine windows_adapter_type_insert_into_lightning_port
 
 end module adapter_module
 </code></pre>
 <pre><code class="language-fortran">program adapter_main
-    use adapter_module, only: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+    use adapter_module, only: client_type, computer_type, mac_type, windows_type, windows_adapter_type
     implicit none
-    type(client_t) :: client
-    type(mac_t) :: mac
-    type(windows_t), target :: windows
-    type(windows_adapter_t) :: windows_adapter
+    type(client_type) :: client
+    type(mac_type) :: mac
+    type(windows_type), target :: windows
+    type(windows_adapter_type) :: windows_adapter
 
     call client%insert_lightning_connector_into_computer(mac)
     windows_adapter%windows_machine =&gt; windows
@@ -1266,110 +1266,110 @@ end program adapter_main
     implicit none
     private
 
-    public :: hp_t, epson_t, mac_t, windows_t
+    public :: hp_type, epson_type, mac_type, windows_type
 
-    type, abstract :: computer_t
+    type, abstract :: computer_type
     contains
-        procedure(computer_t_print), deferred :: print
-        procedure(computer_t_set_printer), deferred :: set_printer
-    end type computer_t
+        procedure(computer_type_print), deferred :: print
+        procedure(computer_type_set_printer), deferred :: set_printer
+    end type computer_type
 
-    type, abstract :: printer_t
+    type, abstract :: printer_type
     contains
-        procedure(printer_t_print_file), deferred :: print_file
-    end type printer_t
+        procedure(printer_type_print_file), deferred :: print_file
+    end type printer_type
 
     abstract interface
 
-        subroutine computer_t_print(self)
-            import computer_t
-            class(computer_t), intent(inout) :: self
-        end subroutine computer_t_print
+        subroutine computer_type_print(self)
+            import computer_type
+            class(computer_type), intent(inout) :: self
+        end subroutine computer_type_print
 
-        subroutine computer_t_set_printer(self, printer)
-            import computer_t, printer_t
-            class(computer_t), intent(inout) :: self
-            class(printer_t), intent(inout), target :: printer
-        end subroutine computer_t_set_printer
+        subroutine computer_type_set_printer(self, printer)
+            import computer_type, printer_type
+            class(computer_type), intent(inout) :: self
+            class(printer_type), intent(inout), target :: printer
+        end subroutine computer_type_set_printer
 
-        subroutine printer_t_print_file(self)
-            import printer_t
-            class(printer_t), intent(inout) :: self
-        end subroutine printer_t_print_file
+        subroutine printer_type_print_file(self)
+            import printer_type
+            class(printer_type), intent(inout) :: self
+        end subroutine printer_type_print_file
 
     end interface
 
-    type, extends(printer_t) :: epson_t
+    type, extends(printer_type) :: epson_type
     contains
-        procedure :: print_file =&gt; epson_t_print_file
-    end type epson_t
+        procedure :: print_file =&gt; epson_type_print_file
+    end type epson_type
 
-    type, extends(printer_t) :: hp_t
+    type, extends(printer_type) :: hp_type
     contains
-        procedure :: print_file =&gt; hp_t_print_file
-    end type hp_t
+        procedure :: print_file =&gt; hp_type_print_file
+    end type hp_type
 
-    type, extends(computer_t) :: mac_t
-        class(printer_t), pointer :: printer
+    type, extends(computer_type) :: mac_type
+        class(printer_type), pointer :: printer
     contains
-        procedure :: print =&gt; mac_t_print
-        procedure :: set_printer =&gt; mac_t_set_printer
-    end type mac_t
+        procedure :: print =&gt; mac_type_print
+        procedure :: set_printer =&gt; mac_type_set_printer
+    end type mac_type
 
-    type, extends(computer_t) :: windows_t
-        class(printer_t), pointer :: printer
+    type, extends(computer_type) :: windows_type
+        class(printer_type), pointer :: printer
     contains
-        procedure :: print =&gt; windows_t_print
-        procedure :: set_printer =&gt; windows_t_set_printer
-    end type windows_t
+        procedure :: print =&gt; windows_type_print
+        procedure :: set_printer =&gt; windows_type_set_printer
+    end type windows_type
 
 contains
 
-    subroutine windows_t_print(self)
-        class(windows_t), intent(inout) :: self
+    subroutine windows_type_print(self)
+        class(windows_type), intent(inout) :: self
         print *, &quot;Print request for windows&quot;
         call self%printer%print_file()
-    end subroutine windows_t_print
+    end subroutine windows_type_print
 
-    subroutine windows_t_set_printer(self, printer)
-        class(windows_t), intent(inout) :: self
-        class(printer_t), intent(inout), target :: printer
+    subroutine windows_type_set_printer(self, printer)
+        class(windows_type), intent(inout) :: self
+        class(printer_type), intent(inout), target :: printer
         self%printer =&gt; printer
-    end subroutine windows_t_set_printer
+    end subroutine windows_type_set_printer
 
-    subroutine mac_t_print(self)
-        class(mac_t), intent(inout) :: self
+    subroutine mac_type_print(self)
+        class(mac_type), intent(inout) :: self
         print *, &quot;Print request for mac&quot;
         call self%printer%print_file()
-    end subroutine mac_t_print
+    end subroutine mac_type_print
 
-    subroutine mac_t_set_printer(self, printer)
-        class(mac_t), intent(inout) :: self
-        class(printer_t), intent(inout), target :: printer
+    subroutine mac_type_set_printer(self, printer)
+        class(mac_type), intent(inout) :: self
+        class(printer_type), intent(inout), target :: printer
         self%printer =&gt; printer
-    end subroutine mac_t_set_printer
+    end subroutine mac_type_set_printer
 
-    subroutine epson_t_print_file(self)
-        class(epson_t), intent(inout) :: self
+    subroutine epson_type_print_file(self)
+        class(epson_type), intent(inout) :: self
         print *, &quot;Printing by a EPSON Printer&quot;
-    end subroutine epson_t_print_file
+    end subroutine epson_type_print_file
 
-    subroutine hp_t_print_file(self)
-        class(hp_t), intent(inout) :: self
+    subroutine hp_type_print_file(self)
+        class(hp_type), intent(inout) :: self
         print *, &quot;Printing by a HP Printer&quot;
-    end subroutine hp_t_print_file
+    end subroutine hp_type_print_file
 
 end module bridge_module
 </code></pre>
 <pre><code class="language-fortran">program bridge_main
 
-    use bridge_module, only: hp_t, epson_t, mac_t, windows_t
+    use bridge_module, only: hp_type, epson_type, mac_type, windows_type
     implicit none
 
-    type(hp_t) :: hp_printer
-    type(epson_t) :: epson_printer
-    type(mac_t) :: mac_computer
-    type(windows_t) :: windows_computer
+    type(hp_type) :: hp_printer
+    type(epson_type) :: epson_printer
+    type(mac_type) :: mac_computer
+    type(windows_type) :: windows_computer
 
     call mac_computer%set_printer(hp_printer)
     call mac_computer%print()
@@ -1404,47 +1404,47 @@ end program bridge_main
     implicit none
     private
 
-    public :: cache_t, cache_factory_t
+    public :: cache_type, cache_factory_type
 
-    type, abstract :: cache_t
+    type, abstract :: cache_type
     contains
-        procedure(cache_t_operation), deferred :: operation
-    end type cache_t
+        procedure(cache_type_operation), deferred :: operation
+    end type cache_type
 
     abstract interface
-        subroutine cache_t_operation(self)
-            import cache_t
-            class(cache_t), intent(inout) :: self
-        end subroutine cache_t_operation
+        subroutine cache_type_operation(self)
+            import cache_type
+            class(cache_type), intent(inout) :: self
+        end subroutine cache_type_operation
     end interface
 
-    type, extends(cache_t) :: concrete_cache_t
+    type, extends(cache_type) :: concrete_cache_type
         character(:), allocatable :: key
     contains
-        procedure :: operation =&gt; concrete_cache_t_operation
-    end type concrete_cache_t
+        procedure :: operation =&gt; concrete_cache_type_operation
+    end type concrete_cache_type
 
-    type node_t
-        class(cache_t), allocatable :: cache
-    end type node_t
+    type node_type
+        class(cache_type), allocatable :: cache
+    end type node_type
 
-    type cache_factory_t
-        type(node_t), allocatable :: cache_list(:)
+    type cache_factory_type
+        type(node_type), allocatable :: cache_list(:)
     contains
-        procedure :: get_cache =&gt; cache_factory_t_get_cache
-    end type cache_factory_t
+        procedure :: get_cache =&gt; cache_factory_type_get_cache
+    end type cache_factory_type
 
 contains
 
-    subroutine concrete_cache_t_operation(self)
-        class(concrete_cache_t), intent(inout) :: self
+    subroutine concrete_cache_type_operation(self)
+        class(concrete_cache_type), intent(inout) :: self
         print *, self%key
-    end subroutine concrete_cache_t_operation
+    end subroutine concrete_cache_type_operation
 
-    function cache_factory_t_get_cache(self, key) result(cache)
-        class(cache_factory_t), intent(inout), target :: self
+    function cache_factory_type_get_cache(self, key) result(cache)
+        class(cache_factory_type), intent(inout), target :: self
         character(*), intent(in) :: key
-        class(cache_t), pointer :: cache
+        class(cache_type), pointer :: cache
         integer :: i
 
         if (allocated(self%cache_list)) then
@@ -1452,7 +1452,7 @@ contains
                 associate (cache_ =&gt; self%cache_list(i)%cache)
                 
                     select type (cache_)
-                    type is (concrete_cache_t)
+                    type is (concrete_cache_type)
                         if (cache_%key == key) then
                             cache =&gt; self%cache_list(i)%cache
                             return
@@ -1466,23 +1466,23 @@ contains
         self%cache_list = append_slice(self%cache_list, key)
         cache =&gt; self%cache_list(size(self%cache_list))%cache
 
-    end function cache_factory_t_get_cache
+    end function cache_factory_type_get_cache
 
     !&gt; Date structure
     function append_slice(cache_list_in, key) result(cache_list_out)
-        type(node_t), intent(inout), allocatable :: cache_list_in(:)
+        type(node_type), intent(inout), allocatable :: cache_list_in(:)
         character(*), intent(in) :: key
-        type(node_t), allocatable :: cache_list_out(:)
+        type(node_type), allocatable :: cache_list_out(:)
         integer :: i
 
         if (.not. allocated(cache_list_in)) then
             allocate (cache_list_out(1))
-            allocate (cache_list_out(1)%cache, source=concrete_cache_t(key=key))
+            allocate (cache_list_out(1)%cache, source=concrete_cache_type(key=key))
         else
             i = size(cache_list_in)
             allocate (cache_list_out(i + 1))
             cache_list_out(1:i) = cache_list_in
-            allocate (cache_list_out(i + 1)%cache, source=concrete_cache_t(key=key))
+            allocate (cache_list_out(i + 1)%cache, source=concrete_cache_type(key=key))
         end if
     end function append_slice
 
@@ -1490,10 +1490,10 @@ end module cache_module
 </code></pre>
 <pre><code class="language-fortran">program cache_main
 
-    use cache_module, only: cache_factory_t, cache_t
+    use cache_module, only: cache_factory_type, cache_type
     implicit none
-    type(cache_factory_t) factory
-    class(cache_t), pointer :: cache
+    type(cache_factory_type) factory
+    class(cache_type), pointer :: cache
 
     cache =&gt; factory%get_cache(&quot;A&quot;)
     call cache%operation()
@@ -1527,57 +1527,57 @@ end program cache_main
     implicit none
     private
 
-    public :: file_t, folder_t
+    public :: file_type, folder_type
 
-    type, abstract :: component_t
+    type, abstract :: component_type
     contains
-        procedure(component_t_search), deferred :: search
-    end type component_t
+        procedure(component_type_search), deferred :: search
+    end type component_type
 
-    type, extends(component_t) :: file_t
+    type, extends(component_type) :: file_type
         character(:), allocatable :: name
     contains
-        procedure :: search =&gt; file_t_search
-        procedure :: get_name =&gt; file_t_get_name
-    end type file_t
+        procedure :: search =&gt; file_type_search
+        procedure :: get_name =&gt; file_type_get_name
+    end type file_type
 
     type node_t
-        class(component_t), pointer :: node
+        class(component_type), pointer :: node
     end type node_t
 
-    type, extends(component_t) :: folder_t
+    type, extends(component_type) :: folder_type
         type(node_t), allocatable :: components(:)
         character(:), allocatable :: name
     contains
-        procedure :: search =&gt; folder_t_search
-    end type folder_t
+        procedure :: search =&gt; folder_type_search
+    end type folder_type
 
     abstract interface
-        subroutine component_t_search(self, keyward)
-            import component_t
-            class(component_t), intent(inout) :: self
+        subroutine component_type_search(self, keyward)
+            import component_type
+            class(component_type), intent(inout) :: self
             character(*), intent(in) :: keyward
-        end subroutine component_t_search
+        end subroutine component_type_search
     end interface
 
 contains
 
-    subroutine file_t_search(self, keyward)
-        class(file_t), intent(inout) :: self
+    subroutine file_type_search(self, keyward)
+        class(file_type), intent(inout) :: self
         character(*), intent(in) :: keyward
         print *, &quot;Searching for keyword &quot;, keyward, &quot; in file &quot;, self%name
-    end subroutine file_t_search
+    end subroutine file_type_search
 
-    function file_t_get_name(self) result(name)
-        class(file_t), intent(inout) :: self
+    function file_type_get_name(self) result(name)
+        class(file_type), intent(inout) :: self
         character(:), allocatable :: name
         name = self%name
-    end function file_t_get_name
+    end function file_type_get_name
 
     ! - - - - - - - - - -
 
-    subroutine folder_t_search(self, keyward)
-        class(folder_t), intent(inout) :: self
+    subroutine folder_type_search(self, keyward)
+        class(folder_type), intent(inout) :: self
         character(*), intent(in) :: keyward
         integer :: i
         print *, &quot;Searching recursively for keyword &quot;, keyward, &quot; in folder &quot;, self%name
@@ -1585,16 +1585,16 @@ contains
         do i = 1, size(self%components)
             call self%components(i)%node%search(keyward)
         end do
-    end subroutine folder_t_search
+    end subroutine folder_type_search
 
 end module composite_module
 </code></pre>
 <pre><code class="language-fortran">program composite_main
-    use composite_module, only: file_t, folder_t
+    use composite_module, only: file_type, folder_type
     implicit none
-    type(file_t), target :: file1, file2, file3
-    type(folder_t), target :: folder1
-    type(folder_t) :: folder2
+    type(file_type), target :: file1, file2, file3
+    type(folder_type), target :: folder1
+    type(folder_type) :: folder2
 
     file1%name = &quot;File1&quot;
     file2%name = &quot;File2&quot;
@@ -1631,66 +1631,66 @@ end program composite_main
     implicit none
     private
 
-    public :: new_wallet_facade, wallet_facade_t
+    public :: new_wallet_facade, wallet_facade_type
 
-    type account_t
+    type account_type
         character(:), allocatable :: name
     contains
-        procedure :: check_account =&gt; account_t_check_account
-    end type account_t
+        procedure :: check_account =&gt; account_type_check_account
+    end type account_type
 
-    type security_code_t
+    type security_code_type
         integer :: code
     contains
-        procedure :: check_code =&gt; security_code_t_check_code
-    end type security_code_t
+        procedure :: check_code =&gt; security_code_type_check_code
+    end type security_code_type
 
-    type wallet_t
+    type wallet_type
         integer :: balance
     contains
-        procedure :: credit_balance =&gt; wallet_t_credit_balance
-        procedure :: debit_balance =&gt; wallet_t_debit_balance
-    end type wallet_t
+        procedure :: credit_balance =&gt; wallet_type_credit_balance
+        procedure :: debit_balance =&gt; wallet_type_debit_balance
+    end type wallet_type
 
-    type ledger_t
+    type ledger_type
     contains
-        procedure :: make_entry =&gt; ledger_t_make_entry
-    end type ledger_t
+        procedure :: make_entry =&gt; ledger_type_make_entry
+    end type ledger_type
 
-    type notification_t
+    type notification_type
     contains
-        procedure :: send_wallet_credit_notification =&gt; notification_t_send_wallet_credit_notification
-        procedure :: send_wallet_debit_notification =&gt; notification_t_send_wallet_debit_notification
-    end type notification_t
+        procedure :: send_wallet_credit_notification =&gt; notification_type_send_wallet_credit_notification
+        procedure :: send_wallet_debit_notification =&gt; notification_type_send_wallet_debit_notification
+    end type notification_type
 
-    type wallet_facade_t
-        type(account_t) :: account
-        type(wallet_t) :: wallet
-        type(security_code_t) :: security_code
-        type(notification_t) :: notification
-        type(ledger_t) :: ledger
+    type wallet_facade_type
+        type(account_type) :: account
+        type(wallet_type) :: wallet
+        type(security_code_type) :: security_code
+        type(notification_type) :: notification
+        type(ledger_type) :: ledger
     contains
-        procedure :: add_money_to_wallet =&gt; wallet_facade_t_add_money_to_wallet
-        procedure :: deduct_money_from_wallet =&gt; wallet_facade_t_deduct_money_from_wallet
-    end type wallet_facade_t
+        procedure :: add_money_to_wallet =&gt; wallet_facade_type_add_money_to_wallet
+        procedure :: deduct_money_from_wallet =&gt; wallet_facade_type_deduct_money_from_wallet
+    end type wallet_facade_type
 
 contains
 
     function new_wallet_facade(account_id, code) result(wallet_facade)
         character(*), intent(in) :: account_id
         integer, intent(in) :: code
-        type(wallet_facade_t) :: wallet_facade
+        type(wallet_facade_type) :: wallet_facade
         print *, &quot;Starting create account&quot;
-        wallet_facade = wallet_facade_t(account=account_t(account_id), &amp;
-                                        security_code=security_code_t(code), &amp;
-                                        wallet=wallet_t(balance=0), &amp;
-                                        notification=notification_t(), &amp;
-                                        ledger=ledger_t())
+        wallet_facade = wallet_facade_type(account=account_type(account_id), &amp;
+                                        security_code=security_code_type(code), &amp;
+                                        wallet=wallet_type(balance=0), &amp;
+                                        notification=notification_type(), &amp;
+                                        ledger=ledger_type())
         print *, &quot;Account created&quot;
     end function new_wallet_facade
 
-    subroutine wallet_facade_t_add_money_to_wallet(self, account_id, security_code, amount)
-        class(wallet_facade_t), intent(inout) :: self
+    subroutine wallet_facade_type_add_money_to_wallet(self, account_id, security_code, amount)
+        class(wallet_facade_type), intent(inout) :: self
         character(*), intent(in) :: account_id
         integer, intent(in) :: security_code, amount
         print *, &quot;Starting add money to wallet&quot;
@@ -1699,10 +1699,10 @@ contains
         call self%wallet%credit_balance(amount)
         call self%notification%send_wallet_credit_notification()
         call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
-    end subroutine wallet_facade_t_add_money_to_wallet
+    end subroutine wallet_facade_type_add_money_to_wallet
 
-    subroutine wallet_facade_t_deduct_money_from_wallet(self, account_id, security_code, amount)
-        class(wallet_facade_t), intent(inout) :: self
+    subroutine wallet_facade_type_deduct_money_from_wallet(self, account_id, security_code, amount)
+        class(wallet_facade_type), intent(inout) :: self
         character(*), intent(in) :: account_id
         integer, intent(in) :: security_code, amount
         print *, &quot;Starting debit money from wallet&quot;
@@ -1711,78 +1711,78 @@ contains
         call self%wallet%credit_balance(amount)
         call self%notification%send_wallet_credit_notification()
         call self%ledger%make_entry(account_id, &quot;credit&quot;, amount)
-    end subroutine wallet_facade_t_deduct_money_from_wallet
+    end subroutine wallet_facade_type_deduct_money_from_wallet
 
     ! - - - - - - - - -
 
-    subroutine account_t_check_account(self, account_name)
-        class(account_t), intent(inout) :: self
+    subroutine account_type_check_account(self, account_name)
+        class(account_type), intent(inout) :: self
         character(*), intent(in) :: account_name
         if (self%name /= account_name) then
             error stop &quot;Account Name is incorrect&quot;
         end if
         print *, &quot;Account Verified&quot;
-    end subroutine account_t_check_account
+    end subroutine account_type_check_account
 
     ! - - - - - - - - -
 
-    subroutine security_code_t_check_code(self, incomming_code)
-        class(security_code_t), intent(inout) :: self
+    subroutine security_code_type_check_code(self, incomming_code)
+        class(security_code_type), intent(inout) :: self
         integer, intent(in) :: incomming_code
         if (self%code /= incomming_code) then
             error stop &quot;Security Code is incorrect&quot;
         end if
         print *, &quot;SecurityCode Verified&quot;
-    end subroutine security_code_t_check_code
+    end subroutine security_code_type_check_code
 
     ! - - - - - - - - -
 
-    subroutine wallet_t_credit_balance(self, amount)
-        class(wallet_t), intent(inout) :: self
+    subroutine wallet_type_credit_balance(self, amount)
+        class(wallet_type), intent(inout) :: self
         integer, intent(in) :: amount
         self%balance = self%balance + amount
         print *, &quot;Wallet balance added successfully&quot;
-    end subroutine wallet_t_credit_balance
+    end subroutine wallet_type_credit_balance
 
-    subroutine wallet_t_debit_balance(self, amount)
-        class(wallet_t), intent(inout) :: self
+    subroutine wallet_type_debit_balance(self, amount)
+        class(wallet_type), intent(inout) :: self
         integer, intent(in) :: amount
         if (self%balance &lt; amount) then
             error stop &quot;Balance is not sufficient&quot;
         end if
         print *, &quot;Wallet balance is Sufficient&quot;
         self%balance = self%balance - amount
-    end subroutine wallet_t_debit_balance
+    end subroutine wallet_type_debit_balance
 
     ! - - - - - - - - -
 
-    subroutine ledger_t_make_entry(self, account_id, txn_type, amount)
-        class(ledger_t), intent(inout) :: self
+    subroutine ledger_type_make_entry(self, account_id, txn_type, amount)
+        class(ledger_type), intent(inout) :: self
         character(*), intent(in) :: account_id, txn_type
         integer, intent(in) :: amount
         print *, &quot;Make ledger entry for accountId &quot;, account_id, &amp;
             &quot; with txnType &quot;, txn_type, &amp;
             &quot; for amount &quot;, amount
-    end subroutine ledger_t_make_entry
+    end subroutine ledger_type_make_entry
 
     ! - - - - - - - - -
 
-    subroutine notification_t_send_wallet_credit_notification(self)
-        class(notification_t), intent(inout) :: self
+    subroutine notification_type_send_wallet_credit_notification(self)
+        class(notification_type), intent(inout) :: self
         print *, &quot;Sending wallet credit notification&quot;
-    end subroutine notification_t_send_wallet_credit_notification
+    end subroutine notification_type_send_wallet_credit_notification
 
-    subroutine notification_t_send_wallet_debit_notification(self)
-        class(notification_t), intent(inout) :: self
+    subroutine notification_type_send_wallet_debit_notification(self)
+        class(notification_type), intent(inout) :: self
         print *, &quot;Sending wallet debit notification&quot;
-    end subroutine notification_t_send_wallet_debit_notification
+    end subroutine notification_type_send_wallet_debit_notification
 
 end module facade_module
 </code></pre>
 <pre><code class="language-fortran">program facade_main
-    use facade_module, only: wallet_facade_t, new_wallet_facade
+    use facade_module, only: wallet_facade_type, new_wallet_facade
     implicit none
-    type(wallet_facade_t) :: wallet_facade
+    type(wallet_facade_type) :: wallet_facade
 
     wallet_facade = new_wallet_facade(account_id=&quot;abc&quot;, code=1234)
     call wallet_facade%add_money_to_wallet(account_id=&quot;abc&quot;, security_code=1234, amount=10)
@@ -1816,57 +1816,57 @@ end program facade_main
     implicit none
     private
 
-    public :: nginx_t, new_nginx_server
+    public :: nginx_type, new_nginx_server
 
-    type, abstract :: server_t
+    type, abstract :: server_type
     contains
-        procedure(server_t_handle_request), deferred :: handle_request
-    end type server_t
+        procedure(server_type_handle_request), deferred :: handle_request
+    end type server_type
 
     abstract interface
-        subroutine server_t_handle_request(self, url, method, code, msg)
-            import server_t, int16
-            class(server_t), intent(inout) :: self
+        subroutine server_type_handle_request(self, url, method, code, msg)
+            import server_type, int16
+            class(server_type), intent(inout) :: self
             character(*), intent(in) :: url, method
             integer(int16), intent(out) :: code
             character(:), intent(out), allocatable :: msg
-        end subroutine server_t_handle_request
+        end subroutine server_type_handle_request
     end interface
 
-    type map_t
+    type map_type
         character(:), allocatable :: url
         integer(int16) :: rate_limiter
-    end type map_t
+    end type map_type
 
-    type, extends(server_t) :: nginx_t
-        type(application_t), allocatable :: application
+    type, extends(server_type) :: nginx_type
+        type(application_type), allocatable :: application
         integer(int16) :: max_allowed_request
-        type(map_t), allocatable :: map(:)
+        type(map_type), allocatable :: map(:)
         ! TODO:
     contains
         procedure :: handle_request =&gt; nginx_t_handle_request
         procedure :: check_rate_limiting =&gt; nginx_t_check_rate_limiting
-    end type nginx_t
+    end type nginx_type
 
-    type, extends(server_t) :: application_t
+    type, extends(server_type) :: application_type
     contains
         procedure :: handle_request =&gt; application_t_handle_request
-    end type application_t
+    end type application_type
 
 contains
 
-    type(nginx_t) function new_nginx_server() result(nginx)
-        type(map_t), allocatable :: map_(:)
+    type(nginx_type) function new_nginx_server() result(nginx)
+        type(map_type), allocatable :: map_(:)
         ! TODO:
         allocate (map_(2))
-        map_(1) = map_t(url=&quot;/app/status&quot;, rate_limiter=0_int16)
-        map_(2) = map_t(url=&quot;/create/user&quot;, rate_limiter=0_int16)
+        map_(1) = map_type(url=&quot;/app/status&quot;, rate_limiter=0_int16)
+        map_(2) = map_type(url=&quot;/create/user&quot;, rate_limiter=0_int16)
 
-        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
+        nginx = nginx_type(application=application_type(), max_allowed_request=2, map=map_) ! TODO:
     end function new_nginx_server
 
     subroutine nginx_t_handle_request(self, url, method, code, msg)
-        class(nginx_t), intent(inout) :: self
+        class(nginx_type), intent(inout) :: self
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg
@@ -1886,7 +1886,7 @@ contains
     end subroutine nginx_t_handle_request
 
     logical function nginx_t_check_rate_limiting(self, url) result(allowed)
-        class(nginx_t), intent(inout) :: self
+        class(nginx_type), intent(inout) :: self
         character(*), intent(in) :: url
 
         integer(int16) :: i
@@ -1912,7 +1912,7 @@ contains
     end function nginx_t_check_rate_limiting
 
     subroutine application_t_handle_request(self, url, method, code, msg)
-        class(application_t), intent(inout) :: self
+        class(application_type), intent(inout) :: self
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg
@@ -1939,9 +1939,9 @@ end module proxy_module
 <pre><code class="language-fortran">program proxy_main
 
     use, intrinsic :: iso_fortran_env, only: int16
-    use proxy_module, only: nginx_t, new_nginx_server
+    use proxy_module, only: nginx_type, new_nginx_server
 
-    type(nginx_t) :: nginx_server
+    type(nginx_type) :: nginx_server
     character(*), parameter :: app_status_url = &quot;/app/status&quot;, create_user_url = &quot;/create/user&quot;
     integer(int16) :: code
     character(:), allocatable :: body
@@ -2001,67 +2001,67 @@ end program proxy_main
     implicit none
     private
 
-    public :: vegge_mania_t, tomato_topping_t, cheese_topping_t
+    public :: vegge_mania_type, tomato_topping_type, cheese_topping_type
 
-    type, abstract :: pizza_t
+    type, abstract :: pizza_type
     contains
         procedure(pizza_t_get_price), deferred :: get_price
-    end type pizza_t
+    end type pizza_type
 
     abstract interface
         function pizza_t_get_price(self) result(price)
-            import :: pizza_t
-            class(pizza_t), intent(inout) :: self
+            import :: pizza_type
+            class(pizza_type), intent(inout) :: self
             integer :: price
         end function pizza_t_get_price
     end interface
 
-    type, extends(pizza_t) :: vegge_mania_t
+    type, extends(pizza_type) :: vegge_mania_type
     contains
-        procedure :: get_price =&gt; vegge_mania_t_get_price
-    end type vegge_mania_t
+        procedure :: get_price =&gt; vegge_mania_type_get_price
+    end type vegge_mania_type
 
-    type, extends(pizza_t) :: tomato_topping_t
-        class(pizza_t), pointer :: pizza
+    type, extends(pizza_type) :: tomato_topping_type
+        class(pizza_type), pointer :: pizza
     contains
-        procedure :: get_price =&gt; tomato_topping_t_get_price
-    end type tomato_topping_t
+        procedure :: get_price =&gt; tomato_topping_type_get_price
+    end type tomato_topping_type
 
-    type, extends(pizza_t) :: cheese_topping_t
-        class(pizza_t), pointer :: pizza
+    type, extends(pizza_type) :: cheese_topping_type
+        class(pizza_type), pointer :: pizza
     contains
-        procedure :: get_price =&gt; cheese_topping_t_get_price
-    end type cheese_topping_t
+        procedure :: get_price =&gt; cheese_topping_type_get_price
+    end type cheese_topping_type
 
 contains
 
-    function vegge_mania_t_get_price(self) result(price)
-        class(vegge_mania_t), intent(inout) :: self
+    function vegge_mania_type_get_price(self) result(price)
+        class(vegge_mania_type), intent(inout) :: self
         integer :: price
         price = 15
-    end function vegge_mania_t_get_price
+    end function vegge_mania_type_get_price
 
-    function tomato_topping_t_get_price(self) result(price)
-        class(tomato_topping_t), intent(inout) :: self
+    function tomato_topping_type_get_price(self) result(price)
+        class(tomato_topping_type), intent(inout) :: self
         integer :: price
         price = self%pizza%get_price() + 7
-    end function tomato_topping_t_get_price
+    end function tomato_topping_type_get_price
 
-    function cheese_topping_t_get_price(self) result(price)
-        class(cheese_topping_t), intent(inout) :: self
+    function cheese_topping_type_get_price(self) result(price)
+        class(cheese_topping_type), intent(inout) :: self
         integer :: price
         price = self%pizza%get_price() + 10
-    end function cheese_topping_t_get_price
+    end function cheese_topping_type_get_price
 
 end module wrapper_module
 </code></pre>
 <pre><code class="language-fortran">program wrapper_main
 
-    use wrapper_module, only: vegge_mania_t, cheese_topping_t, tomato_topping_t
+    use wrapper_module, only: vegge_mania_type, cheese_topping_type, tomato_topping_type
     implicit none
-    type(vegge_mania_t), target :: pizza
-    type(cheese_topping_t), target :: pizza_with_cheese
-    type(tomato_topping_t) :: pizza_with_tomato_and_cheese
+    type(vegge_mania_type), target :: pizza
+    type(cheese_topping_type), target :: pizza_with_cheese
+    type(tomato_topping_type) :: pizza_with_tomato_and_cheese
 
     pizza_with_cheese%pizza =&gt; pizza
     pizza_with_tomato_and_cheese%pizza =&gt; pizza_with_cheese
@@ -2092,68 +2092,68 @@ module hospital_CoR
     implicit none
     private
 
-    public :: patient, department, reception, doctor, medical, cashier
+    public :: patient_type, department_type, reception_type, doctor_type, medical_type, cashier_type
 
-    type patient
+    type patient_type
         character(:), allocatable :: name
         logical :: registration_done
         logical :: doctor_check_up_done
         logical :: medicine_done
         logical :: payment_done
-    end type patient
+    end type patient_type
 
-    type, abstract :: department
+    type, abstract :: department_type
     contains
         procedure(execute_procedure), deferred :: execute
         procedure(set_next_procedure), deferred :: set_next
-    end type department
+    end type department_type
 
     abstract interface
         subroutine execute_procedure(self, p)
-            import department, patient
-            class(department), intent(inout) :: self
-            type(patient), intent(inout) :: p
+            import department_type, patient_type
+            class(department_type), intent(inout) :: self
+            type(patient_type), intent(inout) :: p
         end subroutine execute_procedure
         subroutine set_next_procedure(self, next)
-            import department
-            class(department), intent(inout) :: self
-            class(department), intent(inout) :: next
+            import department_type
+            class(department_type), intent(inout) :: self
+            class(department_type), intent(inout) :: next
         end subroutine set_next_procedure
     end interface
 
-    type, extends(department) :: reception
-        class(department), pointer :: next
+    type, extends(department_type) :: reception_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute =&gt; reception_execute
-        procedure :: set_next =&gt; reception_set_next
-    end type reception
+        procedure :: execute =&gt; reception_type_execute
+        procedure :: set_next =&gt; reception_type_set_next
+    end type reception_type
 
-    type, extends(department) :: doctor
-        class(department), pointer :: next
+    type, extends(department_type) :: doctor_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute =&gt; doctor_execute
-        procedure :: set_next =&gt; doctor_set_next
-    end type doctor
+        procedure :: execute =&gt; doctor_type_execute
+        procedure :: set_next =&gt; doctor_type_set_next
+    end type doctor_type
 
-    type, extends(department) :: medical
-        class(department), pointer :: next
+    type, extends(department_type) :: medical_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute =&gt; medicine_execute
-        procedure :: set_next =&gt; medicine_set_next
-    end type medical
+        procedure :: execute =&gt; medicine_type_execute
+        procedure :: set_next =&gt; medicine_type_set_next
+    end type medical_type
 
-    type, extends(department) :: cashier
-        class(department), pointer :: next
+    type, extends(department_type) :: cashier_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute =&gt; cashier_execute
-        procedure :: set_next =&gt; cashier_set_next
-    end type cashier
+        procedure :: execute =&gt; cashier_type_execute
+        procedure :: set_next =&gt; cashier_type_set_next
+    end type cashier_type
 
 contains
 
-    subroutine reception_execute(self, p)
-        class(reception), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine reception_type_execute(self, p)
+        class(reception_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%registration_done) then
             print *, &quot;Patient registration already done.✔️&quot;
@@ -2165,19 +2165,19 @@ contains
         p%registration_done = .true.
         call self%next%execute(p)
 
-    end subroutine reception_execute
+    end subroutine reception_type_execute
 
-    subroutine reception_set_next(self, next)
-        class(reception), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine reception_type_set_next(self, next)
+        class(reception_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine reception_set_next
+    end subroutine reception_type_set_next
 
-    subroutine doctor_execute(self, p)
-        class(doctor), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine doctor_type_execute(self, p)
+        class(doctor_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%doctor_check_up_done) then
             print *, &quot;Doctor checkup already done.✔️&quot;
@@ -2189,19 +2189,19 @@ contains
         p%doctor_check_up_done = .true.
         call self%next%execute(p)
 
-    end subroutine doctor_execute
+    end subroutine doctor_type_execute
 
-    subroutine doctor_set_next(self, next)
-        class(doctor), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine doctor_type_set_next(self, next)
+        class(doctor_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine doctor_set_next
+    end subroutine doctor_type_set_next
 
-    subroutine medicine_execute(self, p)
-        class(medical), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine medicine_type_execute(self, p)
+        class(medical_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%medicine_done) then
             print *, &quot;Medicine already given to patient.✔️&quot;
@@ -2213,19 +2213,19 @@ contains
         p%medicine_done = .true.
         call self%next%execute(p)
 
-    end subroutine medicine_execute
+    end subroutine medicine_type_execute
 
-    subroutine medicine_set_next(self, next)
-        class(medical), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine medicine_type_set_next(self, next)
+        class(medical_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine medicine_set_next
+    end subroutine medicine_type_set_next
 
-    subroutine cashier_execute(self, p)
-        class(cashier), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine cashier_type_execute(self, p)
+        class(cashier_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%payment_done) then
             print *, &quot;Payment Done.✔️&quot;
@@ -2235,15 +2235,15 @@ contains
         print *, &quot;Cashier getting money from patient.&quot;
         p%payment_done = .true.
 
-    end subroutine cashier_execute
+    end subroutine cashier_type_execute
 
-    subroutine cashier_set_next(self, next)
-        class(cashier), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine cashier_type_set_next(self, next)
+        class(cashier_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine cashier_set_next
+    end subroutine cashier_type_set_next
 
 end module hospital_CoR
 </code></pre>
@@ -2253,24 +2253,24 @@ program CoR_main
 
     use hospital_CoR
 
-    type(cashier) :: c
-    type(medical) :: m
-    type(doctor) :: d
-    type(reception) :: r
+    type(cashier_type) :: c
+    type(medical_type) :: m
+    type(doctor_type) :: d
+    type(reception_type) :: r
 
-    type(patient) :: p1, p2
+    type(patient_type) :: p1, p2
 
     !&gt; Set next for departments
     call m%set_next(c)
     call d%set_next(m)
     call r%set_next(d)
 
-    p1 = patient(&quot;abc&quot;, .true., .true., .true., .true.)
+    p1 = patient_type(&quot;abc&quot;, .true., .true., .true., .true.)
     !&gt; Patient visiting
     print *, &quot;&gt; Patient `&quot;//p1%name//&quot;` : &quot;
     call r%execute(p1)
 
-    p2 = patient(&quot;def&quot;, .true., .false., .false., .false.)
+    p2 = patient_type(&quot;def&quot;, .true., .false., .false., .false.)
     !&gt; Patient visiting
     print *, &quot;&gt; Patient `&quot;//p2%name//&quot;` : &quot;
     call r%execute(p2)
@@ -2307,104 +2307,104 @@ module command_pattern
     implicit none
     private
 
-    public :: tv, on_command, off_command, button
+    public :: tv_type, on_command_type, off_command_type, button_type
 
     !&gt; Abstract classes
 
-    type, abstract :: command
+    type, abstract :: command_type
     contains
         procedure(execute_procedure), deferred :: execute
-    end type command
+    end type command_type
 
-    type, abstract :: device
+    type, abstract :: device_type
     contains
         procedure(on_procedure), deferred :: on
         procedure(off_procedure), deferred :: off
-    end type device
+    end type device_type
 
     abstract interface
         subroutine execute_procedure(self)
-            import command
-            class(command), intent(inout) :: self
+            import command_type
+            class(command_type), intent(inout) :: self
         end subroutine execute_procedure
         subroutine on_procedure(self)
-            import device
-            class(device), intent(inout) :: self
+            import device_type
+            class(device_type), intent(inout) :: self
         end subroutine on_procedure
         subroutine off_procedure(self)
-            import device
-            class(device), intent(inout) :: self
+            import device_type
+            class(device_type), intent(inout) :: self
         end subroutine off_procedure
     end interface
 
     !&gt; Specific Objects
 
-    type, extends(command) :: on_command
-        class(device), pointer :: d
+    type, extends(command_type) :: on_command_type
+        class(device_type), pointer :: d
     contains
-        procedure :: execute =&gt; on_command_execute
-    end type on_command
+        procedure :: execute =&gt; on_command_type_execute
+    end type on_command_type
 
-    type, extends(command) :: off_command
-        class(device), pointer :: d
+    type, extends(command_type) :: off_command_type
+        class(device_type), pointer :: d
     contains
-        procedure :: execute =&gt; off_command_execute
-    end type off_command
+        procedure :: execute =&gt; off_command_type_execute
+    end type off_command_type
 
-    type, extends(device) :: tv
+    type, extends(device_type) :: tv_type
         logical :: is_running
     contains
-        procedure :: on =&gt; tv_on
-        procedure :: off =&gt; tv_off
-    end type tv
+        procedure :: on =&gt; tv_type_on
+        procedure :: off =&gt; tv_type_off
+    end type tv_type
 
-    type :: button
-        class(command), pointer :: c
+    type :: button_type
+        class(command_type), pointer :: c
     contains
         procedure :: press
-    end type button
+    end type button_type
 
 contains
 
     subroutine press(self)
-        class(button), intent(inout) :: self
+        class(button_type), intent(inout) :: self
         call self%c%execute()
     end subroutine press
 
-    subroutine on_command_execute(self)
-        class(on_command), intent(inout) :: self
+    subroutine on_command_type_execute(self)
+        class(on_command_type), intent(inout) :: self
         call self%d%on()
-    end subroutine on_command_execute
+    end subroutine on_command_type_execute
 
-    subroutine off_command_execute(self)
-        class(off_command), intent(inout) :: self
+    subroutine off_command_type_execute(self)
+        class(off_command_type), intent(inout) :: self
         call self%d%off()
-    end subroutine off_command_execute
+    end subroutine off_command_type_execute
 
-    subroutine tv_on(self)
-        class(tv), intent(inout) :: self
+    subroutine tv_type_on(self)
+        class(tv_type), intent(inout) :: self
         self%is_running = .true.
         print *, &quot;Turning tv on. ✔️&quot;
-    end subroutine tv_on
+    end subroutine tv_type_on
 
-    subroutine tv_off(self)
-        class(tv), intent(inout) :: self
+    subroutine tv_type_off(self)
+        class(tv_type), intent(inout) :: self
         self%is_running = .false.
         print *, &quot;Turning tv off. ❌&quot;
-    end subroutine tv_off
+    end subroutine tv_type_off
 
 end module command_pattern
 </code></pre>
 <pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/command/go/example
 program test_command
 
-    use command_pattern, only: tv, on_command, off_command, button
-    type(tv) :: t
-    type(on_command) :: on_c
-    type(off_command) :: off_c
+    use command_pattern, only: tv_type, on_command_type, off_command_type, button_type
+    type(tv_type) :: t
+    type(on_command_type) :: on_c
+    type(off_command_type) :: off_c
 
-    type(button) :: on_b
-    type(button) :: off_b
+    type(button_type) :: on_b
+    type(button_type) :: off_b
 
     !&gt; Linking
     allocate (on_c%d, source=t)
@@ -2439,46 +2439,46 @@ end program test_command
     implicit none
     private
 
-    public :: user_t, user_collection_t, user_iterator_t, iterator_t
+    public :: user_type, user_collection_type, user_iterator_type, iterator_type
 
     !&gt; Abstract types
 
     !&gt; Collection
-    type, abstract :: collection_t
+    type, abstract :: collection_type
     contains
-        procedure(collection_t_create_iterator), deferred :: create_iterator
-    end type collection_t
+        procedure(collection_type_create_iterator), deferred :: create_iterator
+    end type collection_type
 
     !&gt; Iterator
-    type, abstract :: iterator_t
+    type, abstract :: iterator_type
     contains
         procedure(iterator_t_has_next), deferred :: has_next
         procedure(iterator_t_get_next), deferred :: get_next
-    end type iterator_t
+    end type iterator_type
 
     !&gt; User
-    type user_t
+    type user_type
         character(:), allocatable :: name
         integer(int8) :: age
-    end type user_t
+    end type user_type
 
     abstract interface
 
-        function collection_t_create_iterator(self) result(iterator)
-            import iterator_t, collection_t
+        function collection_type_create_iterator(self) result(iterator)
+            import iterator_type, collection_type
             !&gt; TODO:
-            class(collection_t), intent(in) :: self
-            class(iterator_t), allocatable :: iterator
-        end function collection_t_create_iterator
+            class(collection_type), intent(in) :: self
+            class(iterator_type), allocatable :: iterator
+        end function collection_type_create_iterator
 
         logical function iterator_t_has_next(self)
-            import iterator_t
-            class(iterator_t), intent(in) :: self
+            import iterator_type
+            class(iterator_type), intent(in) :: self
         end function iterator_t_has_next
 
-        type(user_t) function iterator_t_get_next(self)
-            import user_t, iterator_t
-            class(iterator_t), intent(inout) :: self
+        type(user_type) function iterator_t_get_next(self)
+            import user_type, iterator_type
+            class(iterator_type), intent(inout) :: self
         end function iterator_t_get_next
 
     end interface
@@ -2486,39 +2486,39 @@ end program test_command
     !&gt; Specific types
 
     !&gt; User collection
-    type, extends(collection_t) :: user_collection_t
-        type(user_t), allocatable :: users(:)
+    type, extends(collection_type) :: user_collection_type
+        type(user_type), allocatable :: users(:)
     contains
         procedure :: create_iterator =&gt; user_collection_t_create_iterator
-    end type user_collection_t
+    end type user_collection_type
 
     !&gt; User iterator
-    type, extends(iterator_t) :: user_iterator_t
+    type, extends(iterator_type) :: user_iterator_type
         integer :: index
-        type(user_t), allocatable :: users(:)
+        type(user_type), allocatable :: users(:)
     contains
         procedure :: has_next =&gt; user_iterator_t_has_next
         procedure :: get_next =&gt; user_iterator_t_get_next
-    end type user_iterator_t
+    end type user_iterator_type
 
 contains
 
     function user_collection_t_create_iterator(self) result(iterator)
-        class(user_collection_t), intent(in) :: self
-        class(iterator_t), allocatable :: iterator
+        class(user_collection_type), intent(in) :: self
+        class(iterator_type), allocatable :: iterator
         ! TODO:
-        iterator = user_iterator_t(index=0, users=self%users)
+        iterator = user_iterator_type(index=0, users=self%users)
     end function user_collection_t_create_iterator
 
     logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(in) :: self
+        class(user_iterator_type), intent(in) :: self
 
         has = merge(.true., .false., self%index &lt; size(self%users))
 
     end function user_iterator_t_has_next
 
-    type(user_t) function user_iterator_t_get_next(self) result(user)
-        class(user_iterator_t), intent(inout) :: self
+    type(user_type) function user_iterator_t_get_next(self) result(user)
+        class(user_iterator_type), intent(inout) :: self
 
         self%index = self%index + 1
         user = self%users(self%index)
@@ -2530,20 +2530,20 @@ end module iterator_module
 <pre><code class="language-fortran">program iterator_main
 
     use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
+    use iterator_module, only: user_type, user_collection_type, user_iterator_type, iterator_type
 
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
+    type(user_type) :: user1, user2, user
+    type(user_collection_type) :: user_collection
     ! TODO:
-    class(iterator_t), allocatable :: iterator
+    class(iterator_type), allocatable :: iterator
 
-    user1 = user_t(name=&quot;A&quot;, age=30_int8)
-    user2 = user_t(name=&quot;B&quot;, age=20_int8)
+    user1 = user_type(name=&quot;A&quot;, age=30_int8)
+    user2 = user_type(name=&quot;B&quot;, age=20_int8)
 
-    user_collection = user_collection_t(users=[user1, user2])
+    user_collection = user_collection_type(users=[user1, user2])
 
     !&gt; Specific iterator
-    allocate (user_iterator_t :: iterator)
+    allocate (user_iterator_type :: iterator)
     iterator = user_collection%create_iterator()
 
     do while (iterator%has_next())
@@ -2569,59 +2569,59 @@ module observer_pattern
     implicit none
     private
 
-    public :: item, customer, new_item
+    public :: item_type, customer_type, new_item
 
     !&gt; Abstract classes
-    type, abstract :: subject
+    type, abstract :: subject_type
     contains
         procedure(register_procedure), deferred :: register
         procedure(deregister_procedure), deferred :: deregister
         procedure(notify_all_procedure), deferred :: notify_all
-    end type subject
+    end type subject_type
 
-    type, abstract :: observer
+    type, abstract :: observer_type
     contains
         procedure(update_procedure), deferred :: update
         procedure(get_ID_procedure), deferred :: get_ID
-    end type observer
+    end type observer_type
 
     !&gt; We cannot directly use `class(observer), allocatable :: o_list(:)`
     !&gt;  instead of `type(node), allocatable :: o_list(:)`.
-    type node
-        class(observer), allocatable :: o
-    end type node
+    type node_type
+        class(observer_type), allocatable :: o
+    end type node_type
 
     abstract interface
         subroutine register_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
+            import subject_type, observer_type
+            class(subject_type), intent(inout) :: self
+            class(observer_type), intent(inout) :: o
         end subroutine register_procedure
         subroutine deregister_procedure(self, o)
-            import subject, observer
-            class(subject), intent(inout) :: self
-            class(observer), intent(inout) :: o
+            import subject_type, observer_type
+            class(subject_type), intent(inout) :: self
+            class(observer_type), intent(inout) :: o
         end subroutine deregister_procedure
         subroutine notify_all_procedure(self)
-            import subject
-            class(subject), intent(inout) :: self
+            import subject_type
+            class(subject_type), intent(inout) :: self
         end subroutine notify_all_procedure
         subroutine update_procedure(self, s)
-            import observer
-            class(observer), intent(inout) :: self
+            import observer_type
+            class(observer_type), intent(inout) :: self
             character(len=*), intent(inout) :: s
         end subroutine update_procedure
         function get_ID_procedure(self) result(result)
-            import observer
-            class(observer), intent(inout) :: self
+            import observer_type
+            class(observer_type), intent(inout) :: self
             character(len=:), allocatable :: result
         end function get_ID_procedure
     end interface
 
     !&gt; Specific objects
 
-    type, extends(subject) :: item
-        type(node), allocatable :: o_list(:)
+    type, extends(subject_type) :: item_type
+        type(node_type), allocatable :: o_list(:)
         character(len=:), allocatable :: name
         logical :: in_stock
     contains
@@ -2629,29 +2629,29 @@ module observer_pattern
         procedure :: register
         procedure :: deregister
         procedure :: notify_all
-    end type item
+    end type item_type
 
-    type, extends(observer) :: customer
+    type, extends(observer_type) :: customer_type
         character(len=:), allocatable :: ID
     contains
         procedure :: update
         procedure :: get_ID
-    end type customer
+    end type customer_type
 
 contains
 
     !&gt; Constructor of `item`.
     function new_item(name) result(i)
         character(*), intent(in) :: name
-        type(item) :: i
+        type(item_type) :: i
         i%name = name
     end function new_item
 
     !&gt; Remove a object from the subscription array.
     function remove_from_slice(o_list, o_to_remove) result(result)
-        type(node), intent(inout) :: o_list(:)
-        class(observer), intent(inout) :: o_to_remove
-        type(node), allocatable :: result(:)
+        type(node_type), intent(inout) :: o_list(:)
+        class(observer_type), intent(inout) :: o_to_remove
+        type(node_type), allocatable :: result(:)
         character(len=:), allocatable :: id
         integer :: i, j
         i = size(o_list)
@@ -2667,9 +2667,9 @@ contains
 
     !&gt; Append a object to the subscription array.
     function append_slice(o_list, o_to_append) result(result)
-        type(node), intent(inout), allocatable :: o_list(:)
-        class(observer), intent(inout) :: o_to_append
-        type(node), allocatable :: result(:)
+        type(node_type), intent(inout), allocatable :: o_list(:)
+        class(observer_type), intent(inout) :: o_to_append
+        type(node_type), allocatable :: result(:)
         integer :: i
         if (.not. allocated(o_list)) then
             allocate (result(1))
@@ -2683,26 +2683,26 @@ contains
     end function append_slice
 
     subroutine update_availability(self)
-        class(item), intent(inout) :: self
+        class(item_type), intent(inout) :: self
         print *, &quot;&gt; Item &quot;//self%name//&quot; 👔 is now in stock.&quot;
         self%in_stock = .true.
         call self%notify_all()
     end subroutine update_availability
 
     subroutine register(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
+        class(item_type), intent(inout) :: self
+        class(observer_type), intent(inout) :: o
         self%o_list = append_slice(self%o_list, o)
     end subroutine register
 
     subroutine deregister(self, o)
-        class(item), intent(inout) :: self
-        class(observer), intent(inout) :: o
+        class(item_type), intent(inout) :: self
+        class(observer_type), intent(inout) :: o
         self%o_list = remove_from_slice(self%o_list, o)
     end subroutine deregister
 
     subroutine notify_all(self)
-        class(item), intent(inout) :: self
+        class(item_type), intent(inout) :: self
         integer :: i
         do i = 1, size(self%o_list)
             call self%o_list(i)%o%update(self%name)
@@ -2710,13 +2710,13 @@ contains
     end subroutine notify_all
 
     subroutine update(self, s)
-        class(customer), intent(inout) :: self
+        class(customer_type), intent(inout) :: self
         character(len=*), intent(inout) :: s
         print *, &quot;Sending email to customer &quot;//self%ID//&quot; 📨 for item &quot;//s//&quot;.&quot;
     end subroutine update
 
     function get_ID(self) result(result)
-        class(customer), intent(inout) :: self
+        class(customer_type), intent(inout) :: self
         character(len=:), allocatable :: result
         result = self%ID
     end function get_ID
@@ -2726,17 +2726,17 @@ end module observer_pattern
 <pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/observer/go/example
 program test_observer
 
-    use observer_pattern, only: item, customer, new_item
-    type(item) :: shirt_item
-    type(customer) :: observer_first, observer_second, observer_third
+    use observer_pattern, only: item_type, customer_type, new_item
+    type(item_type) :: shirt_item
+    type(customer_type) :: observer_first, observer_second, observer_third
 
     !&gt; A shirt item
     shirt_item = new_item(&quot;A Shirt&quot;)
 
     !&gt; Some customers
-    observer_first = customer(ID=&quot;abc@gmail.com&quot;)
-    observer_second = customer(ID=&quot;def@gmail.com&quot;)
-    observer_third = customer(ID=&quot;xyz@foxmail.com&quot;)
+    observer_first = customer_type(ID=&quot;abc@gmail.com&quot;)
+    observer_second = customer_type(ID=&quot;def@gmail.com&quot;)
+    observer_third = customer_type(ID=&quot;xyz@foxmail.com&quot;)
 
     !&gt; Scene 1
     call shirt_item%register(observer_first)
@@ -2767,104 +2767,104 @@ end program test_observer
     implicit none
     private
 
-    public :: station_manager_t, passenger_train_t, freight_train_t
+    public :: station_manager_type, passenger_train_type, freight_train_type
 
-    type, abstract :: train_t
+    type, abstract :: train_type
     contains
-        procedure(train_t_arrive), deferred :: arrive
-        procedure(train_t_depart), deferred :: depart
-        procedure(train_t_permit_arrival), deferred :: permit_arrival
-    end type train_t
+        procedure(train_type_arrive), deferred :: arrive
+        procedure(train_type_depart), deferred :: depart
+        procedure(train_type_permit_arrival), deferred :: permit_arrival
+    end type train_type
 
     type, abstract :: mediator_t
     contains
-        procedure(mediator_t_can_arrive), deferred :: can_arrive
-        procedure(mediator_t_notify_about_departure), deferred :: notify_about_departure
+        procedure(mediator_type_can_arrive), deferred :: can_arrive
+        procedure(mediator_type_notify_about_departure), deferred :: notify_about_departure
     end type mediator_t
 
     abstract interface
 
-        subroutine train_t_arrive(self)
-            import train_t
-            class(train_t), intent(inout) :: self
-        end subroutine train_t_arrive
+        subroutine train_type_arrive(self)
+            import train_type
+            class(train_type), intent(inout) :: self
+        end subroutine train_type_arrive
 
-        subroutine train_t_depart(self)
-            import train_t
-            class(train_t), intent(inout) :: self
-        end subroutine train_t_depart
+        subroutine train_type_depart(self)
+            import train_type
+            class(train_type), intent(inout) :: self
+        end subroutine train_type_depart
 
-        subroutine train_t_permit_arrival(self)
-            import train_t
-            class(train_t), intent(inout) :: self
-        end subroutine train_t_permit_arrival
+        subroutine train_type_permit_arrival(self)
+            import train_type
+            class(train_type), intent(inout) :: self
+        end subroutine train_type_permit_arrival
 
-        logical function mediator_t_can_arrive(self, train) result(can)
-            import mediator_t, train_t
+        logical function mediator_type_can_arrive(self, train) result(can)
+            import mediator_t, train_type
             class(mediator_t), intent(inout) :: self
-            class(train_t), intent(in), target :: train
-        end function mediator_t_can_arrive
+            class(train_type), intent(in), target :: train
+        end function mediator_type_can_arrive
 
-        subroutine mediator_t_notify_about_departure(self)
+        subroutine mediator_type_notify_about_departure(self)
             import mediator_t
             class(mediator_t), intent(inout) :: self
-        end subroutine mediator_t_notify_about_departure
+        end subroutine mediator_type_notify_about_departure
 
     end interface
 
-    type, extends(train_t) :: passenger_train_t
+    type, extends(train_type) :: passenger_train_type
         class(mediator_t), pointer :: mediator
     contains
-        procedure :: arrive =&gt; passenger_train_t_arrive
-        procedure :: depart =&gt; passenger_train_t_depart
-        procedure :: permit_arrival =&gt; passenger_train_t_permit_arrival
-    end type passenger_train_t
+        procedure :: arrive =&gt; passenger_train_type_arrive
+        procedure :: depart =&gt; passenger_train_type_depart
+        procedure :: permit_arrival =&gt; passenger_train_type_permit_arrival
+    end type passenger_train_type
 
-    type, extends(train_t) :: freight_train_t
+    type, extends(train_type) :: freight_train_type
         class(mediator_t), pointer :: mediator
     contains
-        procedure :: arrive =&gt; freight_train_t_arrive
-        procedure :: depart =&gt; freight_train_t_depart
-        procedure :: permit_arrival =&gt; freight_train_t_permit_arrival
-    end type freight_train_t
+        procedure :: arrive =&gt; freight_train_type_arrive
+        procedure :: depart =&gt; freight_train_type_depart
+        procedure :: permit_arrival =&gt; freight_train_type_permit_arrival
+    end type freight_train_type
 
     type node_t
-        class(train_t), pointer :: train
+        class(train_type), pointer :: train
     end type node_t
 
-    type, extends(mediator_t) :: station_manager_t
+    type, extends(mediator_t) :: station_manager_type
         logical :: is_platform_free = .true.
         type(node_t), allocatable :: list(:)
     contains
-        procedure :: can_arrive =&gt; station_manager_t_can_arrive
-        procedure :: notify_about_departure =&gt; station_manager_t_notify_about_departure
-    end type station_manager_t
+        procedure :: can_arrive =&gt; station_manager_type_can_arrive
+        procedure :: notify_about_departure =&gt; station_manager_type_notify_about_departure
+    end type station_manager_type
 
 contains
 
-    subroutine passenger_train_t_arrive(self)
-        class(passenger_train_t), intent(inout) :: self
+    subroutine passenger_train_type_arrive(self)
+        class(passenger_train_type), intent(inout) :: self
         if (.not. self%mediator%can_arrive(self)) then
             print *, &quot;Passenger train: arrival blocked, waiting&quot;
             return
         end if
         print *, &quot;Passenger train: arrived&quot;
-    end subroutine passenger_train_t_arrive
+    end subroutine passenger_train_type_arrive
 
-    subroutine passenger_train_t_depart(self)
-        class(passenger_train_t), intent(inout) :: self
+    subroutine passenger_train_type_depart(self)
+        class(passenger_train_type), intent(inout) :: self
         print *, &quot;Passenger train: leaving&quot;
         call self%mediator%notify_about_departure()
-    end subroutine passenger_train_t_depart
+    end subroutine passenger_train_type_depart
 
-    subroutine passenger_train_t_permit_arrival(self)
-        class(passenger_train_t), intent(inout) :: self
+    subroutine passenger_train_type_permit_arrival(self)
+        class(passenger_train_type), intent(inout) :: self
         print *, &quot;Passenger train: arrival permitted, arriving&quot;
         call self%arrive()
-    end subroutine passenger_train_t_permit_arrival
+    end subroutine passenger_train_type_permit_arrival
 
-    subroutine freight_train_t_arrive(self)
-        class(freight_train_t), intent(inout) :: self
+    subroutine freight_train_type_arrive(self)
+        class(freight_train_type), intent(inout) :: self
         
         if (.not. self%mediator%can_arrive(self)) then
             print *, &quot;Freight train: arrival blocked, waiting&quot;
@@ -2872,23 +2872,23 @@ contains
         end if
         print *, &quot;Freight train: arrived&quot;
         
-    end subroutine freight_train_t_arrive
+    end subroutine freight_train_type_arrive
 
-    subroutine freight_train_t_depart(self)
-        class(freight_train_t), intent(inout) :: self
+    subroutine freight_train_type_depart(self)
+        class(freight_train_type), intent(inout) :: self
         print *, &quot;freight train: leaving&quot;
         call self%mediator%notify_about_departure()
-    end subroutine freight_train_t_depart
+    end subroutine freight_train_type_depart
 
-    subroutine freight_train_t_permit_arrival(self)
-        class(freight_train_t), intent(inout) :: self
+    subroutine freight_train_type_permit_arrival(self)
+        class(freight_train_type), intent(inout) :: self
         print *, &quot;Freight train: arrival permitted, arriving&quot;
         call self%arrive()
-    end subroutine freight_train_t_permit_arrival
+    end subroutine freight_train_type_permit_arrival
 
-    logical function station_manager_t_can_arrive(self, train) result(can)
-        class(station_manager_t), intent(inout) :: self
-        class(train_t), intent(in), target :: train
+    logical function station_manager_type_can_arrive(self, train) result(can)
+        class(station_manager_type), intent(inout) :: self
+        class(train_type), intent(in), target :: train
         
         if (self%is_platform_free) then
             self%is_platform_free = .false.
@@ -2898,11 +2898,11 @@ contains
         self%list = [self%list, node_t(train)]
         can = .false.
         
-    end function station_manager_t_can_arrive
+    end function station_manager_type_can_arrive
 
-    subroutine station_manager_t_notify_about_departure(self)
-        class(station_manager_t), intent(inout) :: self
-        class(train_t), pointer :: train
+    subroutine station_manager_type_notify_about_departure(self)
+        class(station_manager_type), intent(inout) :: self
+        class(train_type), pointer :: train
         
         if (.not. self%is_platform_free) then
             self%is_platform_free = .true.
@@ -2914,17 +2914,17 @@ contains
             call train%permit_arrival()
         end if
         
-    end subroutine station_manager_t_notify_about_departure
+    end subroutine station_manager_type_notify_about_departure
 
 end module mediator_module
 </code></pre>
 <pre><code class="language-fortran">program mediator_main
 
-    use mediator_module, only: station_manager_t,passenger_train_t,freight_train_t
+    use mediator_module, only: station_manager_type,passenger_train_type,freight_train_type
     implicit none
-    type(station_manager_t), target :: station_manager
-    type(passenger_train_t) :: passenger_train
-    type(freight_train_t) :: freight_train
+    type(station_manager_type), target :: station_manager
+    type(passenger_train_type) :: passenger_train
+    type(freight_train_type) :: freight_train
     
     allocate(station_manager%list(0))
     passenger_train%mediator =&gt; station_manager
@@ -2952,64 +2952,64 @@ end program mediator_main
     implicit none
     private
 
-    public :: caretaker_t, originator_t
+    public :: caretaker_type, originator_type
 
-    type originator_t
+    type originator_type
         character(:), allocatable :: state
     contains
         procedure :: create_memento =&gt; originator_t_create_memento
         procedure :: restore_memento =&gt; originator_t_restore_memento
         procedure :: set_state =&gt; originator_t_set_state
         procedure :: get_state =&gt; originator_t_get_state
-    end type originator_t
+    end type originator_type
 
-    type memento_t
+    type memento_type
         character(:), allocatable :: state
-    end type memento_t
+    end type memento_type
 
-    type caretaker_t
-        type(memento_t), allocatable :: memento(:)
+    type caretaker_type
+        type(memento_type), allocatable :: memento(:)
     contains
         procedure :: add_memento =&gt; caretaker_t_add_memento
         procedure :: get_memento =&gt; caretaker_t_get_memento
-    end type caretaker_t
+    end type caretaker_type
 
 contains
 
     function originator_t_create_memento(self) result(memento)
-        class(originator_t), intent(inout) :: self
-        type(memento_t) :: memento
+        class(originator_type), intent(inout) :: self
+        type(memento_type) :: memento
         memento%state = self%state
     end function originator_t_create_memento
 
     subroutine originator_t_restore_memento(self, memento)
-        class(originator_t), intent(inout) :: self
-        type(memento_t), intent(in) :: memento
+        class(originator_type), intent(inout) :: self
+        type(memento_type), intent(in) :: memento
         self%state = memento%state
     end subroutine originator_t_restore_memento
 
     subroutine originator_t_set_state(self, state)
-        class(originator_t), intent(inout) :: self
+        class(originator_type), intent(inout) :: self
         character(*), intent(in) :: state
         self%state = state
     end subroutine originator_t_set_state
 
     function originator_t_get_state(self) result(state)
-        class(originator_t), intent(inout) :: self
+        class(originator_type), intent(inout) :: self
         character(:), allocatable :: state
         state = self%state
     end function originator_t_get_state
 
     subroutine caretaker_t_add_memento(self, memento)
-        class(caretaker_t), intent(inout) :: self
-        type(memento_t), intent(in) :: memento
+        class(caretaker_type), intent(inout) :: self
+        type(memento_type), intent(in) :: memento
         self%memento = [self%memento, memento]
     end subroutine caretaker_t_add_memento
 
     function caretaker_t_get_memento(self, index) result(memento)
-        class(caretaker_t), intent(inout) :: self
+        class(caretaker_type), intent(inout) :: self
         integer, intent(in) :: index
-        type(memento_t) :: memento
+        type(memento_type) :: memento
         memento = self%memento(index)
     end function caretaker_t_get_memento
 
@@ -3017,10 +3017,10 @@ end module memento_module
 </code></pre>
 <pre><code class="language-fortran">program memento_main
 
-    use memento_module, only: caretaker_t, originator_t
+    use memento_module, only: caretaker_type, originator_type
 
-    type(caretaker_t) :: caretaker
-    type(originator_t) :: originator
+    type(caretaker_type) :: caretaker
+    type(originator_type) :: originator
 
     allocate (caretaker%memento(0))
     originator%state = &quot;A&quot;
@@ -3060,17 +3060,17 @@ end program memento_main
     implicit none
     private
 
-    public :: person_t
+    public :: person_type
 
-    type :: hungry_state_t
+    type :: hungry_state_type
         logical :: state
     contains
         procedure :: hungry =&gt; hungry_state_t_hungry
         procedure :: no_hungry =&gt; hungry_state_t_no_hungry
-    end type hungry_state_t
+    end type hungry_state_type
 
-    type :: person_t
-        type(hungry_state_t) :: hungry_state
+    type :: person_type
+        type(hungry_state_type) :: hungry_state
     contains
         procedure :: eat =&gt; person_t_eat
         procedure :: work =&gt; person_t_work
@@ -3079,7 +3079,7 @@ end program memento_main
 contains
 
     subroutine person_t_eat(self)
-        class(person_t), intent(inout) :: self
+        class(person_type), intent(inout) :: self
         if (self%hungry_state%state) then
             print *, &quot;Eatting..&quot;
             !!// 改变状态
@@ -3090,7 +3090,7 @@ contains
     end subroutine person_t_eat
 
     subroutine person_t_work(self)
-        class(person_t), intent(inout) :: self
+        class(person_type), intent(inout) :: self
         if (self%hungry_state%state) then
             print *, &quot;I am hungry, no work!!&quot;
         else
@@ -3100,12 +3100,12 @@ contains
     end subroutine person_t_work
 
     subroutine hungry_state_t_hungry(self)
-        class(hungry_state_t), intent(inout) :: self
+        class(hungry_state_type), intent(inout) :: self
         self%state = .true.
     end subroutine hungry_state_t_hungry
 
     subroutine hungry_state_t_no_hungry(self)
-        class(hungry_state_t), intent(inout) :: self
+        class(hungry_state_type), intent(inout) :: self
         self%state = .false.
     end subroutine hungry_state_t_no_hungry
 
@@ -3113,10 +3113,10 @@ end module state_module
 </code></pre>
 <pre><code class="language-fortran">program state_main
 
-    use state_module, only: person_t
+    use state_module, only: person_type
     implicit none
 
-    type(person_t) :: person
+    type(person_type) :: person
     call person%hungry_state%no_hungry
     call person%work
     call person%work
@@ -3142,73 +3142,73 @@ end program state_main
     implicit none
     private
 
-    public :: add_t, sub_t, calculator_t
+    public :: add_type, sub_type, calculator_type
 
-    type, abstract :: strategy_t
+    type, abstract :: strategy_type
     contains
-        procedure(strategy_t_calc), deferred :: calc
-    end type strategy_t
+        procedure(strategy_type_calc), deferred :: calc
+    end type strategy_type
 
     abstract interface
-        integer function strategy_t_calc(self, a, b) result(c)
-            import strategy_t
-            class(strategy_t), intent(inout) :: self
+        integer function strategy_type_calc(self, a, b) result(c)
+            import strategy_type
+            class(strategy_type), intent(inout) :: self
             integer, intent(in) :: a, b
-        end function strategy_t_calc
+        end function strategy_type_calc
     end interface
 
-    type, extends(strategy_t) :: add_t
+    type, extends(strategy_type) :: add_type
     contains
-        procedure :: calc =&gt; add_t_calc
-    end type add_t
+        procedure :: calc =&gt; add_type_calc
+    end type add_type
 
-    type, extends(strategy_t) :: sub_t
+    type, extends(strategy_type) :: sub_type
     contains
-        procedure :: calc =&gt; sub_t_calc
-    end type sub_t
+        procedure :: calc =&gt; sub_type_calc
+    end type sub_type
 
-    type calculator_t
-        class(strategy_t), pointer :: strategy
+    type calculator_type
+        class(strategy_type), pointer :: strategy
     contains
-        procedure :: set_strategy =&gt; calculator_t_set_strategy
-        procedure :: get_result =&gt; calculator_t_get_result
-    end type calculator_t
+        procedure :: set_strategy =&gt; calculator_type_set_strategy
+        procedure :: get_result =&gt; calculator_type_get_result
+    end type calculator_type
 
 contains
 
-    integer function add_t_calc(self, a, b) result(c)
-        class(add_t), intent(inout) :: self
+    integer function add_type_calc(self, a, b) result(c)
+        class(add_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = a + b
-    end function add_t_calc
+    end function add_type_calc
 
-    integer function sub_t_calc(self, a, b) result(c)
-        class(sub_t), intent(inout) :: self
+    integer function sub_type_calc(self, a, b) result(c)
+        class(sub_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = a - b
-    end function sub_t_calc
+    end function sub_type_calc
 
-    subroutine calculator_t_set_strategy(self, strategy)
-        class(calculator_t), intent(inout) :: self
-        class(strategy_t), intent(in), target :: strategy
+    subroutine calculator_type_set_strategy(self, strategy)
+        class(calculator_type), intent(inout) :: self
+        class(strategy_type), intent(in), target :: strategy
         self%strategy =&gt; strategy
-    end subroutine calculator_t_set_strategy
+    end subroutine calculator_type_set_strategy
 
-    integer function calculator_t_get_result(self, a, b) result(c)
-        class(calculator_t), intent(inout) :: self
+    integer function calculator_type_get_result(self, a, b) result(c)
+        class(calculator_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = self%strategy%calc(a, b)
-    end function calculator_t_get_result
+    end function calculator_type_get_result
 
 end module strategy_module
 </code></pre>
 <pre><code class="language-fortran">program strategy_main
 
-    use strategy_module, only: add_t, sub_t, calculator_t
+    use strategy_module, only: add_type, sub_type, calculator_type
     implicit none
-    type(add_t) :: add
-    type(sub_t) :: sub
-    type(calculator_t) :: calculator
+    type(add_type) :: add
+    type(sub_type) :: sub
+    type(calculator_type) :: calculator
 
     call calculator%set_strategy(add)
     print *, &quot;Add:&quot;, calculator%strategy%calc(1, 1)
@@ -3231,82 +3231,82 @@ end program strategy_main
     implicit none
     private
 
-    public :: otp_t, sms_t, email_t
+    public :: otp_type, sms_type, email_type
 
-    type, abstract :: iopt_t
+    type, abstract :: iopt_type
     contains
-        procedure(iopt_t_gen_random_opt), deferred :: gen_random_opt
-        procedure(iopt_t_save_opt_cache), deferred :: save_opt_cache
-        procedure(iopt_t_get_message), deferred :: get_message
-        procedure(iopt_t_send_notification), deferred :: send_notification
-        procedure(iopt_t_publish_metric), deferred :: publish_metric
-    end type iopt_t
+        procedure(iopt_type_gen_random_opt), deferred :: gen_random_opt
+        procedure(iopt_type_save_opt_cache), deferred :: save_opt_cache
+        procedure(iopt_type_get_message), deferred :: get_message
+        procedure(iopt_type_send_notification), deferred :: send_notification
+        procedure(iopt_type_publish_metric), deferred :: publish_metric
+    end type iopt_type
 
     abstract interface
 
-        function iopt_t_gen_random_opt(self, len) result(random_opt)
-            import iopt_t
-            class(iopt_t), intent(inout) :: self
+        function iopt_type_gen_random_opt(self, len) result(random_opt)
+            import iopt_type
+            class(iopt_type), intent(inout) :: self
             integer, intent(in) :: len
             character(:), allocatable :: random_opt
-        end function iopt_t_gen_random_opt
+        end function iopt_type_gen_random_opt
 
-        subroutine iopt_t_save_opt_cache(self, otp)
-            import iopt_t
-            class(iopt_t), intent(inout) :: self
+        subroutine iopt_type_save_opt_cache(self, otp)
+            import iopt_type
+            class(iopt_type), intent(inout) :: self
             character(*), intent(inout) :: otp
-        end subroutine iopt_t_save_opt_cache
+        end subroutine iopt_type_save_opt_cache
 
-        function iopt_t_get_message(self, otp) result(msg)
-            import iopt_t
-            class(iopt_t), intent(inout) :: self
+        function iopt_type_get_message(self, otp) result(msg)
+            import iopt_type
+            class(iopt_type), intent(inout) :: self
             character(*), intent(inout) :: otp
             character(:), allocatable :: msg
-        end function iopt_t_get_message
+        end function iopt_type_get_message
 
-        subroutine iopt_t_send_notification(self, msg)
-            import iopt_t
-            class(iopt_t), intent(inout) :: self
+        subroutine iopt_type_send_notification(self, msg)
+            import iopt_type
+            class(iopt_type), intent(inout) :: self
             character(*), intent(inout) :: msg
-        end subroutine iopt_t_send_notification
+        end subroutine iopt_type_send_notification
 
-        subroutine iopt_t_publish_metric(self)
-            import iopt_t
-            class(iopt_t), intent(inout) :: self
-        end subroutine iopt_t_publish_metric
+        subroutine iopt_type_publish_metric(self)
+            import iopt_type
+            class(iopt_type), intent(inout) :: self
+        end subroutine iopt_type_publish_metric
 
     end interface
 
     ! - - - - - - - - - - - - -
 
-    type otp_t
-        class(iopt_t), pointer :: iopt
+    type otp_type
+        class(iopt_type), pointer :: iopt
     contains
-        procedure :: gen_and_send_otp =&gt; otp_t_gen_and_send_otp
-    end type otp_t
+        procedure :: gen_and_send_otp =&gt; otp_type_gen_and_send_otp
+    end type otp_type
 
-    type, extends(iopt_t) :: sms_t
+    type, extends(iopt_type) :: sms_type
     contains
-        procedure :: gen_random_opt =&gt; sms_t_gen_random_opt
-        procedure :: save_opt_cache =&gt; sms_t_save_opt_cache
-        procedure :: get_message =&gt; sms_t_get_message
-        procedure :: send_notification =&gt; sms_t_send_notification
-        procedure :: publish_metric =&gt; sms_t_publish_metric
-    end type sms_t
+        procedure :: gen_random_opt =&gt; sms_type_gen_random_opt
+        procedure :: save_opt_cache =&gt; sms_type_save_opt_cache
+        procedure :: get_message =&gt; sms_type_get_message
+        procedure :: send_notification =&gt; sms_type_send_notification
+        procedure :: publish_metric =&gt; sms_type_publish_metric
+    end type sms_type
 
-    type, extends(iopt_t) :: email_t
+    type, extends(iopt_type) :: email_type
     contains
-        procedure :: gen_random_opt =&gt; email_t_gen_random_opt
-        procedure :: save_opt_cache =&gt; email_t_save_opt_cache
-        procedure :: get_message =&gt; email_t_get_message
-        procedure :: send_notification =&gt; email_t_send_notification
-        procedure :: publish_metric =&gt; email_t_publish_metric
-    end type email_t
+        procedure :: gen_random_opt =&gt; email_type_gen_random_opt
+        procedure :: save_opt_cache =&gt; email_type_save_opt_cache
+        procedure :: get_message =&gt; email_type_get_message
+        procedure :: send_notification =&gt; email_type_send_notification
+        procedure :: publish_metric =&gt; email_type_publish_metric
+    end type email_type
 
 contains
 
-    subroutine otp_t_gen_and_send_otp(self, otp_length)
-        class(otp_t), intent(inout) :: self
+    subroutine otp_type_gen_and_send_otp(self, otp_length)
+        class(otp_type), intent(inout) :: self
         integer, intent(in) :: otp_length
 
         character(:), allocatable :: otp
@@ -3318,113 +3318,113 @@ contains
         call self%iopt%send_notification(msg)
         call self%iopt%publish_metric()
 
-    end subroutine otp_t_gen_and_send_otp
+    end subroutine otp_type_gen_and_send_otp
 
     ! - - - - - - - - - -
 
-    function sms_t_gen_random_opt(self, len) result(random_opt)
-        class(sms_t), intent(inout) :: self
+    function sms_type_gen_random_opt(self, len) result(random_opt)
+        class(sms_type), intent(inout) :: self
         integer, intent(in) :: len
         character(:), allocatable :: random_opt
 
         random_opt = &quot;1234&quot;
         print *, &quot;SMS: generating random otp &quot;, random_opt
 
-    end function sms_t_gen_random_opt
+    end function sms_type_gen_random_opt
 
-    subroutine sms_t_save_opt_cache(self, otp)
-        class(sms_t), intent(inout) :: self
+    subroutine sms_type_save_opt_cache(self, otp)
+        class(sms_type), intent(inout) :: self
         character(*), intent(inout) :: otp
 
         print *, &quot;SMS: saving otp: &quot;, otp, &quot; to cache&quot;
 
-    end subroutine sms_t_save_opt_cache
+    end subroutine sms_type_save_opt_cache
 
-    function sms_t_get_message(self, otp) result(msg)
-        class(sms_t), intent(inout) :: self
+    function sms_type_get_message(self, otp) result(msg)
+        class(sms_type), intent(inout) :: self
         character(*), intent(inout) :: otp
         character(:), allocatable :: msg
 
         msg = &quot;SMS OTP for login is &quot;//otp
 
-    end function sms_t_get_message
+    end function sms_type_get_message
 
-    subroutine sms_t_send_notification(self, msg)
-        class(sms_t), intent(inout) :: self
+    subroutine sms_type_send_notification(self, msg)
+        class(sms_type), intent(inout) :: self
         character(*), intent(inout) :: msg
 
         print *, &quot;SMS: sending sms: &quot;//msg
 
-    end subroutine sms_t_send_notification
+    end subroutine sms_type_send_notification
 
-    subroutine sms_t_publish_metric(self)
-        class(sms_t), intent(inout) :: self
+    subroutine sms_type_publish_metric(self)
+        class(sms_type), intent(inout) :: self
 
         print *, &quot;SMS: publishing metric&quot;
 
-    end subroutine sms_t_publish_metric
+    end subroutine sms_type_publish_metric
 
     ! - - - - - - - - - -
 
-    function email_t_gen_random_opt(self, len) result(random_opt)
-        class(email_t), intent(inout) :: self
+    function email_type_gen_random_opt(self, len) result(random_opt)
+        class(email_type), intent(inout) :: self
         integer, intent(in) :: len
         character(:), allocatable :: random_opt
 
         random_opt = &quot;1234&quot;
         print *, &quot;EMAIL: generating random otp &quot;, random_opt
 
-    end function email_t_gen_random_opt
+    end function email_type_gen_random_opt
 
-    subroutine email_t_save_opt_cache(self, otp)
-        class(email_t), intent(inout) :: self
+    subroutine email_type_save_opt_cache(self, otp)
+        class(email_type), intent(inout) :: self
         character(*), intent(inout) :: otp
 
         print *, &quot;EMAIL: saving otp: &quot;, otp, &quot; to cache&quot;
 
-    end subroutine email_t_save_opt_cache
+    end subroutine email_type_save_opt_cache
 
-    function email_t_get_message(self, otp) result(msg)
-        class(email_t), intent(inout) :: self
+    function email_type_get_message(self, otp) result(msg)
+        class(email_type), intent(inout) :: self
         character(*), intent(inout) :: otp
         character(:), allocatable :: msg
 
         msg = &quot;EMAIL OTP for login is &quot;//otp
 
-    end function email_t_get_message
+    end function email_type_get_message
 
-    subroutine email_t_send_notification(self, msg)
-        class(email_t), intent(inout) :: self
+    subroutine email_type_send_notification(self, msg)
+        class(email_type), intent(inout) :: self
         character(*), intent(inout) :: msg
 
         print *, &quot;EMAIL: sending email: &quot;//msg
 
-    end subroutine email_t_send_notification
+    end subroutine email_type_send_notification
 
-    subroutine email_t_publish_metric(self)
-        class(email_t), intent(inout) :: self
+    subroutine email_type_publish_metric(self)
+        class(email_type), intent(inout) :: self
 
         print *, &quot;EMAIL: publishing metric&quot;
 
-    end subroutine email_t_publish_metric
+    end subroutine email_type_publish_metric
 
 end module template_method_module
 </code></pre>
 <pre><code class="language-fortran">program template_method_main
 
-    use template_method_module, only: otp_t, sms_t, email_t
+    use template_method_module, only: otp_type, sms_type, email_type
 
-    type(otp_t) :: otp
-    type(sms_t), target :: sms_otp
-    type(email_t), target :: email_otp
+    type(otp_type) :: otp
+    type(sms_type), target :: sms_otp
+    type(email_type), target :: email_otp
 
-    sms_otp = sms_t()
+    sms_otp = sms_type()
     otp%iopt =&gt; sms_otp
     call otp%gen_and_send_otp(4)
 
     write (*, *)
 
-    email_otp = email_t()
+    email_otp = email_type()
     otp%iopt =&gt; email_otp
     call otp%gen_and_send_otp(4)
 
@@ -3451,7 +3451,7 @@ module visitor_pattern
     implicit none
     private
 
-    public :: square, circle, rectangle, area_calculator, middle_coordinates
+    public :: square_type, circle_type, rectangle_type, area_calculator_type, middle_coordinates_type
 
     !&gt; Two abstract classes
 
@@ -3486,102 +3486,102 @@ module visitor_pattern
 
     !&gt; Specific shapes
 
-    type, extends(shape) :: square
+    type, extends(shape) :: square_type
         integer :: side
     contains
         procedure :: get_type =&gt; square_get_type
         procedure :: accept =&gt; square_accept
-    end type square
+    end type square_type
 
-    type, extends(shape) :: circle
+    type, extends(shape) :: circle_type
         integer :: radius
     contains
         procedure :: get_type =&gt; circle_get_type
         procedure :: accept =&gt; circle_accept
-    end type circle
+    end type circle_type
 
-    type, extends(shape) :: rectangle
+    type, extends(shape) :: rectangle_type
         integer :: l
         integer :: b
     contains
         procedure :: get_type =&gt; rectangle_get_type
         procedure :: accept =&gt; rectangle_accept
-    end type rectangle
+    end type rectangle_type
 
     !&gt; Specific visitors
 
-    type, extends(visitor) :: area_calculator
+    type, extends(visitor) :: area_calculator_type
         integer :: area
     contains
         procedure :: visit =&gt; area_calculator_visit
-    end type area_calculator
+    end type area_calculator_type
 
-    type, extends(visitor) :: middle_coordinates
+    type, extends(visitor) :: middle_coordinates_type
         integer :: x, y
     contains
         procedure :: visit =&gt; middle_coordinates_visit
-    end type middle_coordinates
+    end type middle_coordinates_type
 
 contains
 
     function square_get_type(self) result(result)
-        class(square), intent(inout) :: self
+        class(square_type), intent(inout) :: self
         character(:), allocatable :: result
         result = &quot;Square&quot;
     end function square_get_type
 
     function circle_get_type(self) result(result)
-        class(circle), intent(inout) :: self
+        class(circle_type), intent(inout) :: self
         character(:), allocatable :: result
         result = &quot;Circle&quot;
     end function circle_get_type
 
     function rectangle_get_type(self) result(result)
-        class(rectangle), intent(inout) :: self
+        class(rectangle_type), intent(inout) :: self
         character(:), allocatable :: result
         result = &quot;Rectangle&quot;
     end function rectangle_get_type
 
     subroutine square_accept(self, v)
-        class(square), intent(inout) :: self
+        class(square_type), intent(inout) :: self
         class(visitor), intent(inout) :: v
         call v%visit(self)
     end subroutine square_accept
 
     subroutine circle_accept(self, v)
-        class(circle), intent(inout) :: self
+        class(circle_type), intent(inout) :: self
         class(visitor), intent(inout) :: v
         call v%visit(self)
     end subroutine circle_accept
 
     subroutine rectangle_accept(self, v)
-        class(rectangle), intent(inout) :: self
+        class(rectangle_type), intent(inout) :: self
         class(visitor), intent(inout) :: v
         call v%visit(self)
     end subroutine rectangle_accept
 
     subroutine area_calculator_visit(self, s)
-        class(area_calculator), intent(inout) :: self
+        class(area_calculator_type), intent(inout) :: self
         class(shape), intent(inout) :: s
         select type (s)
-        type is (square)
+        type is (square_type)
             print *, &quot;Calculating area for square.🔥&quot;
-        type is (circle)
+        type is (circle_type)
             print *, &quot;Calculating area for circle.🔥&quot;
-        type is (rectangle)
+        type is (rectangle_type)
             print *, &quot;Calculating area for rectangle.🔥&quot;
         end select
     end subroutine area_calculator_visit
 
     subroutine middle_coordinates_visit(self, s)
-        class(middle_coordinates), intent(inout) :: self
+        class(middle_coordinates_type), intent(inout) :: self
         class(shape), intent(inout) :: s
         select type (s)
-        type is (square)
+        type is (square_type)
             print *, &quot;Calculating middle point coordinates for square.💠&quot;
-        type is (circle)
+        type is (circle_type)
             print *, &quot;Calculating middle point coordinates for circle.💠&quot;
-        type is (rectangle)
+        type is (rectangle_type)
             print *, &quot;Calculating middle point coordinates for rectangle.💠&quot;
         end select
     end subroutine middle_coordinates_visit
@@ -3591,14 +3591,14 @@ end module visitor_pattern
 <pre><code class="language-fortran">!&gt; Reference: https://refactoring.guru/design-patterns/visitor/go/example
 program test_visitor
 
-    use visitor_pattern, only: square, circle, rectangle, area_calculator, middle_coordinates
+    use visitor_pattern, only: square_type, circle_type, rectangle_type, area_calculator_type, middle_coordinates_type
 
-    type(square) :: s = square(side=2)
-    type(circle) :: c = circle(radius=3)
-    type(rectangle) :: r = rectangle(l=2, b=3)
+    type(square_type) :: s = square_type(side=2)
+    type(circle_type) :: c = circle_type(radius=3)
+    type(rectangle_type) :: r = rectangle_type(l=2, b=3)
 
-    type(area_calculator) :: a
-    type(middle_coordinates) :: m
+    type(area_calculator_type) :: a
+    type(middle_coordinates_type) :: m
 
     !&gt; area_calculator visiting shapes
     call s%accept(a)

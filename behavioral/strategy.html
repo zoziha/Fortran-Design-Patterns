@@ -158,73 +158,73 @@
     implicit none
     private
 
-    public :: add_t, sub_t, calculator_t
+    public :: add_type, sub_type, calculator_type
 
-    type, abstract :: strategy_t
+    type, abstract :: strategy_type
     contains
-        procedure(strategy_t_calc), deferred :: calc
-    end type strategy_t
+        procedure(strategy_type_calc), deferred :: calc
+    end type strategy_type
 
     abstract interface
-        integer function strategy_t_calc(self, a, b) result(c)
-            import strategy_t
-            class(strategy_t), intent(inout) :: self
+        integer function strategy_type_calc(self, a, b) result(c)
+            import strategy_type
+            class(strategy_type), intent(inout) :: self
             integer, intent(in) :: a, b
-        end function strategy_t_calc
+        end function strategy_type_calc
     end interface
 
-    type, extends(strategy_t) :: add_t
+    type, extends(strategy_type) :: add_type
     contains
-        procedure :: calc =&gt; add_t_calc
-    end type add_t
+        procedure :: calc =&gt; add_type_calc
+    end type add_type
 
-    type, extends(strategy_t) :: sub_t
+    type, extends(strategy_type) :: sub_type
     contains
-        procedure :: calc =&gt; sub_t_calc
-    end type sub_t
+        procedure :: calc =&gt; sub_type_calc
+    end type sub_type
 
-    type calculator_t
-        class(strategy_t), pointer :: strategy
+    type calculator_type
+        class(strategy_type), pointer :: strategy
     contains
-        procedure :: set_strategy =&gt; calculator_t_set_strategy
-        procedure :: get_result =&gt; calculator_t_get_result
-    end type calculator_t
+        procedure :: set_strategy =&gt; calculator_type_set_strategy
+        procedure :: get_result =&gt; calculator_type_get_result
+    end type calculator_type
 
 contains
 
-    integer function add_t_calc(self, a, b) result(c)
-        class(add_t), intent(inout) :: self
+    integer function add_type_calc(self, a, b) result(c)
+        class(add_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = a + b
-    end function add_t_calc
+    end function add_type_calc
 
-    integer function sub_t_calc(self, a, b) result(c)
-        class(sub_t), intent(inout) :: self
+    integer function sub_type_calc(self, a, b) result(c)
+        class(sub_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = a - b
-    end function sub_t_calc
+    end function sub_type_calc
 
-    subroutine calculator_t_set_strategy(self, strategy)
-        class(calculator_t), intent(inout) :: self
-        class(strategy_t), intent(in), target :: strategy
+    subroutine calculator_type_set_strategy(self, strategy)
+        class(calculator_type), intent(inout) :: self
+        class(strategy_type), intent(in), target :: strategy
         self%strategy =&gt; strategy
-    end subroutine calculator_t_set_strategy
+    end subroutine calculator_type_set_strategy
 
-    integer function calculator_t_get_result(self, a, b) result(c)
-        class(calculator_t), intent(inout) :: self
+    integer function calculator_type_get_result(self, a, b) result(c)
+        class(calculator_type), intent(inout) :: self
         integer, intent(in) :: a, b
         c = self%strategy%calc(a, b)
-    end function calculator_t_get_result
+    end function calculator_type_get_result
 
 end module strategy_module
 </code></pre>
 <pre><code class="language-fortran">program strategy_main
 
-    use strategy_module, only: add_t, sub_t, calculator_t
+    use strategy_module, only: add_type, sub_type, calculator_type
     implicit none
-    type(add_t) :: add
-    type(sub_t) :: sub
-    type(calculator_t) :: calculator
+    type(add_type) :: add
+    type(sub_type) :: sub
+    type(calculator_type) :: calculator
 
     call calculator%set_strategy(add)
     print *, &quot;Add:&quot;, calculator%strategy%calc(1, 1)

@@ -158,95 +158,95 @@
     implicit none
     private
 
-    public :: igun_t, ak47_t, musket_t, get_gun
+    public :: igun_type, ak47_type, musket_type, get_gun
 
-    type, abstract :: igun_t
+    type, abstract :: igun_type
     contains
-        procedure(igun_t_set_name), deferred :: set_name
-        procedure(igun_t_set_power), deferred :: set_power
-        procedure(igun_t_get_name), deferred :: get_name
-        procedure(igun_t_get_power), deferred :: get_power
-    end type igun_t
+        procedure(igun_type_set_name), deferred :: set_name
+        procedure(igun_type_set_power), deferred :: set_power
+        procedure(igun_type_get_name), deferred :: get_name
+        procedure(igun_type_get_power), deferred :: get_power
+    end type igun_type
 
     abstract interface
 
-        subroutine igun_t_set_name(self, name)
-            import igun_t
-            class(igun_t), intent(inout) :: self
+        subroutine igun_type_set_name(self, name)
+            import igun_type
+            class(igun_type), intent(inout) :: self
             character(*), intent(in) :: name
-        end subroutine igun_t_set_name
+        end subroutine igun_type_set_name
 
-        subroutine igun_t_set_power(self, power)
-            import igun_t, int8
-            class(igun_t), intent(inout) :: self
+        subroutine igun_type_set_power(self, power)
+            import igun_type, int8
+            class(igun_type), intent(inout) :: self
             integer(int8), intent(in) :: power
-        end subroutine igun_t_set_power
+        end subroutine igun_type_set_power
 
-        function igun_t_get_name(self) result(name)
-            import igun_t
-            class(igun_t), intent(inout) :: self
+        function igun_type_get_name(self) result(name)
+            import igun_type
+            class(igun_type), intent(inout) :: self
             character(:), allocatable :: name
-        end function igun_t_get_name
+        end function igun_type_get_name
 
-        function igun_t_get_power(self) result(power)
-            import igun_t, int8
-            class(igun_t), intent(inout) :: self
+        function igun_type_get_power(self) result(power)
+            import igun_type, int8
+            class(igun_type), intent(inout) :: self
             integer(int8) :: power
-        end function igun_t_get_power
+        end function igun_type_get_power
 
     end interface
 
-    type, extends(igun_t) :: gun_t
+    type, extends(igun_type) :: gun_type
         character(:), allocatable :: name
         integer(int8) :: power
     contains
-        procedure :: set_name =&gt; gun_t_set_name
-        procedure :: get_name =&gt; gun_t_get_name
-        procedure :: set_power =&gt; gun_t_set_power
-        procedure :: get_power =&gt; gun_t_get_power
-    end type gun_t
+        procedure :: set_name =&gt; gun_type_set_name
+        procedure :: get_name =&gt; gun_type_get_name
+        procedure :: set_power =&gt; gun_type_set_power
+        procedure :: get_power =&gt; gun_type_get_power
+    end type gun_type
 
-    type, extends(gun_t) :: ak47_t
-    end type ak47_t
+    type, extends(gun_type) :: ak47_type
+    end type ak47_type
 
-    type, extends(gun_t) :: musket_t
-    end type musket_t
+    type, extends(gun_type) :: musket_type
+    end type musket_type
 
 contains
 
-    subroutine gun_t_set_name(self, name)
-        class(gun_t), intent(inout) :: self
+    subroutine gun_type_set_name(self, name)
+        class(gun_type), intent(inout) :: self
         character(*), intent(in) :: name
         self%name = name
-    end subroutine gun_t_set_name
+    end subroutine gun_type_set_name
 
-    subroutine gun_t_set_power(self, power)
-        class(gun_t), intent(inout) :: self
+    subroutine gun_type_set_power(self, power)
+        class(gun_type), intent(inout) :: self
         integer(int8), intent(in) :: power
         self%power = power
-    end subroutine gun_t_set_power
+    end subroutine gun_type_set_power
 
-    function gun_t_get_name(self) result(name)
-        class(gun_t), intent(inout) :: self
+    function gun_type_get_name(self) result(name)
+        class(gun_type), intent(inout) :: self
         character(:), allocatable :: name
         name = self%name
-    end function gun_t_get_name
+    end function gun_type_get_name
 
-    function gun_t_get_power(self) result(power)
-        class(gun_t), intent(inout) :: self
+    function gun_type_get_power(self) result(power)
+        class(gun_type), intent(inout) :: self
         integer(int8) :: power
         power = self%power
-    end function gun_t_get_power
+    end function gun_type_get_power
 
     function get_gun(gun_type) result(igun)
         character(*), intent(in) :: gun_type
-        class(igun_t), allocatable :: igun
+        class(igun_type), allocatable :: igun
 
         select case (gun_type)
         case (&quot;ak47&quot;)
-            igun = ak47_t(name=&quot;ak47 gun&quot;, power=4)
+            igun = ak47_type(name=&quot;ak47 gun&quot;, power=4)
         case (&quot;musket&quot;)
-            igun = musket_t(name=&quot;musket gun&quot;, power=1)
+            igun = musket_type(name=&quot;musket gun&quot;, power=1)
         case default
             error stop &quot;*ERROR* `gnu_type` not supported&quot;
         end select
@@ -257,13 +257,13 @@ end module factory_module
 </code></pre>
 <pre><code class="language-fortran">program factory_main
 
-    use factory_module, only: igun_t, ak47_t, musket_t, get_gun
+    use factory_module, only: igun_type, ak47_type, musket_type, get_gun
     implicit none
 
-    class(igun_t), allocatable :: ak47, musket
+    class(igun_type), allocatable :: ak47, musket
 
-    allocate (ak47_t :: ak47)
-    allocate (musket_t :: musket)
+    allocate (ak47_type :: ak47)
+    allocate (musket_type :: musket)
 
     ak47 = get_gun(&quot;ak47&quot;)
     musket = get_gun(&quot;musket&quot;)
@@ -274,7 +274,7 @@ end module factory_module
 contains
 
     subroutine print_details(igun)
-        class(igun_t), intent(inout) :: igun
+        class(igun_type), intent(inout) :: igun
         print *, &quot;Gun: &quot;, igun%get_name()
         print *, &quot;Power: &quot;, igun%get_power()
     end subroutine print_details

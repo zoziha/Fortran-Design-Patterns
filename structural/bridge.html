@@ -157,110 +157,110 @@
     implicit none
     private
 
-    public :: hp_t, epson_t, mac_t, windows_t
+    public :: hp_type, epson_type, mac_type, windows_type
 
-    type, abstract :: computer_t
+    type, abstract :: computer_type
     contains
-        procedure(computer_t_print), deferred :: print
-        procedure(computer_t_set_printer), deferred :: set_printer
-    end type computer_t
+        procedure(computer_type_print), deferred :: print
+        procedure(computer_type_set_printer), deferred :: set_printer
+    end type computer_type
 
-    type, abstract :: printer_t
+    type, abstract :: printer_type
     contains
-        procedure(printer_t_print_file), deferred :: print_file
-    end type printer_t
+        procedure(printer_type_print_file), deferred :: print_file
+    end type printer_type
 
     abstract interface
 
-        subroutine computer_t_print(self)
-            import computer_t
-            class(computer_t), intent(inout) :: self
-        end subroutine computer_t_print
+        subroutine computer_type_print(self)
+            import computer_type
+            class(computer_type), intent(inout) :: self
+        end subroutine computer_type_print
 
-        subroutine computer_t_set_printer(self, printer)
-            import computer_t, printer_t
-            class(computer_t), intent(inout) :: self
-            class(printer_t), intent(inout), target :: printer
-        end subroutine computer_t_set_printer
+        subroutine computer_type_set_printer(self, printer)
+            import computer_type, printer_type
+            class(computer_type), intent(inout) :: self
+            class(printer_type), intent(inout), target :: printer
+        end subroutine computer_type_set_printer
 
-        subroutine printer_t_print_file(self)
-            import printer_t
-            class(printer_t), intent(inout) :: self
-        end subroutine printer_t_print_file
+        subroutine printer_type_print_file(self)
+            import printer_type
+            class(printer_type), intent(inout) :: self
+        end subroutine printer_type_print_file
 
     end interface
 
-    type, extends(printer_t) :: epson_t
+    type, extends(printer_type) :: epson_type
     contains
-        procedure :: print_file =&gt; epson_t_print_file
-    end type epson_t
+        procedure :: print_file =&gt; epson_type_print_file
+    end type epson_type
 
-    type, extends(printer_t) :: hp_t
+    type, extends(printer_type) :: hp_type
     contains
-        procedure :: print_file =&gt; hp_t_print_file
-    end type hp_t
+        procedure :: print_file =&gt; hp_type_print_file
+    end type hp_type
 
-    type, extends(computer_t) :: mac_t
-        class(printer_t), pointer :: printer
+    type, extends(computer_type) :: mac_type
+        class(printer_type), pointer :: printer
     contains
-        procedure :: print =&gt; mac_t_print
-        procedure :: set_printer =&gt; mac_t_set_printer
-    end type mac_t
+        procedure :: print =&gt; mac_type_print
+        procedure :: set_printer =&gt; mac_type_set_printer
+    end type mac_type
 
-    type, extends(computer_t) :: windows_t
-        class(printer_t), pointer :: printer
+    type, extends(computer_type) :: windows_type
+        class(printer_type), pointer :: printer
     contains
-        procedure :: print =&gt; windows_t_print
-        procedure :: set_printer =&gt; windows_t_set_printer
-    end type windows_t
+        procedure :: print =&gt; windows_type_print
+        procedure :: set_printer =&gt; windows_type_set_printer
+    end type windows_type
 
 contains
 
-    subroutine windows_t_print(self)
-        class(windows_t), intent(inout) :: self
+    subroutine windows_type_print(self)
+        class(windows_type), intent(inout) :: self
         print *, &quot;Print request for windows&quot;
         call self%printer%print_file()
-    end subroutine windows_t_print
+    end subroutine windows_type_print
 
-    subroutine windows_t_set_printer(self, printer)
-        class(windows_t), intent(inout) :: self
-        class(printer_t), intent(inout), target :: printer
+    subroutine windows_type_set_printer(self, printer)
+        class(windows_type), intent(inout) :: self
+        class(printer_type), intent(inout), target :: printer
         self%printer =&gt; printer
-    end subroutine windows_t_set_printer
+    end subroutine windows_type_set_printer
 
-    subroutine mac_t_print(self)
-        class(mac_t), intent(inout) :: self
+    subroutine mac_type_print(self)
+        class(mac_type), intent(inout) :: self
         print *, &quot;Print request for mac&quot;
         call self%printer%print_file()
-    end subroutine mac_t_print
+    end subroutine mac_type_print
 
-    subroutine mac_t_set_printer(self, printer)
-        class(mac_t), intent(inout) :: self
-        class(printer_t), intent(inout), target :: printer
+    subroutine mac_type_set_printer(self, printer)
+        class(mac_type), intent(inout) :: self
+        class(printer_type), intent(inout), target :: printer
         self%printer =&gt; printer
-    end subroutine mac_t_set_printer
+    end subroutine mac_type_set_printer
 
-    subroutine epson_t_print_file(self)
-        class(epson_t), intent(inout) :: self
+    subroutine epson_type_print_file(self)
+        class(epson_type), intent(inout) :: self
         print *, &quot;Printing by a EPSON Printer&quot;
-    end subroutine epson_t_print_file
+    end subroutine epson_type_print_file
 
-    subroutine hp_t_print_file(self)
-        class(hp_t), intent(inout) :: self
+    subroutine hp_type_print_file(self)
+        class(hp_type), intent(inout) :: self
         print *, &quot;Printing by a HP Printer&quot;
-    end subroutine hp_t_print_file
+    end subroutine hp_type_print_file
 
 end module bridge_module
 </code></pre>
 <pre><code class="language-fortran">program bridge_main
 
-    use bridge_module, only: hp_t, epson_t, mac_t, windows_t
+    use bridge_module, only: hp_type, epson_type, mac_type, windows_type
     implicit none
 
-    type(hp_t) :: hp_printer
-    type(epson_t) :: epson_printer
-    type(mac_t) :: mac_computer
-    type(windows_t) :: windows_computer
+    type(hp_type) :: hp_printer
+    type(epson_type) :: epson_printer
+    type(mac_type) :: mac_computer
+    type(windows_type) :: windows_computer
 
     call mac_computer%set_printer(hp_printer)
     call mac_computer%print()

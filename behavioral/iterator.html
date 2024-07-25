@@ -158,46 +158,46 @@
     implicit none
     private
 
-    public :: user_t, user_collection_t, user_iterator_t, iterator_t
+    public :: user_type, user_collection_type, user_iterator_type, iterator_type
 
     !&gt; Abstract types
 
     !&gt; Collection
-    type, abstract :: collection_t
+    type, abstract :: collection_type
     contains
-        procedure(collection_t_create_iterator), deferred :: create_iterator
-    end type collection_t
+        procedure(collection_type_create_iterator), deferred :: create_iterator
+    end type collection_type
 
     !&gt; Iterator
-    type, abstract :: iterator_t
+    type, abstract :: iterator_type
     contains
         procedure(iterator_t_has_next), deferred :: has_next
         procedure(iterator_t_get_next), deferred :: get_next
-    end type iterator_t
+    end type iterator_type
 
     !&gt; User
-    type user_t
+    type user_type
         character(:), allocatable :: name
         integer(int8) :: age
-    end type user_t
+    end type user_type
 
     abstract interface
 
-        function collection_t_create_iterator(self) result(iterator)
-            import iterator_t, collection_t
+        function collection_type_create_iterator(self) result(iterator)
+            import iterator_type, collection_type
             !&gt; TODO:
-            class(collection_t), intent(in) :: self
-            class(iterator_t), allocatable :: iterator
-        end function collection_t_create_iterator
+            class(collection_type), intent(in) :: self
+            class(iterator_type), allocatable :: iterator
+        end function collection_type_create_iterator
 
         logical function iterator_t_has_next(self)
-            import iterator_t
-            class(iterator_t), intent(in) :: self
+            import iterator_type
+            class(iterator_type), intent(in) :: self
         end function iterator_t_has_next
 
-        type(user_t) function iterator_t_get_next(self)
-            import user_t, iterator_t
-            class(iterator_t), intent(inout) :: self
+        type(user_type) function iterator_t_get_next(self)
+            import user_type, iterator_type
+            class(iterator_type), intent(inout) :: self
         end function iterator_t_get_next
 
     end interface
@@ -205,39 +205,39 @@
     !&gt; Specific types
 
     !&gt; User collection
-    type, extends(collection_t) :: user_collection_t
-        type(user_t), allocatable :: users(:)
+    type, extends(collection_type) :: user_collection_type
+        type(user_type), allocatable :: users(:)
     contains
         procedure :: create_iterator =&gt; user_collection_t_create_iterator
-    end type user_collection_t
+    end type user_collection_type
 
     !&gt; User iterator
-    type, extends(iterator_t) :: user_iterator_t
+    type, extends(iterator_type) :: user_iterator_type
         integer :: index
-        type(user_t), allocatable :: users(:)
+        type(user_type), allocatable :: users(:)
     contains
         procedure :: has_next =&gt; user_iterator_t_has_next
         procedure :: get_next =&gt; user_iterator_t_get_next
-    end type user_iterator_t
+    end type user_iterator_type
 
 contains
 
     function user_collection_t_create_iterator(self) result(iterator)
-        class(user_collection_t), intent(in) :: self
-        class(iterator_t), allocatable :: iterator
+        class(user_collection_type), intent(in) :: self
+        class(iterator_type), allocatable :: iterator
         ! TODO:
-        iterator = user_iterator_t(index=0, users=self%users)
+        iterator = user_iterator_type(index=0, users=self%users)
     end function user_collection_t_create_iterator
 
     logical function user_iterator_t_has_next(self) result(has)
-        class(user_iterator_t), intent(in) :: self
+        class(user_iterator_type), intent(in) :: self
 
         has = merge(.true., .false., self%index &lt; size(self%users))
 
     end function user_iterator_t_has_next
 
-    type(user_t) function user_iterator_t_get_next(self) result(user)
-        class(user_iterator_t), intent(inout) :: self
+    type(user_type) function user_iterator_t_get_next(self) result(user)
+        class(user_iterator_type), intent(inout) :: self
 
         self%index = self%index + 1
         user = self%users(self%index)
@@ -249,20 +249,20 @@ end module iterator_module
 <pre><code class="language-fortran">program iterator_main
 
     use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
+    use iterator_module, only: user_type, user_collection_type, user_iterator_type, iterator_type
 
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
+    type(user_type) :: user1, user2, user
+    type(user_collection_type) :: user_collection
     ! TODO:
-    class(iterator_t), allocatable :: iterator
+    class(iterator_type), allocatable :: iterator
 
-    user1 = user_t(name=&quot;A&quot;, age=30_int8)
-    user2 = user_t(name=&quot;B&quot;, age=20_int8)
+    user1 = user_type(name=&quot;A&quot;, age=30_int8)
+    user2 = user_type(name=&quot;B&quot;, age=20_int8)
 
-    user_collection = user_collection_t(users=[user1, user2])
+    user_collection = user_collection_type(users=[user1, user2])
 
     !&gt; Specific iterator
-    allocate (user_iterator_t :: iterator)
+    allocate (user_iterator_type :: iterator)
     iterator = user_collection%create_iterator()
 
     do while (iterator%has_next())

@@ -157,17 +157,17 @@
     implicit none
     private
 
-    public :: person_t
+    public :: person_type
 
-    type :: hungry_state_t
+    type :: hungry_state_type
         logical :: state
     contains
         procedure :: hungry =&gt; hungry_state_t_hungry
         procedure :: no_hungry =&gt; hungry_state_t_no_hungry
-    end type hungry_state_t
+    end type hungry_state_type
 
-    type :: person_t
-        type(hungry_state_t) :: hungry_state
+    type :: person_type
+        type(hungry_state_type) :: hungry_state
     contains
         procedure :: eat =&gt; person_t_eat
         procedure :: work =&gt; person_t_work
@@ -176,7 +176,7 @@
 contains
 
     subroutine person_t_eat(self)
-        class(person_t), intent(inout) :: self
+        class(person_type), intent(inout) :: self
         if (self%hungry_state%state) then
             print *, &quot;Eatting..&quot;
             !!// 改变状态
@@ -187,7 +187,7 @@ contains
     end subroutine person_t_eat
 
     subroutine person_t_work(self)
-        class(person_t), intent(inout) :: self
+        class(person_type), intent(inout) :: self
         if (self%hungry_state%state) then
             print *, &quot;I am hungry, no work!!&quot;
         else
@@ -197,12 +197,12 @@ contains
     end subroutine person_t_work
 
     subroutine hungry_state_t_hungry(self)
-        class(hungry_state_t), intent(inout) :: self
+        class(hungry_state_type), intent(inout) :: self
         self%state = .true.
     end subroutine hungry_state_t_hungry
 
     subroutine hungry_state_t_no_hungry(self)
-        class(hungry_state_t), intent(inout) :: self
+        class(hungry_state_type), intent(inout) :: self
         self%state = .false.
     end subroutine hungry_state_t_no_hungry
 
@@ -210,10 +210,10 @@ end module state_module
 </code></pre>
 <pre><code class="language-fortran">program state_main
 
-    use state_module, only: person_t
+    use state_module, only: person_type
     implicit none
 
-    type(person_t) :: person
+    type(person_type) :: person
     call person%hungry_state%no_hungry
     call person%work
     call person%work
