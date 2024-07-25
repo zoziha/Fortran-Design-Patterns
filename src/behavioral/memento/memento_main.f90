@@ -1,9 +1,9 @@
 program memento_main
 
-    use memento_module, only: caretaker_t, originator_t
+    use memento_module, only: caretaker_type, originator_type
 
-    type(caretaker_t) :: caretaker
-    type(originator_t) :: originator
+    type(caretaker_type) :: caretaker
+    type(originator_type) :: originator
 
     allocate (caretaker%memento(0))
     originator%state = "A"

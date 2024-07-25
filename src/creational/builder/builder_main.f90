@@ -1,10 +1,10 @@
 program builder_main
-    use builder_module, only: ibuilder_t, director_t, house_t, get_builder
+    use builder_module, only: ibuilder_type, director_type, house_type, get_builder
     implicit none
 
-    class(ibuilder_t), allocatable :: normal_builder, igloo_builder
-    type(director_t) :: director
-    type(house_t) :: normal_house, igloo_house
+    class(ibuilder_type), allocatable :: normal_builder, igloo_builder
+    type(director_type) :: director
+    type(house_type) :: normal_house, igloo_house
 
     normal_builder = get_builder("normal")
     igloo_builder = get_builder("igloo")

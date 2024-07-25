@@ -1,9 +1,9 @@
 program interface_limit_main
 
-    use interface_limit_module, only: circle, square, cs_interact
+    use interface_limit_module, only: circle_type, square_type, cs_interact
     implicit none
-    type(circle) :: c1
-    type(square) :: s1
+    type(circle_type) :: c1
+    type(square_type) :: s1
 
     call cs_interact(c1, s1)
 

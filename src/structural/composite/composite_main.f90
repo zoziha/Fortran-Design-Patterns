@@ -1,9 +1,9 @@
 program composite_main
-    use composite_module, only: file_t, folder_t
+    use composite_module, only: file_type, folder_type
     implicit none
-    type(file_t), target :: file1, file2, file3
-    type(folder_t), target :: folder1
-    type(folder_t) :: folder2
+    type(file_type), target :: file1, file2, file3
+    type(folder_type), target :: folder1
+    type(folder_type) :: folder2
 
     file1%name = "File1"
     file2%name = "File2"

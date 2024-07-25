@@ -1,10 +1,10 @@
 program wrapper_main
 
-    use wrapper_module, only: vegge_mania_t, cheese_topping_t, tomato_topping_t
+    use wrapper_module, only: vegge_mania_type, cheese_topping_type, tomato_topping_type
     implicit none
-    type(vegge_mania_t), target :: pizza
-    type(cheese_topping_t), target :: pizza_with_cheese
-    type(tomato_topping_t) :: pizza_with_tomato_and_cheese
+    type(vegge_mania_type), target :: pizza
+    type(cheese_topping_type), target :: pizza_with_cheese
+    type(tomato_topping_type) :: pizza_with_tomato_and_cheese
 
     pizza_with_cheese%pizza => pizza
     pizza_with_tomato_and_cheese%pizza => pizza_with_cheese

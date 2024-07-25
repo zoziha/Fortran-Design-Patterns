@@ -1,12 +1,12 @@
 program factory_main
 
-    use factory_module, only: igun_t, ak47_t, musket_t, get_gun
+    use factory_module, only: igun_type, ak47_type, musket_type, get_gun
     implicit none
 
-    class(igun_t), allocatable :: ak47, musket
+    class(igun_type), allocatable :: ak47, musket
 
-    allocate (ak47_t :: ak47)
-    allocate (musket_t :: musket)
+    allocate (ak47_type :: ak47)
+    allocate (musket_type :: musket)
 
     ak47 = get_gun("ak47")
     musket = get_gun("musket")
@@ -17,7 +17,7 @@ program factory_main
 contains
 
     subroutine print_details(igun)
-        class(igun_t), intent(inout) :: igun
+        class(igun_type), intent(inout) :: igun
         print *, "Gun: ", igun%get_name()
         print *, "Power: ", igun%get_power()
     end subroutine print_details

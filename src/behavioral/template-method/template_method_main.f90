@@ -1,18 +1,18 @@
 program template_method_main
 
-    use template_method_module, only: otp_t, sms_t, email_t
+    use template_method_module, only: otp_type, sms_type, email_type
 
-    type(otp_t) :: otp
-    type(sms_t), target :: sms_otp
-    type(email_t), target :: email_otp
+    type(otp_type) :: otp
+    type(sms_type), target :: sms_otp
+    type(email_type), target :: email_otp
 
-    sms_otp = sms_t()
+    sms_otp = sms_type()
     otp%iopt => sms_otp
     call otp%gen_and_send_otp(4)
 
     write (*, *)
 
-    email_otp = email_t()
+    email_otp = email_type()
     otp%iopt => email_otp
     call otp%gen_and_send_otp(4)
 

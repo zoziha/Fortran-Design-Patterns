@@ -1,7 +1,7 @@
 program facade_main
-    use facade_module, only: wallet_facade_t, new_wallet_facade
+    use facade_module, only: wallet_facade_type, new_wallet_facade
     implicit none
-    type(wallet_facade_t) :: wallet_facade
+    type(wallet_facade_type) :: wallet_facade
 
     wallet_facade = new_wallet_facade(account_id="abc", code=1234)
     call wallet_facade%add_money_to_wallet(account_id="abc", security_code=1234, amount=10)

@@ -6,30 +6,30 @@ module interface_limit_module
     implicit none
 
     private
-    public :: circle, square, shape, cs_interact
+    public :: circle_type, square_type, shape_type, cs_interact
 
-    type, abstract :: shape
-    end type shape
+    type, abstract :: shape_type
+    end type shape_type
 
     abstract interface
         subroutine interact(shape1, shape2)
-            import :: shape
-            class(shape), intent(inout) :: shape1, shape2
+            import :: shape_type
+            class(shape_type), intent(inout) :: shape1, shape2
         end subroutine interact
     end interface
 
-    type, extends(shape) :: circle
-    end type circle
+    type, extends(shape_type) :: circle_type
+    end type circle_type
 
-    type, extends(shape) :: square
-    end type square
+    type, extends(shape_type) :: square_type
+    end type square_type
 
 contains
 
     !> @note This is a non-procedural binding, which is more flexible than procedural binding when it have to comes to dynamic binding.
     subroutine cs_interact(cir, squ)
-        type(circle), intent(inout) :: cir
-        type(square), intent(inout) :: squ
+        type(circle_type), intent(inout) :: cir
+        type(square_type), intent(inout) :: squ
 
         print *, "circle-square interaction"
 

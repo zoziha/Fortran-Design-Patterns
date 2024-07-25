@@ -1,20 +1,20 @@
 program iterator_main
 
     use, intrinsic :: iso_fortran_env, only: int8
-    use iterator_module, only: user_t, user_collection_t, user_iterator_t, iterator_t
+    use iterator_module, only: user_type, user_collection_type, user_iterator_type, iterator_type
 
-    type(user_t) :: user1, user2, user
-    type(user_collection_t) :: user_collection
+    type(user_type) :: user1, user2, user
+    type(user_collection_type) :: user_collection
     ! TODO:
-    class(iterator_t), allocatable :: iterator
+    class(iterator_type), allocatable :: iterator
 
-    user1 = user_t(name="A", age=30_int8)
-    user2 = user_t(name="B", age=20_int8)
+    user1 = user_type(name="A", age=30_int8)
+    user2 = user_type(name="B", age=20_int8)
 
-    user_collection = user_collection_t(users=[user1, user2])
+    user_collection = user_collection_type(users=[user1, user2])
 
     !> Specific iterator
-    allocate (user_iterator_t :: iterator)
+    allocate (user_iterator_type :: iterator)
     iterator = user_collection%create_iterator()
 
     do while (iterator%has_next())

@@ -4,24 +4,24 @@ program CoR_main
 
     use hospital_CoR
 
-    type(cashier) :: c
-    type(medical) :: m
-    type(doctor) :: d
-    type(reception) :: r
+    type(cashier_type) :: c
+    type(medical_type) :: m
+    type(doctor_type) :: d
+    type(reception_type) :: r
 
-    type(patient) :: p1, p2
+    type(patient_type) :: p1, p2
 
     !> Set next for departments
     call m%set_next(c)
     call d%set_next(m)
     call r%set_next(d)
 
-    p1 = patient("abc", .true., .true., .true., .true.)
+    p1 = patient_type("abc", .true., .true., .true., .true.)
     !> Patient visiting
     print *, "> Patient `"//p1%name//"` : "
     call r%execute(p1)
 
-    p2 = patient("def", .true., .false., .false., .false.)
+    p2 = patient_type("def", .true., .false., .false., .false.)
     !> Patient visiting
     print *, "> Patient `"//p2%name//"` : "
     call r%execute(p2)

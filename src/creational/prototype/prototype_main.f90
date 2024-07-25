@@ -1,10 +1,10 @@
 program prototype_main
-    use prototype_module, only: file_t, folder_t, inode_t
+    use prototype_module, only: file_type, folder_type, inode_type
     implicit none
-    type(file_t), target :: file1, file2, file3
-    type(folder_t), target :: folder1
-    type(folder_t) :: folder2
-    class(inode_t), allocatable :: clone_folder
+    type(file_type), target :: file1, file2, file3
+    type(folder_type), target :: folder1
+    type(folder_type) :: folder2
+    class(inode_type), allocatable :: clone_folder
 
     file1%name = "file1"
     file2%name = "file2"

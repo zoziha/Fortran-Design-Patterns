@@ -4,68 +4,68 @@ module hospital_CoR
     implicit none
     private
 
-    public :: patient, department, reception, doctor, medical, cashier
+    public :: patient_type, department_type, reception_type, doctor_type, medical_type, cashier_type
 
-    type patient
+    type patient_type
         character(:), allocatable :: name
         logical :: registration_done
         logical :: doctor_check_up_done
         logical :: medicine_done
         logical :: payment_done
-    end type patient
+    end type patient_type
 
-    type, abstract :: department
+    type, abstract :: department_type
     contains
         procedure(execute_procedure), deferred :: execute
         procedure(set_next_procedure), deferred :: set_next
-    end type department
+    end type department_type
 
     abstract interface
         subroutine execute_procedure(self, p)
-            import department, patient
-            class(department), intent(inout) :: self
-            type(patient), intent(inout) :: p
+            import department_type, patient_type
+            class(department_type), intent(inout) :: self
+            type(patient_type), intent(inout) :: p
         end subroutine execute_procedure
         subroutine set_next_procedure(self, next)
-            import department
-            class(department), intent(inout) :: self
-            class(department), intent(inout) :: next
+            import department_type
+            class(department_type), intent(inout) :: self
+            class(department_type), intent(inout) :: next
         end subroutine set_next_procedure
     end interface
 
-    type, extends(department) :: reception
-        class(department), pointer :: next
+    type, extends(department_type) :: reception_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute => reception_execute
-        procedure :: set_next => reception_set_next
-    end type reception
+        procedure :: execute => reception_type_execute
+        procedure :: set_next => reception_type_set_next
+    end type reception_type
 
-    type, extends(department) :: doctor
-        class(department), pointer :: next
+    type, extends(department_type) :: doctor_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute => doctor_execute
-        procedure :: set_next => doctor_set_next
-    end type doctor
+        procedure :: execute => doctor_type_execute
+        procedure :: set_next => doctor_type_set_next
+    end type doctor_type
 
-    type, extends(department) :: medical
-        class(department), pointer :: next
+    type, extends(department_type) :: medical_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute => medicine_execute
-        procedure :: set_next => medicine_set_next
-    end type medical
+        procedure :: execute => medicine_type_execute
+        procedure :: set_next => medicine_type_set_next
+    end type medical_type
 
-    type, extends(department) :: cashier
-        class(department), pointer :: next
+    type, extends(department_type) :: cashier_type
+        class(department_type), pointer :: next
     contains
-        procedure :: execute => cashier_execute
-        procedure :: set_next => cashier_set_next
-    end type cashier
+        procedure :: execute => cashier_type_execute
+        procedure :: set_next => cashier_type_set_next
+    end type cashier_type
 
 contains
 
-    subroutine reception_execute(self, p)
-        class(reception), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine reception_type_execute(self, p)
+        class(reception_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%registration_done) then
             print *, "Patient registration already done.✔️"
@@ -77,19 +77,19 @@ contains
         p%registration_done = .true.
         call self%next%execute(p)
 
-    end subroutine reception_execute
+    end subroutine reception_type_execute
 
-    subroutine reception_set_next(self, next)
-        class(reception), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine reception_type_set_next(self, next)
+        class(reception_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine reception_set_next
+    end subroutine reception_type_set_next
 
-    subroutine doctor_execute(self, p)
-        class(doctor), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine doctor_type_execute(self, p)
+        class(doctor_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%doctor_check_up_done) then
             print *, "Doctor checkup already done.✔️"
@@ -101,19 +101,19 @@ contains
         p%doctor_check_up_done = .true.
         call self%next%execute(p)
 
-    end subroutine doctor_execute
+    end subroutine doctor_type_execute
 
-    subroutine doctor_set_next(self, next)
-        class(doctor), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine doctor_type_set_next(self, next)
+        class(doctor_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine doctor_set_next
+    end subroutine doctor_type_set_next
 
-    subroutine medicine_execute(self, p)
-        class(medical), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine medicine_type_execute(self, p)
+        class(medical_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%medicine_done) then
             print *, "Medicine already given to patient.✔️"
@@ -125,19 +125,19 @@ contains
         p%medicine_done = .true.
         call self%next%execute(p)
 
-    end subroutine medicine_execute
+    end subroutine medicine_type_execute
 
-    subroutine medicine_set_next(self, next)
-        class(medical), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine medicine_type_set_next(self, next)
+        class(medical_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine medicine_set_next
+    end subroutine medicine_type_set_next
 
-    subroutine cashier_execute(self, p)
-        class(cashier), intent(inout) :: self
-        type(patient), intent(inout) :: p
+    subroutine cashier_type_execute(self, p)
+        class(cashier_type), intent(inout) :: self
+        type(patient_type), intent(inout) :: p
 
         if (p%payment_done) then
             print *, "Payment Done.✔️"
@@ -147,14 +147,14 @@ contains
         print *, "Cashier getting money from patient."
         p%payment_done = .true.
 
-    end subroutine cashier_execute
+    end subroutine cashier_type_execute
 
-    subroutine cashier_set_next(self, next)
-        class(cashier), intent(inout) :: self
-        class(department), intent(inout) :: next
+    subroutine cashier_type_set_next(self, next)
+        class(cashier_type), intent(inout) :: self
+        class(department_type), intent(inout) :: next
 
         allocate (self%next, source=next)
 
-    end subroutine cashier_set_next
+    end subroutine cashier_type_set_next
 
 end module hospital_CoR

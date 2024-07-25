@@ -1,9 +1,9 @@
 program state_main
 
-    use state_module, only: person_t
+    use state_module, only: person_type
     implicit none
 
-    type(person_t) :: person
+    type(person_type) :: person
     call person%hungry_state%no_hungry
     call person%work
     call person%work

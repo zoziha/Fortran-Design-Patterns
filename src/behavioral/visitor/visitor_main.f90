@@ -1,14 +1,14 @@
 !> Reference: https://refactoring.guru/design-patterns/visitor/go/example
 program test_visitor
 
-    use visitor_pattern, only: square, circle, rectangle, area_calculator, middle_coordinates
+    use visitor_pattern, only: square_type, circle_type, rectangle_type, area_calculator_type, middle_coordinates_type
 
-    type(square) :: s = square(side=2)
-    type(circle) :: c = circle(radius=3)
-    type(rectangle) :: r = rectangle(l=2, b=3)
+    type(square_type) :: s = square_type(side=2)
+    type(circle_type) :: c = circle_type(radius=3)
+    type(rectangle_type) :: r = rectangle_type(l=2, b=3)
 
-    type(area_calculator) :: a
-    type(middle_coordinates) :: m
+    type(area_calculator_type) :: a
+    type(middle_coordinates_type) :: m
 
     !> area_calculator visiting shapes
     call s%accept(a)

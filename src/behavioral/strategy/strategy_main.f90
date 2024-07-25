@@ -1,10 +1,10 @@
 program strategy_main
 
-    use strategy_module, only: add_t, sub_t, calculator_t
+    use strategy_module, only: add_type, sub_type, calculator_type
     implicit none
-    type(add_t) :: add
-    type(sub_t) :: sub
-    type(calculator_t) :: calculator
+    type(add_type) :: add
+    type(sub_type) :: sub
+    type(calculator_type) :: calculator
 
     call calculator%set_strategy(add)
     print *, "Add:", calculator%strategy%calc(1, 1)

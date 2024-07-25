@@ -1,12 +1,12 @@
 program bridge_main
 
-    use bridge_module, only: hp_t, epson_t, mac_t, windows_t
+    use bridge_module, only: hp_type, epson_type, mac_type, windows_type
     implicit none
 
-    type(hp_t) :: hp_printer
-    type(epson_t) :: epson_printer
-    type(mac_t) :: mac_computer
-    type(windows_t) :: windows_computer
+    type(hp_type) :: hp_printer
+    type(epson_type) :: epson_printer
+    type(mac_type) :: mac_computer
+    type(windows_type) :: windows_computer
 
     call mac_computer%set_printer(hp_printer)
     call mac_computer%print()

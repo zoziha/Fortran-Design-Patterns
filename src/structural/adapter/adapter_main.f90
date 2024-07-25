@@ -1,10 +1,10 @@
 program adapter_main
-    use adapter_module, only: client_t, computer_t, mac_t, windows_t, windows_adapter_t
+    use adapter_module, only: client_type, computer_type, mac_type, windows_type, windows_adapter_type
     implicit none
-    type(client_t) :: client
-    type(mac_t) :: mac
-    type(windows_t), target :: windows
-    type(windows_adapter_t) :: windows_adapter
+    type(client_type) :: client
+    type(mac_type) :: mac
+    type(windows_type), target :: windows
+    type(windows_adapter_type) :: windows_adapter
 
     call client%insert_lightning_connector_into_computer(mac)
     windows_adapter%windows_machine => windows

@@ -1,10 +1,10 @@
 program mediator_main
 
-    use mediator_module, only: station_manager_t,passenger_train_t,freight_train_t
+    use mediator_module, only: station_manager_type,passenger_train_type,freight_train_type
     implicit none
-    type(station_manager_t), target :: station_manager
-    type(passenger_train_t) :: passenger_train
-    type(freight_train_t) :: freight_train
+    type(station_manager_type), target :: station_manager
+    type(passenger_train_type) :: passenger_train
+    type(freight_train_type) :: freight_train
     
     allocate(station_manager%list(0))
     passenger_train%mediator => station_manager

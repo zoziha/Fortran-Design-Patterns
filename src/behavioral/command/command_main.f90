@@ -1,13 +1,13 @@
 !> Reference: https://refactoring.guru/design-patterns/command/go/example
 program test_command
 
-    use command_pattern, only: tv, on_command, off_command, button
-    type(tv) :: t
-    type(on_command) :: on_c
-    type(off_command) :: off_c
+    use command_pattern, only: tv_type, on_command_type, off_command_type, button_type
+    type(tv_type) :: t
+    type(on_command_type) :: on_c
+    type(off_command_type) :: off_c
 
-    type(button) :: on_b
-    type(button) :: off_b
+    type(button_type) :: on_b
+    type(button_type) :: off_b
 
     !> Linking
     allocate (on_c%d, source=t)

@@ -7,18 +7,18 @@ module singleton_module
 
     logical :: lock = .false.
 
-    type single_t
+    type single_type
         private
         integer :: value
-    end type single_t
+    end type single_type
 
-    type(single_t) :: single
+    type(single_type) :: single
 
 contains
 
     function get_instance(value) result(single)
         integer, intent(in) :: value
-        type(single_t) :: single
+        type(single_type) :: single
         if (lock) then
             print *, "Single instance already created."
             return
@@ -30,7 +30,7 @@ contains
     end function get_instance
 
     subroutine dispose_instance(single)
-        type(single_t), intent(inout) :: single
+        type(single_type), intent(inout) :: single
         print *, "Disposing single instance now."
         single%value = 0
         lock = .false.

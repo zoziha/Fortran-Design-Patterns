@@ -1,9 +1,9 @@
 program proxy_main
 
     use, intrinsic :: iso_fortran_env, only: int16
-    use proxy_module, only: nginx_t, new_nginx_server
+    use proxy_module, only: nginx_type, new_nginx_server
 
-    type(nginx_t) :: nginx_server
+    type(nginx_type) :: nginx_server
     character(*), parameter :: app_status_url = "/app/status", create_user_url = "/create/user"
     integer(int16) :: code
     character(:), allocatable :: body

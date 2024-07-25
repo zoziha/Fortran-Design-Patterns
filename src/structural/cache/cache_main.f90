@@ -1,9 +1,9 @@
 program cache_main
 
-    use cache_module, only: cache_factory_t, cache_t
+    use cache_module, only: cache_factory_type, cache_type
     implicit none
-    type(cache_factory_t) factory
-    class(cache_t), pointer :: cache
+    type(cache_factory_type) factory
+    class(cache_type), pointer :: cache
 
     cache => factory%get_cache("A")
     call cache%operation()

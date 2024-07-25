@@ -3,19 +3,19 @@ module interface_specific_module
     implicit none
 
     private
-    public :: shape, circle, print_circle
+    public :: shape_type, circle_type, print_circle
 
-    type, abstract :: shape
-    end type shape
+    type, abstract :: shape_type
+    end type shape_type
 
-    type, extends(shape) :: circle
-    end type circle
+    type, extends(shape_type) :: circle_type
+    end type circle_type
 
 contains
 
     !> print circle
     subroutine print_circle(this)
-        type(circle), intent(in) :: this
+        type(circle_type), intent(in) :: this
 
         print *, 'circle'
 

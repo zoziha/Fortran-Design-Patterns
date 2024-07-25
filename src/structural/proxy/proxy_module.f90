@@ -4,57 +4,57 @@ module proxy_module
     implicit none
     private
 
-    public :: nginx_t, new_nginx_server
+    public :: nginx_type, new_nginx_server
 
-    type, abstract :: server_t
+    type, abstract :: server_type
     contains
-        procedure(server_t_handle_request), deferred :: handle_request
-    end type server_t
+        procedure(server_type_handle_request), deferred :: handle_request
+    end type server_type
 
     abstract interface
-        subroutine server_t_handle_request(self, url, method, code, msg)
-            import server_t, int16
-            class(server_t), intent(inout) :: self
+        subroutine server_type_handle_request(self, url, method, code, msg)
+            import server_type, int16
+            class(server_type), intent(inout) :: self
             character(*), intent(in) :: url, method
             integer(int16), intent(out) :: code
             character(:), intent(out), allocatable :: msg
-        end subroutine server_t_handle_request
+        end subroutine server_type_handle_request
     end interface
 
-    type map_t
+    type map_type
         character(:), allocatable :: url
         integer(int16) :: rate_limiter
-    end type map_t
+    end type map_type
 
-    type, extends(server_t) :: nginx_t
-        type(application_t), allocatable :: application
+    type, extends(server_type) :: nginx_type
+        type(application_type), allocatable :: application
         integer(int16) :: max_allowed_request
-        type(map_t), allocatable :: map(:)
+        type(map_type), allocatable :: map(:)
         ! TODO:
     contains
         procedure :: handle_request => nginx_t_handle_request
         procedure :: check_rate_limiting => nginx_t_check_rate_limiting
-    end type nginx_t
+    end type nginx_type
 
-    type, extends(server_t) :: application_t
+    type, extends(server_type) :: application_type
     contains
         procedure :: handle_request => application_t_handle_request
-    end type application_t
+    end type application_type
 
 contains
 
-    type(nginx_t) function new_nginx_server() result(nginx)
-        type(map_t), allocatable :: map_(:)
+    type(nginx_type) function new_nginx_server() result(nginx)
+        type(map_type), allocatable :: map_(:)
         ! TODO:
         allocate (map_(2))
-        map_(1) = map_t(url="/app/status", rate_limiter=0_int16)
-        map_(2) = map_t(url="/create/user", rate_limiter=0_int16)
+        map_(1) = map_type(url="/app/status", rate_limiter=0_int16)
+        map_(2) = map_type(url="/create/user", rate_limiter=0_int16)
 
-        nginx = nginx_t(application=application_t(), max_allowed_request=2, map=map_) ! TODO:
+        nginx = nginx_type(application=application_type(), max_allowed_request=2, map=map_) ! TODO:
     end function new_nginx_server
 
     subroutine nginx_t_handle_request(self, url, method, code, msg)
-        class(nginx_t), intent(inout) :: self
+        class(nginx_type), intent(inout) :: self
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg
@@ -74,7 +74,7 @@ contains
     end subroutine nginx_t_handle_request
 
     logical function nginx_t_check_rate_limiting(self, url) result(allowed)
-        class(nginx_t), intent(inout) :: self
+        class(nginx_type), intent(inout) :: self
         character(*), intent(in) :: url
 
         integer(int16) :: i
@@ -100,7 +100,7 @@ contains
     end function nginx_t_check_rate_limiting
 
     subroutine application_t_handle_request(self, url, method, code, msg)
-        class(application_t), intent(inout) :: self
+        class(application_type), intent(inout) :: self
         character(*), intent(in) :: url, method
         integer(int16), intent(out) :: code
         character(:), intent(out), allocatable :: msg

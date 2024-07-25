@@ -1,14 +1,14 @@
 program abstract_factory_main
 
     use, intrinsic :: iso_fortran_env, only: int8
-    use abstract_factory_module, only: isports_factory_t, erke_t, lining_t, get_sports_factory, erke_shoe_t, erke_shirt_t, &
-                                       lining_shoe_t, lining_shirt_t, ishoe_t, ishirt_t
+    use abstract_factory_module, only: isports_factory_type, erke_type, lining_type, get_sports_factory, erke_shoe_type, erke_shirt_type, &
+                                       lining_shoe_type, lining_shirt_type, ishoe_type, ishirt_type
 
-    class(isports_factory_t), allocatable :: erke_factory, lining_factory
-    class(ishoe_t), allocatable :: erke_shoe
-    class(ishirt_t), allocatable :: erke_shirt
-    class(ishoe_t), allocatable :: lining_shoe
-    class(ishirt_t), allocatable :: lining_shirt
+    class(isports_factory_type), allocatable :: erke_factory, lining_factory
+    class(ishoe_type), allocatable :: erke_shoe
+    class(ishirt_type), allocatable :: erke_shirt
+    class(ishoe_type), allocatable :: lining_shoe
+    class(ishirt_type), allocatable :: lining_shirt
 
     ! allocate (erke_t :: erke_factory)
     ! allocate (lining_t :: lining_factory)
@@ -36,7 +36,7 @@ program abstract_factory_main
 contains
 
     subroutine print_shoe_details(ishoe)
-        class(ishoe_t), intent(inout) :: ishoe
+        class(ishoe_type), intent(inout) :: ishoe
 
         print *, "This is a pair of shoes👟."
         print *, "Logo: ", ishoe%get_logo()
@@ -45,7 +45,7 @@ contains
     end subroutine print_shoe_details
 
     subroutine print_shirt_details(ishirt)
-        class(ishirt_t), intent(inout) :: ishirt
+        class(ishirt_type), intent(inout) :: ishirt
 
         print *, "This is a T-shirt👕."
         print *, "Logo: ", ishirt%get_logo()
